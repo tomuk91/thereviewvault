@@ -38,7 +38,13 @@ body {
 }
 
 /* Rating styling */
-.review-rating {
+.review-detail-container .review-rating {
+    font-size: 1.1rem !important;
+    color: #444;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
     font-size: 1rem;
     font-weight: bold;
     color: #444;
