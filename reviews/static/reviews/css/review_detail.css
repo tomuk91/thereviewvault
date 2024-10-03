@@ -1,0 +1,270 @@
+/* General body styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for the review detail page */
+.review-detail-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* Content wrapper for the review */
+.review-detail-content {
+    max-width: 800px;
+    width: 100%;
+    padding: 0 15px;
+}
+
+/* Review title styling */
+.review-detail-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+/* Review metadata (author and date) */
+.review-meta {
+    margin-left: 10px;
+    margin-top: 7px;
+    font-size: 0.9rem;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+/* Rating styling */
+.review-rating {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Image styling */
+.review-image img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+/* Review content styling */
+.review-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+/* Review text paragraph spacing */
+.review-text p {
+    margin-bottom: 20px;
+}
+
+/* Card Content Styling */
+.review-card .card-content {
+    padding: 20px;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+/* Align and style the content within the card */
+.d-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centering content */
+.text-center {
+    text-align: center;
+}
+
+/* Title Styling */
+.review-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+/* General Review Content Styling */
+.review-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #333;
+    margin-bottom: 1.2rem;
+}
+
+.review-content h3 {
+    font-size: 1.5rem;
+    font-weight: bold !important;
+    color: #2c3e50;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+}
+
+.review-content strong {
+    color: #1e6f9f;
+    font-weight: 600;
+}
+
+/* Styling for Lists */
+.review-content ul {
+    margin-left: 1.5rem;
+    padding-left: 1rem;
+    list-style-type: disc;
+}
+
+.review-content ul li {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* Optional: Style blockquote for callout text */
+.review-content blockquote {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: #f4f4f4;
+    border-left: 4px solid #1e6f9f;
+}
+
+/* Make touch-friendly elements on mobile */
+button, a {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.tag-link, .purchase {
+    padding: 5px;
+    margin: 5px 0;
+}
+
+/* Review Card Styling */
+.review-card .card-content {
+    padding: 20px;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+/* Improve contrast for better readability */
+.review-meta, .related-review-info p {
+    color: #222;
+}
+
+/* Focus state for accessibility */
+button:focus, a:focus {
+    outline: 3px solid #1e6f9f;
+}
+
+/* Product Links */
+.product-link-container a {
+    color: #007bff;
+}
+
+.product-link-container a:hover {
+    text-decoration: underline;
+}
+
+/* Optional: Differentiate sections with background color */
+.review-section {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+/* Related content */
+.related-content {
+    margin-top: 50px;
+}
+
+.related-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #030303;
+}
+
+/* Flexbox for related reviews */
+.related-reviews-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.related-review-item {
+    width: 23%;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.related-review-item:hover {
+    transform: scale(1.05);
+}
+
+/* Ensure images scale properly on mobile */
+.review-image img, .related-review-image img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Responsive Styling for Smaller Screens */
+@media (max-width: 768px) {
+
+    .related-review-item {
+        justify-content: center;
+        width: 48%;
+    }
+
+    .review-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .review-content p,
+    .review-content ul li {
+        font-size: 1rem;
+    }
+
+    .review-content blockquote {
+        font-size: 1.1rem;
+    }
+
+    .review-info-box {
+        padding: 15px;
+    }
+
+    .review-title {
+        font-size: 2rem;
+    }
+
+    .review-meta {
+        font-size: 0.9rem;
+    }
+
+    .review-rating {
+        justify-content: center !important;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .pagination a {
+        padding: 8px 16px;
+    }
+
+    .review-detail-content {
+        padding: 0 10px;
+    }
+}

@@ -1,0 +1,75 @@
+{% extends "reviews/base.html" %}
+
+{% block content %}
+{% load static %}
+{% load compress %}
+{% load review_extras %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'reviews/css/category_reviews.css' %}">
+{% endcompress %}
+
+<!-- Display the Category as a Header -->
+
+<h1 class="text-center">{{ category.name }}</h1>
+<div id="toolbar" class="toolbar">
+    <div class="toolbar-content">
+        <button class="toolbar-btn" id="toggle-view">
+            <i class="bx bx-grid-alt"></i>
+        </button>
+    </div>
+</div>
+
+<h2 class="text-center">Search Results for "{{ query }}"</h2>
+
+<!-- Review List Container -->
+<div class="review-list">
+    <div id="reviews-container" class="review-list-view">
+        {% if reviews %}
+            {% include 'reviews/review_list_partial.html' %}
+        {% else %}
+            <p class="text-center">No results found for this search.</p>
+        {% endif %}
+    </div>
+</div>
+
+       <!-- Pagination Section -->
+       <div class="pagination">
+        <span class="step-links">
+            {% if reviews.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ reviews.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}
+            </span>
+
+            {% if reviews.has_next %}
+            <a href="?page={{ reviews.next_page_number }}">next</a>
+            <a href="?page={{ reviews.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButton = document.getElementById("toggle-view");
+        const reviewsContainer = document.getElementById("reviews-container");
+    
+        toggleButton.addEventListener("click", function () {
+            if (reviewsContainer.classList.contains("review-cards")) {
+                // Switch to list view
+                reviewsContainer.classList.remove("review-cards");
+                reviewsContainer.classList.add("review-list-view");
+            } else {
+                // Switch to card view
+                reviewsContainer.classList.remove("review-list-view");
+                reviewsContainer.classList.add("review-cards");
+            }
+        });
+    });
+</script>
+{% endblock %}

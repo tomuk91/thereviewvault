@@ -1,0 +1,10 @@
+<h1>All Deals</h1>
+<ul>
+    {% for deal in deals %}
+        <li>
+            <h2>{{ deal.title }}</h2>
+            <p>{{ deal.description }}</p>
+            <a href="{{ deal.link }}">View Deal</a>
+        </li>
+    {% endfor %}
+</ul>

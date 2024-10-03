@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ category.name }}</h1>
+    
+    <div class="deals-list">
+        {% for deal in deals %}
+        <div class="deal-item">
+            <a href="{{ deal.link }}">
+                <img src="{{ deal.image.url }}" alt="{{ deal.title }}" loading="lazy">
+                <h3>{{ deal.title }}</h3>
+                <p>{{ deal.description }}</p>
+                <p class="price">Price: £{{ deal.price }}</p>
+            </a>
+        </div>
+        {% empty %}
+        <p>No deals found in this category.</p>
+        {% endfor %}
+    </div>
+
+    {% if deals.has_other_pages %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if deals.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ deals.previous_page_number }}">previous</a>
+            {% endif %}
+            
+            <span class="current">
+                Page {{ deals.number }} of {{ deals.paginator.num_pages }}
+            </span>
+            
+            {% if deals.has_next %}
+                <a href="?page={{ deals.next_page_number }}">next</a>
+                <a href="?page={{ deals.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+{% endblock %}

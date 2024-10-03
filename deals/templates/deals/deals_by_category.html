@@ -1,0 +1,63 @@
+{% extends "reviews/base.html" %}
+
+{% block content %}
+{% load static %}
+{% load compress %}
+{% load review_extras %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'reviews/css/category_reviews.css' %}">
+{% endcompress %}
+
+<h1 class="text-center">{{ category.name }} Deals</h1>
+
+
+<!-- Review List Container -->
+<div class="review-list">
+    <div id="reviews-container" class="review-cards"> <!-- Default is card view -->
+        {% if deals %}
+        {% for deal in deals %}
+        <div class="review-card">
+            <div class="grid-container">
+                <a href="{{ deal.link }}">
+                {% if deal.image %}
+                <div class="review-image">
+                    <img src="{{ deal.image.url }}" alt="{{ deal.title }}" loading="lazy">
+                </div>
+                {% endif %}
+                
+                <div class="title">
+                    <h2>{{ deal.title }}</h2>
+                </div>
+                
+                <div class="meta-info">
+                    <p>{{ deal.description }}</p>
+                </div>
+                    <p class="deal-price">Price: £{{ deal.price }}</p>
+                </div>
+                {% if deal.coupon_code %}
+                <div class="coupon-container">
+                    <input type="text" value="{{ deal.coupon_code }}" id="coupon-{{ deal.id }}" readonly>
+                    <button onclick="copyCoupon('{{ deal.id }}')"><i class='bx bx-copy'></i>
+                    </button>
+                </div>
+                {% endif %}
+        </a>
+        </div>
+        {% endfor %}
+        {% else %}
+            <p>No reviews found for this category.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock%}
+
+{% block javascript %}
+<script>
+    function copyCoupon(dealId) {
+        var couponField = document.getElementById("coupon-" + dealId);
+        couponField.select();
+        couponField.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+    }
+</script>
+{% endblock%}

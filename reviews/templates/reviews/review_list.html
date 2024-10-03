@@ -1,0 +1,316 @@
+{% extends "reviews/base.html" %}
+
+{% block header %}
+<title>{% block title %}TheReviewVault | Unbiased Reviews & Deals{% endblock %}</title>
+<meta name="description" content="{% block meta_description %}Find unbiased reviews and the best deals across a variety of categories on TheReviewVault. Get informed before you buy!{% endblock %}">
+{% endblock %}
+
+{% block content %}
+{% load review_extras %}
+{% load static %}
+
+<!-- Top-rated reviews section -->
+<div class="main-article-header">
+    <div class="main-article">
+        {% if top_reviews %}
+        <div class="article-left text-left">
+            <a href="{% url 'review_detail' top_reviews.0.slug %}">
+                <img loading="lazy" src="{{ top_reviews.0.image.url }}" alt="{{ top_reviews.0.title }} - Review image for {{ top_reviews.0.title }}" role="img" aria-labelledby="topReviewTitle1">
+                <div class="overlay" id="topReviewTitle1">
+                    <h2>{{ top_reviews.0.title }}</h2>
+                    <p>{{ top_reviews.0.category.name }} | {{ top_reviews.0.author }}</p>
+                    <!-- Star Rating Section -->
+                    <div class="review-rating">
+                        <strong>Rating:</strong>
+                        <span class="stars">
+                            {% render_stars top_reviews.0.rating %}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="article-right text-left">
+            <a href="{% url 'review_detail' top_reviews.1.slug %}">
+                <img loading="lazy" src="{{ top_reviews.1.image.url }}" alt="{{ top_reviews.1.title }} - Review image for {{ top_reviews.1.title }}" role="img" aria-labelledby="topReviewTitle2">
+                <div class="overlay" id="topReviewTitle2">
+                    <h2>{{ top_reviews.1.title }}</h2>
+                    <p>{{ top_reviews.1.category.name }} | {{ top_reviews.1.author }}</p>
+                    <!-- Star Rating Section -->
+                    <div class="review-rating">
+                        <strong>Rating:</strong>
+                        <span class="stars">
+                            {% render_stars top_reviews.1.rating %}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% else %}
+        <p>No top-rated reviews available this week.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container">
+    <div class="reviews-section">
+        <h2 class="my-3 text-center">Review of the Week</h2>
+        <div class="review-list review-of-the-week">
+            {% if review_of_the_week %}
+            <div class="review-item {% cycle 'bg-light-grey' 'bg-dark-grey' %}">
+                <!-- Image Section -->
+                {% if review_of_the_week.image %}
+                <div class="review-image">
+                    <img height="100" width="100" src="{{ review_of_the_week.image.url }}" alt="Review of the week: {{ review_of_the_week.title }} image" loading="lazy">
+                </div>
+                {% endif %}
+                <!-- Content Section -->
+                <div class="review-content">
+                    <h2><i class='bx bx-trophy mx-2'></i><a href="{% url 'review_detail' review_of_the_week.slug %}">{{ review_of_the_week.title }}</a></h2>
+                    <p class="review-excerpt">{{ review_of_the_week.content|safe|slice:":80" }}...</p>
+                    <div class="review-meta">
+                        <span class="category">{{ review_of_the_week.category.name }}</span> |
+                        <span class="author">{{ review_of_the_week.author }}</span>
+                    </div>
+                </div>
+                <!-- Star Rating Section -->
+                <div class="review-rating">
+                    <span class="stars">
+                        {% render_stars review_of_the_week.rating %}
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="review-list my-5">
+            <h2 class="mx-2 text-center">Latest Reviews</h2>
+            {% if reviews %}
+            {% for review in reviews %}
+            <div class="review-item {% cycle 'bg-light-grey' 'bg-dark-grey' %}">
+                <!-- Image Section -->
+                {% if review.image %}
+                <div class="review-image">
+                    <img height="100" width="100" src="{{ review.image.url }}" alt="{{ review.title }} image" role="img" loading="lazy">
+                </div>
+                {% endif %}
+                <!-- Content Section -->
+                <div class="review-content">
+                    <h2><a href="{% url 'review_detail' review.slug %}">{{ review.title }}</a></h2>
+                    <p class="review-excerpt">{{ review.content|safe|slice:":80" }}...</p>
+                    <div class="review-meta">
+                        <span class="category">{{ review.category.name }}</span> |
+                        <span class="author">{{ review.author }}</span>
+                    </div>
+                </div>
+                <!-- Star Rating Section -->
+                <div class="review-rating">
+                    <span class="stars">
+                        {% render_stars review.rating %}
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No reviews found.</p>
+            {% endif %}
+        </div>
+
+        <!-- Pagination Section -->
+        <div class="pagination" role="navigation" aria-label="Pagination Navigation">
+            <span class="step-links">
+                {% if reviews.has_previous %}
+                <a href="?page=1" aria-label="First page">&laquo; first</a>
+                <a href="?page={{ reviews.previous_page_number }}" aria-label="Previous page">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}
+                </span>
+
+                {% if reviews.has_next %}
+                <a href="?page={{ reviews.next_page_number }}" aria-label="Next page">next</a>
+                <a href="?page={{ reviews.paginator.num_pages }}" aria-label="Last page">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+    <!-- Optional Sidebar Section -->
+    <aside class="sidebar" aria-labelledby="sidebar-heading">
+        <div class="lucky-charm-container text-center mb-4">
+            <h2>Feeling Lucky?</h2>
+            <h5>Click the bag of tags to get a random review tag</h5>
+            <img src="{% static 'images/lucky_charm_bag.png' %}" alt="Lucky Charm Bag" id="luckyCharmBag" class="lucky-charm-bag" role="button" loading="lazy">
+            <div id="randomTagDisplay" class="random-tag-display"></div>
+        </div>
+
+        <!-- Filter by Rating -->
+        <div class="filter-by-rating">
+            <h2>Filter by Rating</h2>
+            <ul>
+                <li><a href="{% url 'reviews_by_rating' 5 %}" aria-label="Filter by 5 stars">★★★★★ (5 Stars)</a></li>
+                <li><a href="{% url 'reviews_by_rating' 4 %}" aria-label="Filter by 4 stars">★★★★ (4 Stars)</a></li>
+                <li><a href="{% url 'reviews_by_rating' 3 %}" aria-label="Filter by 3 stars">★★★ (3 Stars)</a></li>
+                <li><a href="{% url 'reviews_by_rating' 2 %}" aria-label="Filter by 2 stars">★★ (2 Stars)</a></li>
+                <li><a href="{% url 'reviews_by_rating' 1 %}" aria-label="Filter by 1 star">★ (1 Star)</a></li>
+            </ul>
+        </div>
+    </aside>
+</div>
+
+<div class="deals-section">
+    <h2>Latest Deals</h2>
+
+    <!-- Left scroll arrow -->
+    <div class="scroll-arrow-left" id="scroll-left" role="button" aria-label="Scroll left">
+        &#9664;
+    </div>
+
+    <div class="deals-container" id="deals-container">
+        <div class="deals-list">
+            {% for deal in deals %}
+            <div class="deal-item">
+                <a href="{{ deal.link }}">
+                    <img src="{{ deal.image.url }}" alt="{{ deal.title }} image" class="deal-image" loading="lazy">
+                    <div class="deal-info">
+                        <h3>{{ deal.title }}</h3>
+                        <p>{{ deal.description }}</p>
+                        {% if deal.coupon_code %}
+                        <div class="coupon-container">
+                            <input type="text" value="{{ deal.coupon_code }}" id="coupon-{{ deal.id }}" readonly aria-label="Coupon code for {{ deal.title }}">
+                            <button onclick="copyCoupon('{{ deal.id }}')" aria-label="Copy coupon code"><i class='bx bx-copy'></i></button>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <p class="deal-price">Price: £{{ deal.price }}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Right scroll arrow -->
+    <div class="scroll-arrow-right" id="scroll-right" role="button" aria-label="Scroll right">
+
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+    function copyCoupon(dealId) {
+        var couponField = document.getElementById("coupon-" + dealId);
+        couponField.select();
+        couponField.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const tags = {{ tags|safe }};
+        const luckyCharmBag = document.getElementById("luckyCharmBag");
+        const randomTagDisplay = document.getElementById("randomTagDisplay");
+    
+        luckyCharmBag.addEventListener("click", function () {
+            // Add the shake animation
+            luckyCharmBag.classList.add("shake");
+    
+            // Remove the shake class and display the tag after the shake animation
+            setTimeout(function () {
+                luckyCharmBag.classList.remove("shake");
+    
+                // Choose a random tag
+                const randomTag = tags[Math.floor(Math.random() * tags.length)];
+    
+                // Display the random tag
+                randomTagDisplay.textContent = randomTag;
+                randomTagDisplay.style.display = "inline-block"; // Make it visible
+    
+                // Add a clickable link to the tag
+                randomTagDisplay.onclick = function () {
+                    window.location.href = `/search/?query=${randomTag}`; // Adjust URL path to your search page
+                };
+            }, 1500); // Wait for 1.5 seconds (three shakes)
+        });
+    });
+    
+    
+
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("deals-container");
+    const leftArrow = document.getElementById("scroll-left");
+    const rightArrow = document.getElementById("scroll-right");
+
+    // Show or hide arrows based on scroll position
+    function checkScroll() {
+        if (container.scrollLeft === 0) {
+            leftArrow.classList.remove('active');
+        } else {
+            leftArrow.classList.add('active');
+        }
+
+        if (container.scrollWidth - container.scrollLeft === container.clientWidth) {
+            rightArrow.classList.remove('active');
+        } else {
+            rightArrow.classList.add('active');
+        }
+    }
+
+    // Add event listener for scroll
+    container.addEventListener('scroll', checkScroll);
+
+    // Initial check to determine if arrows should be shown
+    checkScroll();
+
+    // Scroll the container when clicking the arrows
+    leftArrow.addEventListener('click', function () {
+        container.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+
+    rightArrow.addEventListener('click', function () {
+        container.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+});
+    
+// Select the deals container
+const dealsContainer = document.querySelector('.deals-container');
+
+// Variables to store information about the scroll position and dragging
+let isDown = false;
+let startX;
+let scrollLeft;
+
+// When the mouse is pressed down, capture the starting position and enable dragging
+dealsContainer.addEventListener('mousedown', (e) => {
+    isDown = true;
+    dealsContainer.classList.add('active'); // Optional: Add a class for styling during dragging
+    startX = e.pageX - dealsContainer.offsetLeft; // Calculate the mouse starting point
+    scrollLeft = dealsContainer.scrollLeft; // Get the current scroll position
+    dealsContainer.style.cursor = 'grabbing'; // Change the cursor to grabbing
+    e.preventDefault(); // Prevent default behavior to stop selection
+});
+
+// When the mouse leaves the container, stop the dragging
+dealsContainer.addEventListener('mouseleave', () => {
+    isDown = false;
+    dealsContainer.classList.remove('active');
+    dealsContainer.style.cursor = 'grab'; // Reset the cursor
+});
+
+// When the mouse button is released, stop the dragging
+dealsContainer.addEventListener('mouseup', () => {
+    isDown = false;
+    dealsContainer.classList.remove('active');
+    dealsContainer.style.cursor = 'grab'; // Reset the cursor
+});
+
+// While the mouse is moving, calculate the distance and scroll accordingly
+dealsContainer.addEventListener('mousemove', (e) => {
+    if (!isDown) return; // Exit if the mouse is not pressed down
+    e.preventDefault(); // Prevent default behavior to stop selection
+    const x = e.pageX - dealsContainer.offsetLeft; // Calculate the current mouse position
+    const walk = (x - startX) * 2; // Multiply by 2 for faster scroll (adjust this value to control the scroll speed)
+    dealsContainer.scrollLeft = scrollLeft - walk; // Scroll the container
+});
+
+</script>
+{% endblock %}

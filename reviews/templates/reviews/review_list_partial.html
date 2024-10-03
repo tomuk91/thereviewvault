@@ -1,0 +1,34 @@
+{% load review_extras %}
+{% for review in reviews %}
+<div class="review-card">
+    <div class="grid-container">
+        {% if review.image %}
+        <div class="review-image">
+            <img src="{{ review.image.url }}" alt="{{ review.title }}" loading="lazy">
+        </div>
+        {% endif %}
+        
+        <div class="title">
+            <h2><a href="{% url 'review_detail' review.slug %}">{{ review.title }}</a></h2>
+        </div>
+        
+        <div class="meta-info">
+            <p>By {{ review.author }} | {{ review.publication_date|date:"F j, Y" }}</p>
+        </div>
+        
+        <div class="review-rating">
+            <span class="stars">
+                {% render_stars review.rating %}
+            </span>
+        </div>
+        
+        <div class="review-excerpt">
+            <p>{{ review.content|safe|slice:":150" }}...</p>
+        </div>
+        
+        <div class="read-more">
+            <a href="{% url 'review_detail' review.slug %}" class="read-more-link">Read review</a>
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -1,0 +1,121 @@
+{% extends "reviews/base.html" %}
+
+{% block content %}
+{% load review_extras %}
+{% load static %}
+{% load compress %}
+
+{% compress css %}
+<link rel="stylesheet" href="{% static 'reviews/css/category_reviews.css' %}">
+{% endcompress %}
+
+    <div class="review-list"> <!-- Updated class to match category layout -->
+        <h1 class="text-center"> {% render_stars rating %} <br> Reviews</h1>
+
+        <h1 class="text-center">{{ category.name }}</h1>
+        <div id="toolbar" class="toolbar">
+            <div class="toolbar-content">
+                <a href="?sort=date" class="toolbar-btn" id="sort-date">
+                    <i class="bx bx-calendar"></i>
+                </a>
+                <button class="toolbar-btn" id="toggle-view">
+                    <i class="bx bx-grid-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Display a message if no reviews are found -->
+        {% if not reviews %}
+            <p>No reviews found for this rating.</p>
+        {% else %}
+            <div id="reviews-container" class="review-cards"> <!-- Consistent class usage -->
+                {% for review in reviews %}
+                <div class="review-card">
+                    <div class="grid-container">
+                        <!-- Image Section -->
+                        {% if review.image %}
+                        <div class="review-image">
+                            <img src="{{ review.image.url }}" alt="{{ review.title }}" loading="lazy">
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Title Section -->
+                        <div class="title">
+                            <h2><a href="{% url 'review_detail' review.slug %}">{{ review.title }}</a></h2>
+                        </div>
+                        
+                        <!-- Meta (Author/Date) Section -->
+                        <div class="meta-info">
+                            <p>By {{ review.author }} | {{ review.publication_date|date:"F j, Y" }}</p>
+                        </div>
+                        
+                        <!-- Rating Section -->
+                        <div class="review-rating">
+                            <strong>Rating:</strong>
+                            <span class="stars">
+                                {% render_stars review.rating %}
+                            </span>
+                        </div>
+                        
+                        <!-- Excerpt Section -->
+                        <div class="review-excerpt">
+                            <p>{{ review.content|safe|slice:":150" }}...</p>
+                        </div>
+                        
+                        <!-- Read More Section -->
+                        <div class="read-more">
+                            <a href="{% url 'review_detail' review.slug %}" class="read-more-link">Read review</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <input type="hidden" id="current-page" value="1">
+    <input type="hidden" id="has-more" value="{{ reviews.has_next }}">
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(window).on('scroll', function() {
+        var scrollHeight = $(document).height();
+        var scrollPos = $(window).height() + $(window).scrollTop();
+        var loadMoreUrl = window.location.href.split('?')[0] + '?page=' + (parseInt($('#current-page').val()) + 1);
+    
+        if (scrollPos >= scrollHeight - 200) { // Adjust the threshold as needed
+            if ($('#has-more').val() == "True") { // Check if there's more content to load
+    
+                $.ajax({
+                    url: loadMoreUrl,
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#reviews-container').append(data.html); // Append new reviews
+                        $('#current-page').val(parseInt($('#current-page').val()) + 1);
+                        if (!data.has_next) {
+                            $('#has-more').val("false");
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButton = document.getElementById("toggle-view");
+        const reviewsContainer = document.getElementById("reviews-container");
+    
+        toggleButton.addEventListener("click", function () {
+            if (reviewsContainer.classList.contains("review-cards")) {
+                // Switch to list view
+                reviewsContainer.classList.remove("review-cards");
+                reviewsContainer.classList.add("review-list-view");
+            } else {
+                // Switch to card view
+                reviewsContainer.classList.remove("review-list-view");
+                reviewsContainer.classList.add("review-cards");
+            }
+        });
+    });
+</script>
+{% endblock %}

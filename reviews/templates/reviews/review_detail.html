@@ -1,0 +1,136 @@
+{% extends "reviews/base.html" %}
+
+{% block head %}
+
+<head>
+    <title>{{ review.title }} - Review</title>
+    <meta name="description" content="{{ review.content|truncatewords:30 }}">
+    <meta name="keywords" content="{% for tag in review.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+</head>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load compress %}
+{% load review_extras %}
+
+{% compress css %}
+<link rel="stylesheet" media="print" onload="this.media='all'" href="{% static 'reviews/css/review_detail.css' %}">
+{% endcompress %}
+
+
+<div class="review-detail-container">
+    <div class="review-detail-content">
+        {% load breadcrumbs %}
+        <nav aria-label="Breadcrumb navigation">
+            <ol class="breadcrumb">
+                {% breadcrumbs %}
+            </ol>
+        </nav>
+        
+        {% if review.image %}
+        <div class="image text-center">
+            <img src="{{ review.image.url }}" alt="Image of {{ review.title }}" width="auto" height="500" loading="lazy">
+        </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-between">
+            <div class="details">
+                <p class="review-meta">By {{ review.author }} |
+                    {{ review.publication_date|date:"F j, Y" }}</p>
+            </div>
+        </div>
+
+        <h1 class="review-title">{{ review.title }}</h1>
+        <div class="info-box">
+            <div class="review-rating info-container">
+                <div class="rating-container">
+                    <strong>Rating:</strong>
+                    <span class="stars" aria-label="Rating of {{ review.rating }} out of 5">
+                        {% render_stars review.rating %}
+                    </span>
+                </div>
+                <div class="product-code-container">
+                    {% if review.product_code %}
+                    <strong>Product Code:</strong>
+                    <span>{{ review.product_code }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="product-link-container">
+                    <strong>Product Link:</strong>
+                    <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Link to the product page for {{ review.title }}">View Product</a>
+                </div>              
+            </div>
+        </div>
+
+        <hr>
+
+        {% load cache %}
+        {% cache 600 review_detail review.id %}
+        <!-- Cached content for 10 minutes (600 seconds) -->
+        <div class="review-content review-text text-center" aria-labelledby="reviewContent">
+            <h2 id="reviewContent">{{ review.title }} - Full Review</h2>
+            {{ review.content|safe }}
+        </div>
+        {% endcache %}
+
+        <div class="purchase">
+            <p class="text-center">
+                <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Purchase link for {{ review.title }}">Like the look of this product? Click here to purchase</a>
+            </p>  
+        </div>
+
+        <div class="tags">
+            <p class="text-center">
+                Tags:
+                {% for tag in review.tags.all %}
+                <a href="{% url 'tagged_reviews' tag.slug %}" class="tag-link" aria-label="View reviews tagged with {{ tag.name }}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>  
+        </div>
+
+        <div class="related-content mb-3">
+            <h3>Related Reviews</h3>
+            <div class="related-reviews-container">
+                {% for related_review in related_reviews %}
+                <div class="related-review-item">
+                    <a href="{% url 'review_detail' related_review.slug %}" aria-label="Read related review: {{ related_review.title }}">
+                        <div class="related-review-image">
+                            <img src="{{ related_review.image.url }}" alt="Image of {{ related_review.title }}" loading="lazy">
+                        </div>
+                        <div class="related-review-info">
+                            <h4>{{ related_review.title }}</h4>
+                            <p>{{ related_review.content|safe|slice:":100" }}...</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+<script type="application/ld+json" defer>
+    {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "itemReviewed": {
+            "@type": "Thing",
+            "name": "{{ review.title }}"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "{{ review.author }}"
+        },
+        "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "{{ review.rating }}",
+            "bestRating": "5"
+        },
+        "reviewBody": "{{ review.content }}",
+        "datePublished": "{{ review.publication_date|date:'Y-m-d' }}"
+    }
+</script>
