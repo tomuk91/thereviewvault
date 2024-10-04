@@ -1,6 +1,12 @@
 from django.urls import path
 from . import views
 from .views import privacy_policy
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import ReviewSitemap
+
+sitemaps = {
+    'reviews': ReviewSitemap,
+}
 
 urlpatterns = [
     path('', views.review_list, name='review_list'),
@@ -13,4 +19,5 @@ urlpatterns = [
     path('about/', views.about_us, name='about_us'),
     path('terms/', views.terms_conditions, name='terms_conditions'),
     path('contact/', views.contact_us, name='contact_us'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     ]

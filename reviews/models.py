@@ -18,6 +18,7 @@ class Category(models.Model):
 class Review(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
+    modified_date = models.DateTimeField(auto_now=True)
     author = models.CharField(max_length=100)
     review_of_the_week = models.BooleanField(default=False)
     rating = models.DecimalField(
