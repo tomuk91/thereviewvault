@@ -10,6 +10,17 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
 from django.core.paginator import Paginator
+from django.http import HttpResponse
+
+def robots_txt(request):
+    lines = [
+        "User-Agent: *",
+        "Disallow: /secure-admin/",
+        "Disallow: /admin/",
+        "Disallow: /private/",
+        "Sitemap: https://www.thevaultreviews.com/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
 
 def search_reviews(request):
     query = request.GET.get('query', '').strip()

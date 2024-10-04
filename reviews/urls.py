@@ -3,6 +3,7 @@ from . import views
 from .views import privacy_policy
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import ReviewSitemap
+from .views import robots_txt
 
 sitemaps = {
     'reviews': ReviewSitemap,
@@ -20,4 +21,5 @@ urlpatterns = [
     path('terms/', views.terms_conditions, name='terms_conditions'),
     path('contact/', views.contact_us, name='contact_us'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path("robots.txt", robots_txt, name="robots_txt"),
     ]
