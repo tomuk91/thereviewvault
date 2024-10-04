@@ -34,6 +34,10 @@ class Review(models.Model):
     product_code = models.CharField(max_length=100, blank=True, null=True)
     tags = TaggableManager()  # Tags field to store multiple tags
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
+    
+    class Meta:
+        ordering = ['-publication_date'] 
+        
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
