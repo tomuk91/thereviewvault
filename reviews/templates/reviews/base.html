@@ -79,32 +79,36 @@
 
     <nav class="main-nav container" role="navigation" aria-label="Main Navigation">
         <h2 class="visually-hidden">Main Navigation</h2>
-        <ul class="navbar">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="navbar">
+            <span class="visually-hidden">Toggle navigation</span>
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="navbar" id="navbar">
             <li><a href="{% url 'review_list' %}">Home</a></li>
-            <li class="nav-item dropdown" aria-haspopup="true" aria-expanded="false">
-                {% for category in categories %}
-            <li><a class="dropdown-item" href="{% url 'category_reviews' category.slug %}">{{ category.name }}</a></li>
-                {% endfor %}
-            </li>
-            <li class="nav-item dropdown" aria-haspopup="true" aria-expanded="false">
-                <a href="#" class="dropbtn" aria-controls="deals-menu">Deals</a> <!-- Deals dropdown link -->
-                <div id="deals-menu" class="dropdown-content">
-                    {% for category in deals_categories %}
-                        <a class="dropdown-item" href="{% url 'deals_category' category.slug %}">{{ category.name }}</a>
+            <li class="nav-item dropdown">
+                    {% for category in categories %}
+                        <li><a href="{% url 'category_reviews' category.slug %}">{{ category.name }}</a></li>
                     {% endfor %}
-                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="#" class="dropbtn">Deals</a>
+                <ul class="dropdown-content">
+                    {% for category in deals_categories %}
+                        <li><a href="{% url 'deals_category' category.slug %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
             </li>
         </ul>
-        
-        <!-- Search Bar -->
+    
         <form class="search-form" action="{% url 'search_reviews' %}" method="GET">
             <label for="search-input" class="visually-hidden">Search Reviews</label>
             <input id="search-input" required type="text" name="query" placeholder="Search reviews..." class="search-input">
-            <button type="submit" class="search-btn" aria-label="Submit Search">
+            <button type="submit" class="search-btn">
                 <i class="fas fa-search" aria-hidden="true"></i>
             </button>
         </form>
     </nav>
+    
 
     <main class="page-content" id="main-content">
         {% block content %}
@@ -133,3 +137,14 @@
 </body>
 
 </html>
+
+<script>
+    document.querySelector('.nav-toggle').addEventListener('click', function () {
+        const navbar = document.getElementById('navbar');
+        const expanded = this.getAttribute('aria-expanded') === 'true' || false;
+    
+        this.setAttribute('aria-expanded', !expanded);
+        navbar.classList.toggle('active');
+    });
+    
+</script>

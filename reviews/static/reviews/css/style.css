@@ -101,17 +101,14 @@ h5 {
 }
 
 .navbar {
-    justify-content: flex-start !important;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    margin: 1px;
     display: flex;
-    /* Horizontally center items */
-    gap: 0px;
+    list-style-type: none;
+    padding: 0;
 }
 
 .navbar li a {
-    color: white;
+    color: #000000;
     text-decoration: none;
     font-size: 1.3rem;
     padding: 5px 10px;
@@ -127,13 +124,11 @@ h5 {
 /* Dropdown Styles */
 .nav-item {
     position: relative;
-    display: inline-block;
 }
 
 .dropdown-menu {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -935,6 +930,26 @@ body {
     z-index: 1;
 }
 
+.nav-toggle {
+    display: none;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+}
+
+.nav-item:hover .dropdown-content {
+    display: block;
+}
+
+.nav-item .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
 /* Links inside the dropdown */
 .dropdown-content a {
     color: rgb(255, 255, 255);
@@ -1292,6 +1307,28 @@ body {
 
     .filter-by-rating {
         margin-top: 20px;
+    }
+
+    .navbar {
+        margin-bottom: 10px;
+        width: 50%;
+        border-radius: 10px;
+        color: white;
+        background-color: #333333;
+        flex-direction: column;
+        display: none !important;
+    }
+
+    .navbar.active {
+        display: flex !important;
+    }
+
+    .navbar li {
+        margin-top: 8px;
+    }
+
+    .nav-toggle {
+        display: inline-block;
     }
 
 }
