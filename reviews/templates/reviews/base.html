@@ -47,6 +47,18 @@
     <!-- Accessibility Improvements -->
     <meta name="theme-color" content="#305058">  <!-- Gives a custom color for mobile address bars -->
     <meta name="mobile-web-app-capable" content="yes">
+
+    {% if not DEBUG %}
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBDHTXK0HW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-GBDHTXK0HW');
+    </script>
+    {% endif %}
 </head>
 
 <body>
