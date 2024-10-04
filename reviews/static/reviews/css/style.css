@@ -79,7 +79,7 @@ h5 {
     padding-top: 10px;
     height: auto;
     /* Increase the logo size */
-    width: 250px;
+    width: 275px;
 }
 
 /* Navigation Styles */
@@ -1167,10 +1167,7 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* Center horizontally */
         justify-content: center;
-        /* Center vertically */
-        gap: 15px;
     }
 
     .review-item {
@@ -1184,9 +1181,12 @@ body {
         margin-bottom: 15px;
     }
 
-
+    .main-article {
+        display: block;
+    }
 
     .review-image {
+        margin: 0 auto;
         width: 100%;
         height: auto;
         max-height: 200px;
@@ -1240,6 +1240,7 @@ body {
     }
 
     .review-rating {
+        justify-content: center;
         text-align: center;
         font-size: 1rem;
         align-items: center;
@@ -1247,13 +1248,17 @@ body {
     }
 
     .review-rating strong {
+        text-align: center;
         font-weight: bold;
-        color: #e67e22;
+        color: #f39c12 !important;
         font-size: 1.1rem;
     }
 
+    .overlay .stars .i {
+        color: #d6e604 !important;
+    }
+
     .stars i {
-        color: #555555;
         font-size: 1.2rem;
         margin-right: 3px;
     }
@@ -1276,11 +1281,8 @@ body {
         /* Allow the height to adjust based on the content */
     }
 
-    .overlay .review-rating {
-        display: none;
-    }
-
     .overlay {
+        text-align: center;
         position: absolute;
         /* Keep the overlay at the bottom */
         bottom: 0;

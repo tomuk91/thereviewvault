@@ -12,6 +12,14 @@ body {
     justify-content: center;
 }
 
+.review-detail-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Optional: Center the image */
+    object-fit: cover; /* Ensures the image covers the container */
+}
+
 /* Content wrapper for the review */
 .review-detail-content {
     max-width: 800px;
@@ -35,6 +43,19 @@ body {
     font-size: 0.9rem;
     color: #222;
     margin-bottom: 20px;
+}
+.rating-container strong, .product-code-container strong, .product-link-container strong {
+    width: 150px; /* Sets a fixed width for the labels */
+}
+
+.rating-container span, .product-code-container span, .product-link-container a {
+    flex: 1; /* Allows the content to adjust its width */
+    text-align: left; /* Ensures the content is left aligned */
+}
+
+.rating-container, .product-code-container, .product-link-container {
+    justify-content: space-between; /* This aligns the label and content */
+    width: 100%; /* Ensures the containers take full width */
 }
 
 /* Rating styling */
@@ -145,13 +166,19 @@ body {
 
 /* Make touch-friendly elements on mobile */
 button, a {
-    padding: 10px 20px;
     font-size: 1rem;
 }
 
 .tag-link, .purchase {
+    font-weight: 600;
+    color: green;
     padding: 5px;
     margin: 5px 0;
+}
+
+.purchase a {
+    font-size: larger !important;
+
 }
 
 /* Review Card Styling */
@@ -164,6 +191,16 @@ button, a {
 /* Improve contrast for better readability */
 .review-meta, .related-review-info p {
     color: #222;
+    font-size: 0.8rem;
+}
+
+.related-review-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.related-review-info h4 {
+    font-size: 1.2rem;
 }
 
 /* Focus state for accessibility */
@@ -197,6 +234,22 @@ button:focus, a:focus {
     font-size: 1.8rem;
     margin-bottom: 20px;
     color: #030303;
+}
+
+.info-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center; /* This ensures that the text is centered */
+}
+
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adds space between each container */
+    text-align: left; /* Aligns the text within each box */
 }
 
 /* Flexbox for related reviews */

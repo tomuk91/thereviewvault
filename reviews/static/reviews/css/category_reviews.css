@@ -211,9 +211,11 @@
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .review-list-view .grid-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        gap: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        width: 100%;
     }
 
     .review-list-view .read-more {
@@ -221,15 +223,20 @@
         text-align: center;
     }
 
-    .review-list-view p {
-        display: flex;
+    .review-list-view .review-card {
+        margin-bottom: 15px !important;
+        border-radius: 10px;
+        margin: 0 auto;
         justify-content: center;
+        width: 80%;
+        text-align: center;
+        padding: 20px;;
     }
 
     .review-list-view .review-rating,
     .review-list-view .meta-info,
     .review-list-view .title .coupon-container {
-        grid-column: span 2;
+        grid-column: span 1;
         text-align: center;
         justify-content: center;
     }
