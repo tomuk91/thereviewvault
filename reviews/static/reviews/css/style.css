@@ -394,6 +394,12 @@ h5 {
     gap: 15px;
 }
 
+.main-article img {
+    width: 100%;          /* Ensure the image takes up the full width of its container */
+    height: 300px;         /* Set a fixed height (adjust based on your design) */
+    object-fit: cover;     
+}
+
 .article-left,
 .article-right {
     height: 20rem;
@@ -403,13 +409,13 @@ h5 {
     /* border-radius: 10px; */
 }
 
-.article-left img,
+/* .article-left img,
 .article-right img {
     width: 100%;
     height: auto;
     object-fit: cover;
     transition: transform 0.3s ease;
-}
+} */
 
 .article-left:hover img,
 .article-right:hover img {

@@ -13,11 +13,9 @@ body {
 }
 
 .review-detail-container img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto; /* Optional: Center the image */
-    object-fit: cover; /* Ensures the image covers the container */
+    width: 100%;          /* Ensure the image takes up the full width of its container */
+    height: 400px;         /* Set a fixed height (adjust based on your design) */
+    object-fit: cover;     
 }
 
 /* Content wrapper for the review */
