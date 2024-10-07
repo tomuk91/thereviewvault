@@ -117,22 +117,18 @@
         </div>
 
         <!-- Pagination Section -->
-        <div class="pagination" role="navigation" aria-label="Pagination Navigation">
-            <span class="step-links">
+        <div class="pagination">
+            <ul class="step-links">
                 {% if reviews.has_previous %}
-                <a href="?page=1" aria-label="First page">&laquo; first</a>
-                <a href="?page={{ reviews.previous_page_number }}" aria-label="Previous page">previous</a>
+                    <li><a href="?page=1">&laquo; First</a></li>
+                    <li><a href="?page={{ reviews.previous_page_number }}">Previous</a></li>
                 {% endif %}
-
-                <span class="current">
-                    Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}
-                </span>
-
+        
                 {% if reviews.has_next %}
-                <a href="?page={{ reviews.next_page_number }}" aria-label="Next page">next</a>
-                <a href="?page={{ reviews.paginator.num_pages }}" aria-label="Last page">last &raquo;</a>
+                    <li><a href="?page={{ reviews.next_page_number }}">Next</a></li>
+                    <li><a href="?page={{ reviews.paginator.num_pages }}">Last &raquo;</a></li>
                 {% endif %}
-            </span>
+            </ul>
         </div>
     </div>
 
