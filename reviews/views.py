@@ -12,6 +12,14 @@ from django.views.decorators.cache import cache_page
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 
+# reviews/views.py
+
+from django.http import HttpResponse
+
+def twitter_callback(request):
+    # Handle the OAuth callback logic here
+    return HttpResponse("Twitter OAuth callback received!")
+
 def robots_txt(request):
     lines = [
         "User-Agent: *",
