@@ -283,21 +283,51 @@ h5 {
 
 /* Sidebar */
 .sidebar {
+    gap: 50px;
+    position: relative; /* Ensure the pseudo-element is positioned relative to the sidebar */
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    margin-left: 3px;
     margin-right: 1rem;
     text-align: center;
     width: 25%;
+    background-image: url("/static/images/background.png");
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    color: white; /* Optional: to ensure text is visible over the background */
+    overflow: hidden; /* To ensure the overlay covers the content */
+}
+
+/* Sidebar Banner Styling */
+.sidebar-banner {
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 100%;
+    overflow: hidden; /* Ensures the image fits within the container */
+    margin-bottom: 15px; /* Adds space below the banner */
+    border-radius: 8px; /* Optional: rounds the corners of the banner */
+}
+
+.sidebar-banner-image {
+    width: 100%; /* Make the banner image fill the width of the sidebar */
+    height: 150px; /* Keep the aspect ratio of the image */
+    object-fit: cover; /* Makes sure the image covers the space without stretching */
+}
+
+
+
+
+.sidebar-content {
+    position: relative;
+    z-index: 2; /* This keeps the content above the overlay */
 }
 
 /* Container Layout */
 .container {
-    justify-content: space-between !important;
     padding: 0 !important;
     display: flex;
     justify-content: center;
-    max-width: 1395px !important;
+    max-width: 1490px !important;
     margin: 0 auto;
 }
 
@@ -500,6 +530,8 @@ h5 {
 
 /* Filter by Rating Styles */
 .filter-by-rating {
+    color: black;
+    background-color: rgba(241 245 250 / 0.9) !important;
     margin-bottom: 20px;
 }
 
@@ -985,6 +1017,8 @@ body {
     border-radius: 15px;
     width: 100%;
     margin: 0 auto; /* Center the container */
+    color: black;
+    background-color: rgba(241 245 250 / 0.9) !important;
 }
 
 .lucky-charm-bag {
@@ -1169,6 +1203,15 @@ body {
     .deal-item {
         width: calc(50% - 10px); /* Two items per row on mobile */
     }
+
+    .sidebar {
+        gap:10px;
+        width: 100%;
+    }
+    .sidebar-banner-image {
+        height: 200px; /* Adjust the height to suit smaller screens */
+        object-fit: cover; /* Keeps the image well-fitted within the space */
+    }
 }
 
 @media (max-width: 500px) {
@@ -1284,13 +1327,6 @@ body {
         margin-right: 3px;
     }
 
-    .sidebar {
-        margin-top: 20px;
-        background-color: #F5F8FC;
-        width: 100%;
-        padding-left: 0;
-    }
-
     .overlay h2 {
         font-size: 1rem !important;
         margin-bottom: 10px;
@@ -1312,6 +1348,8 @@ body {
     }
 
     .filter-by-rating {
+        color: black;
+        background-color: rgba(241 245 250 / 0.7) !important;
         margin-top: 20px;
     }
 

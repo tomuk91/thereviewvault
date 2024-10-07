@@ -11,6 +11,7 @@
 
 <!-- Top-rated reviews section -->
 <div class="main-article-header">
+
     <div class="main-article">
         {% if top_reviews %}
         <div class="article-left text-left">
@@ -53,7 +54,7 @@
 
 <div class="container">
     <div class="reviews-section">
-        <h2 class="my-3 text-center">Review of the Week</h2>
+        <h2 class="mt-5 text-center">Review of the Week</h2>
         <div class="review-list review-of-the-week">
             {% if review_of_the_week %}
             <div class="review-item {% cycle 'bg-light-grey' 'bg-dark-grey' %}">
@@ -137,13 +138,16 @@
 
     <!-- Optional Sidebar Section -->
     <aside class="sidebar" aria-labelledby="sidebar-heading">
-        <div class="lucky-charm-container text-center mb-4">
+        <div class="sidebar-banner">
+            <img src="{% static 'images/halloween.png' %}" alt="Sidebar Banner" class="sidebar-banner-image">
+        </div>
+        <div class="lucky-charm-container text-center mb-4 my-5">
             <h2>Feeling Lucky?</h2>
             <h5>Click the vault to get a random review tag</h5>
             <img src="{% static 'images/vault.png' %}" alt="Lucky Charm Bag" id="luckyCharmBag" class="lucky-charm-bag" role="button" loading="lazy">
             <div id="randomTagDisplay" class="random-tag-display"></div>
         </div>
-
+        
         <!-- Filter by Rating -->
         <div class="filter-by-rating">
             <h2>Filter by Rating</h2>
