@@ -36,6 +36,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=6703aabfa6330b001a6016bf&product=inline-share-buttons&source=platform" async="async"></script>
+    <!-- Include CookieConsent styles and JavaScript -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.js"></script>
 
     <!-- Stylesheets -->
     <script rel="preconnect" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -142,6 +145,23 @@
 </html>
 
 <script>
+    window.addEventListener('load', function() {
+        window.cookieconsent.initialise({
+            palette: {
+                popup: { background: "#000000" }, /* Background color for the banner */
+                button: { background: "#305058" } /* Background color for the button */
+            },
+            theme: "classic", /* Other theme options: 'edgeless', 'block' */
+            position: "bottom", /* Position of the banner: 'bottom', 'top', 'bottom-left', 'bottom-right' */
+            content: {
+                message: "TheReviewVault uses cookies to ensure you get the best experience on our website.",
+                dismiss: "Accept!",
+                link: "Learn more",
+                href: "/privacy-policy"
+            }
+        });
+    });
+    
     document.querySelector('.nav-toggle').addEventListener('click', function () {
         const navbar = document.getElementById('navbar');
         const expanded = this.getAttribute('aria-expanded') === 'true' || false;
