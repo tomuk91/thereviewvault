@@ -84,6 +84,7 @@ h5 {
 
 /* Navigation Styles */
 .main-nav {
+    justify-content: space-between !important;
     border-bottom: 1px solid #e0e0e0 !important;
     /* Light grey border */
     width: 100% !important;
