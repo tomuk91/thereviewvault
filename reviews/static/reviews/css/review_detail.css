@@ -276,7 +276,7 @@ button:focus, a:focus {
 /* Ensure images scale properly on mobile */
 .review-image img, .related-review-image img {
     max-width: 100%;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
 }
 
