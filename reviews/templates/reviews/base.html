@@ -8,69 +8,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
-
-    <!-- Page Title -->
+    <!-- Page Title and Meta Tags -->
     <title>{% block title %}{{ title }}{% endblock %}</title>
-
-    <!-- Meta Description -->
     <meta name="description" content="{% block meta_description %}{{ meta_description }}{% endblock %}">
-
-    <!-- Meta Keywords (use sparingly) -->
     <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords }}{% endblock %}">
-
-    <!-- Canonical URL -->
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
 
-    <!-- Open Graph Data (for social sharing) -->
+    <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{% block og_title %}{{ title }}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{{ meta_description }}{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:image" content="{% block og_image %}{{ og_image }}{% endblock %}">
 
-    <!-- Twitter Cards (for Twitter sharing) -->
+    <!-- Twitter Cards Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}{{ title }}{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}{{ meta_description }}{% endblock %}">
     <meta name="twitter:image" content="{% block twitter_image %}{{ og_image }}{% endblock %}">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=6703aabfa6330b001a6016bf&product=inline-share-buttons&source=platform" async="async"></script>
-    <!-- Include CookieConsent styles and JavaScript -->
+    <!-- Fonts and Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Stylesheets -->
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">
+    {% endcompress %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'reviews/js/main.js' %}"></script>
+
+    <!-- Cookie Consent -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.js"></script>
 
-    <!-- Stylesheets -->
-    <script rel="preconnect" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    {% compress css %}
-        <link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">
-    {% endcompress %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <!-- Accessibility Improvements -->
-    <meta name="theme-color" content="#305058">  <!-- Gives a custom color for mobile address bars -->
-    <meta name="mobile-web-app-capable" content="yes">
+    <!-- ShareThis -->
+    <script async src="https://platform-api.sharethis.com/js/sharethis.js#property=6703aabfa6330b001a6016bf&product=inline-share-buttons&source=platform"></script>
 
-    {% if not DEBUG %}
     <!-- Google Analytics -->
+    {% if not DEBUG %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBDHTXK0HW"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-GBDHTXK0HW');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-GBDHTXK0HW');
     </script>
     {% endif %}
+
+    <!-- Accessibility Enhancements -->
+    <meta name="theme-color" content="#305058">
+    <meta name="mobile-web-app-capable" content="yes">
 </head>
 
 <body>
     <!-- Skip to content link -->
     <a href="#main-content" class="skip-link visually-hidden">Skip to content</a>
 
+    <!-- Header -->
     <header class="site-header" role="banner">
         <div class="header-container">
             <div class="logo-container">
@@ -78,11 +77,10 @@
                     <img src="{% static 'images/logo1.png' %}" alt="TheVaultReviews logo - unbiased reviews and deals" class="site-logo" loading="lazy">
                 </a>
             </div>
-            <div>
-            </div>
         </div>
     </header>
 
+    <!-- Main Navigation -->
     <nav class="main-nav container" role="navigation" aria-label="Main Navigation">
         <h2 class="visually-hidden">Main Navigation</h2>
         <button class="nav-toggle" aria-expanded="false" aria-controls="navbar">
@@ -92,9 +90,9 @@
         <ul class="navbar" id="navbar">
             <li><a href="{% url 'review_list' %}">Home</a></li>
             <li class="nav-item dropdown">
-                    {% for category in categories %}
-                        <li><a href="{% url 'category_reviews' category.slug %}">{{ category.name }}</a></li>
-                    {% endfor %}
+                {% for category in categories %}
+                    <li><a href="{% url 'category_reviews' category.slug %}">{{ category.name }}</a></li>
+                {% endfor %}
             </li>
             <li class="nav-item dropdown">
                 <a href="#" class="dropbtn">Deals</a>
@@ -105,7 +103,8 @@
                 </ul>
             </li>
         </ul>
-    
+
+        <!-- Search Form -->
         <form class="search-form" action="{% url 'search_reviews' %}" method="GET">
             <label for="search-input" class="visually-hidden">Search Reviews</label>
             <input id="search-input" required type="text" name="query" placeholder="Search reviews..." class="search-input">
@@ -114,16 +113,16 @@
             </button>
         </form>
     </nav>
-    
 
+    <!-- Main Content -->
     <main class="page-content" id="main-content">
         {% block content %}
         {% endblock %}
-        
         {% block javascript %}
         {% endblock %}
     </main>
 
+    <!-- Footer -->
     <footer class="footer" role="contentinfo">
         <div class="footer-container">
             <div class="footer-links">
@@ -140,34 +139,34 @@
             </div>
         </div>
     </footer>
+
+    <!-- Cookie Consent Initialization Script -->
+    <script>
+        window.addEventListener('load', function () {
+            window.cookieconsent.initialise({
+                palette: {
+                    popup: { background: "#000000" },
+                    button: { background: "#305058" }
+                },
+                theme: "classic",
+                position: "bottom",
+                content: {
+                    message: "TheReviewVault uses cookies to ensure you get the best experience on our website.",
+                    dismiss: "Accept!",
+                    link: "Learn more",
+                    href: "/privacy-policy"
+                }
+            });
+        });
+
+        // Navigation Toggle Script
+        document.querySelector('.nav-toggle').addEventListener('click', function () {
+            const navbar = document.getElementById('navbar');
+            const expanded = this.getAttribute('aria-expanded') === 'true' || false;
+            this.setAttribute('aria-expanded', !expanded);
+            navbar.classList.toggle('active');
+        });
+    </script>
 </body>
 
 </html>
-
-<script>
-    window.addEventListener('load', function() {
-        window.cookieconsent.initialise({
-            palette: {
-                popup: { background: "#000000" }, /* Background color for the banner */
-                button: { background: "#305058" } /* Background color for the button */
-            },
-            theme: "classic", /* Other theme options: 'edgeless', 'block' */
-            position: "bottom", /* Position of the banner: 'bottom', 'top', 'bottom-left', 'bottom-right' */
-            content: {
-                message: "TheReviewVault uses cookies to ensure you get the best experience on our website.",
-                dismiss: "Accept!",
-                link: "Learn more",
-                href: "/privacy-policy"
-            }
-        });
-    });
-    
-    document.querySelector('.nav-toggle').addEventListener('click', function () {
-        const navbar = document.getElementById('navbar');
-        const expanded = this.getAttribute('aria-expanded') === 'true' || false;
-    
-        this.setAttribute('aria-expanded', !expanded);
-        navbar.classList.toggle('active');
-    });
-    
-</script>

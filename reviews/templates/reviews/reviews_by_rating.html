@@ -78,28 +78,48 @@
 
 {% block javascript %}
 <script>
-    $(window).on('scroll', function() {
-        var scrollHeight = $(document).height();
-        var scrollPos = $(window).height() + $(window).scrollTop();
-        var loadMoreUrl = window.location.href.split('?')[0] + '?page=' + (parseInt($('#current-page').val()) + 1);
-    
-        if (scrollPos >= scrollHeight - 200) { // Adjust the threshold as needed
-            if ($('#has-more').val() == "True") { // Check if there's more content to load
-    
-                $.ajax({
-                    url: loadMoreUrl,
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#reviews-container').append(data.html); // Append new reviews
-                        $('#current-page').val(parseInt($('#current-page').val()) + 1);
-                        if (!data.has_next) {
-                            $('#has-more').val("false");
-                        }
+// Define the debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+// Flag to check if loading is in progress
+let isLoading = false;
+
+// The scroll event handler function wrapped in debounce
+$(window).on('scroll', debounce(function() {
+    var scrollHeight = $(document).height();
+    var scrollPos = $(window).height() + $(window).scrollTop();
+    var loadMoreUrl = window.location.href.split('?')[0] + '?page=' + (parseInt($('#current-page').val()) + 1);
+
+    if (scrollPos >= scrollHeight - 200 && !isLoading) { // Check threshold and loading state
+        if ($('#has-more').val() === "True") { // Check if there's more content to load
+
+            isLoading = true; // Set loading state to true
+
+            $.ajax({
+                url: loadMoreUrl,
+                dataType: 'json',
+                success: function (data) {
+                    $('#reviews-container').append(data.html); // Append new reviews
+                    $('#current-page').val(parseInt($('#current-page').val()) + 1);
+                    if (!data.has_next) {
+                        $('#has-more').val("false");
                     }
-                });
-            }
+                },
+                complete: function() {
+                    isLoading = false; // Reset loading state
+                }
+            });
         }
-    });
+    }
+}, 200)); // Adjust the debounce wait time as needed (e.g., 200 milliseconds)
+
+    
 
     document.addEventListener("DOMContentLoaded", function () {
         const toggleButton = document.getElementById("toggle-view");

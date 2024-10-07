@@ -44,37 +44,6 @@
 
 {% block javascript %}
 <script>
-    $(window).on('scroll', function() {
-        var scrollHeight = $(document).height();
-        var scrollPos = $(window).height() + $(window).scrollTop();
-        var currentPage = parseInt($('#current-page').val());
-        var hasMore = $('#has-more').val() == 'True';
-        var loadMoreUrl = window.location.href.split('?')[0] + '?page=' + (currentPage + 1);
-    
-        // Debugging
-        console.log('Scroll Height:', scrollHeight);
-        console.log('Scroll Position:', scrollPos);
-        console.log('Current Page:', currentPage);
-        console.log('Has More:', hasMore);
-    
-        if (scrollPos >= scrollHeight - 200 && hasMore) { // Adjust the threshold as needed
-            $.ajax({
-                url: loadMoreUrl,
-                dataType: 'json',
-                success: function (data) {
-                    $('#reviews-container').append(data.html); // Append new reviews
-                    $('#current-page').val(currentPage + 1);
-                    if (!data.has_next) {
-                        $('#has-more').val("false");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log('AJAX error:', error); // Debugging any AJAX errors
-                }
-            });
-        }
-    });
-    
     document.addEventListener("DOMContentLoaded", function () {
         const toggleButton = document.getElementById("toggle-view");
         const reviewsContainer = document.getElementById("reviews-container");

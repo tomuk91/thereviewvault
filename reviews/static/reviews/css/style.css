@@ -366,8 +366,8 @@ h5 {
 }
 
 .step-links a {
-    background-color: #f9f9f9;
-    color: #305058;
+    background-color: #3B5B63;
+    color: white !important;
 }
 
 .step-links a:hover {
