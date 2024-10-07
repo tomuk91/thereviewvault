@@ -254,16 +254,19 @@ button:focus, a:focus {
 .related-reviews-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
 }
 
 .related-review-item {
-    width: 23%;
-    background-color: #f9f9f9;
+    width: 300px;
+    max-width: calc(33.33% - 15px);
+    background-color: white;
     border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    text-align: center;
 }
 
 .related-review-item:hover {
@@ -272,18 +275,25 @@ button:focus, a:focus {
 
 /* Ensure images scale properly on mobile */
 .review-image img, .related-review-image img {
-    width: 100%;
     max-width: 100%;
-    height: auto;
+    height: 200px;
     object-fit: cover;
 }
 
 /* Responsive Styling for Smaller Screens */
+
+@media (max-width: 1024px) {
+    .related-review-card {
+        flex: 1 1 calc(50% - 15px); /* Shows two items per row */
+        max-width: calc(50% - 15px);
+    }
+}
+
 @media (max-width: 768px) {
 
-    .related-review-item {
-        justify-content: center;
-        width: 48%;
+    .related-review-card {
+        flex: 1 1 calc(50% - 10px); /* Still shows two items per row */
+        max-width: calc(50% - 10px);
     }
 
     .review-content h3 {
@@ -323,5 +333,12 @@ button:focus, a:focus {
 
     .review-detail-content {
         padding: 0 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .related-review-card {
+     flex: 1 1 100%; /* Shows one item per row */
+        max-width: 100%;
     }
 }
