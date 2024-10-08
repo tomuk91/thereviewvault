@@ -26,7 +26,7 @@ def handle_post_review_to_twitter(instance):
     # Assuming your image is saved locally or in a media folder
     image_path = instance.image.path if instance.image else None  # Get the image path
 
-    post_to_twitter(message, tags=tags, url=url, image_path=image_path)
+    post_to_twitter(message, tags=tags, url=url, image_path=image_path, deal=False)
 
 
 
