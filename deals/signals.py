@@ -12,12 +12,15 @@ def post_deal_to_twitter(sender, instance, created, **kwargs):
         # Use a lambda to delay the post until after the database transaction is complete
         transaction.on_commit(lambda: handle_post_deal_to_twitter(instance, created))
 
-def handle_post_deal_to_twitter(instance, created):
-    message = f"New Deal!: {instance.title}!"
-    tags = [tag.name for tag in instance.tags.all()[:4]]
-    url = instance.link  # Use the 'link' field from the database
+def handle_post_deal_to_twitter(sender, instance, created, **kwargs):
+    if instance.original_price and instance.price < instance.original_price:
+        discount = round(((instance.original_price - instance.price) / instance.original_price) * 100, 2)
+        message = f"Check out our latest deal: {instance.title}! Now only ${instance.price} (was ${instance.original_price}, save {discount}%!)"
+    else:
+        message = f"Check out our latest deal: {instance.title}! Now only ${instance.price}"
 
-    # Assuming your image is saved locally or in a media folder
+    tags = [tag.name for tag in instance.tags.all()]
+    url = instance.link  # Use the 'link' field from the database
     image_path = instance.image.path if instance.image else None  # Get the image path if it exists
 
     post_to_twitter(message, tags=tags, url=url, image_path=image_path)
