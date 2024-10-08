@@ -10,14 +10,14 @@ from django.db import transaction
 def post_deal_to_twitter(sender, instance, created, **kwargs):
     if created and not settings.DEBUG:  # Only post to Twitter when a new deal is created and not in DEBUG mode
         # Use a lambda to delay the post until after the database transaction is complete
-        transaction.on_commit(lambda: handle_post_deal_to_twitter(instance, created))
+        transaction.on_commit(lambda: handle_post_deal_to_twitter(sender, instance, created))
 
 def handle_post_deal_to_twitter(sender, instance, created, **kwargs):
     if instance.original_price and instance.price < instance.original_price:
         discount = round(((instance.original_price - instance.price) / instance.original_price) * 100, 2)
-        message = f"Check out our latest deal: {instance.title}! Now only ${instance.price} (was ${instance.original_price}, save {discount}%!)"
+        message = f"Check out our latest deal: {instance.title}! Now only £{instance.price} (was £{instance.original_price}, save {discount}%!)"
     else:
-        message = f"Check out our latest deal: {instance.title}! Now only ${instance.price}"
+        message = f"Check out our latest deal: {instance.title}! Now only £{instance.price}"
 
     tags = [tag.name for tag in instance.tags.all()]
     url = instance.link  # Use the 'link' field from the database
