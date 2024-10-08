@@ -26,6 +26,7 @@ def robots_txt(request):
         "Disallow: /secure-admin/",
         "Disallow: /admin/",
         "Disallow: /private/",
+        "Disallow: /tag/",
         "Sitemap: https://www.thevaultreviews.com/sitemap.xml"
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")

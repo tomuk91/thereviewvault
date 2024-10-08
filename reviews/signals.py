@@ -11,15 +11,15 @@ from django.db import transaction
 
 @receiver(post_save, sender=Review)
 def post_review_to_twitter(sender, instance, created, **kwargs):
-    if created & settings.DEBUG:  # Only post to Twitter when a new review is created
+    if created and not settings.DEBUG:  # Only post to Twitter when a new review is created
         transaction.on_commit(lambda: handle_post_review_to_twitter(instance))
 
 def handle_post_review_to_twitter(instance):
     # Reload the instance from the database to make sure the tags are properly loaded
     instance.refresh_from_db()
-    tags = [tag.name for tag in instance.tags.all()[:2]]
+    tags = [tag.name for tag in instance.tags.all()[:4]]
     hashtags = ' '.join([f'#{tag}' for tag in tags])
-    message = f"Latest Review: {instance.title}!"
+    message = f"Latest Review: {instance.title}"
     current_site = Site.objects.get_current()
     url = f"https://{current_site.domain}{instance.get_absolute_url()}"
 

@@ -8,13 +8,13 @@ from django.db import transaction
 
 @receiver(post_save, sender=Deal)
 def post_deal_to_twitter(sender, instance, created, **kwargs):
-    if created:  # Only post to Twitter when a new deal is created and not in DEBUG mode
+    if created and not settings.DEBUG:  # Only post to Twitter when a new deal is created and not in DEBUG mode
         # Use a lambda to delay the post until after the database transaction is complete
         transaction.on_commit(lambda: handle_post_deal_to_twitter(instance, created))
 
 def handle_post_deal_to_twitter(instance, created):
     message = f"New Deal!: {instance.title}!"
-    tags = [tag.name for tag in instance.tags.all()]
+    tags = [tag.name for tag in instance.tags.all()[:4]]
     url = instance.link  # Use the 'link' field from the database
 
     # Assuming your image is saved locally or in a media folder
