@@ -40,7 +40,7 @@ def post_to_twitter(message, tags=None, url=None, image_path=None, deal=False):
     if deal == True:
         tweet_text = f"⭐{message}! ⭐\nClick here to get it now: {url if url else ''}\n{hashtags}".strip()
     else:
-        tweet_text = f"⭐{message}! ⭐\nRead out full review: {url if url else ''}\n{hashtags}".strip()
+        tweet_text = f"⭐{message}! ⭐\nRead our full review: {url if url else ''}\n{hashtags}".strip()
 
 
     # Ensure the tweet length doesn't exceed Twitter's character limit
