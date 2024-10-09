@@ -292,7 +292,6 @@ h5 {
     margin-right: 1rem;
     text-align: center;
     width: 25%;
-    background-image: url("/static/images/background.png");
     background-position: center; /* Centers the background image */
     background-repeat: no-repeat; /* Prevents the image from repeating */
     color: white; /* Optional: to ensure text is visible over the background */

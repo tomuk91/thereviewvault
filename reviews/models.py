@@ -2,8 +2,9 @@ from django.db import models
 from django.utils.text import slugify
 from taggit.managers import TaggableManager 
 from django.core.validators import MinValueValidator, MaxValueValidator
-from .utils import post_to_twitter
 from django.urls import reverse
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill, SmartResize
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -36,6 +37,8 @@ class Review(models.Model):
     product_code = models.CharField(max_length=100, blank=True, null=True)
     tags = TaggableManager()  # Tags field to store multiple tags
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
+    optimized_image = ImageSpecField(source='image',processors=[SmartResize(800, 800)],format='WEBP',options={'quality': 70})
+    thumbnail = ImageSpecField(source='image',processors=[ResizeToFill(200, 200)],format='WEBP',options={'quality': 60})
 
     class Meta:
         ordering = ['-publication_date'] 

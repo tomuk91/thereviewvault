@@ -16,7 +16,10 @@
         {% if top_reviews %}
         <div class="article-left text-left">
             <a href="{% url 'review_detail' top_reviews.0.slug %}">
-                <img loading="lazy" src="{{ top_reviews.0.image.url }}" alt="{{ top_reviews.0.title }} - Review image for {{ top_reviews.0.title }}" role="img" aria-labelledby="topReviewTitle1">
+                <picture>
+                    <source srcset="{{ top_reviews.0.optimized_image.url }}" type="image/webp">
+                    <img loading="lazy" src="{{ top_reviews.0.image.url }}" alt="{{ top_reviews.0.title }} - Review image for {{ top_reviews.0.title }}" role="img" aria-labelledby="topReviewTitle1">
+                </picture>
                 <div class="overlay" id="topReviewTitle1">
                     <h2>{{ top_reviews.0.title }}</h2>
                     <p>{{ top_reviews.0.category.name }} | {{ top_reviews.0.author }}</p>
@@ -32,7 +35,10 @@
         </div>
         <div class="article-right text-left">
             <a href="{% url 'review_detail' top_reviews.1.slug %}">
-                <img loading="lazy" src="{{ top_reviews.1.image.url }}" alt="{{ top_reviews.1.title }} - Review image for {{ top_reviews.1.title }}" role="img" aria-labelledby="topReviewTitle2">
+                <picture>
+                    <source srcset="{{ top_reviews.1.optimized_image.url }}" type="image/webp">
+                    <img loading="lazy" src="{{ top_reviews.1.image.url }}" alt="{{ top_reviews.1.title }} - Review image for {{ top_reviews.1.title }}" role="img" aria-labelledby="topReviewTitle1">
+                </picture>
                 <div class="overlay" id="topReviewTitle2">
                     <h2>{{ top_reviews.1.title }}</h2>
                     <p>{{ top_reviews.1.category.name }} | {{ top_reviews.1.author }}</p>
@@ -61,7 +67,10 @@
                 <!-- Image Section -->
                 {% if review_of_the_week.image %}
                 <div class="review-image">
-                    <img height="100" width="100" src="{{ review_of_the_week.image.url }}" alt="Review of the week: {{ review_of_the_week.title }} image" loading="lazy">
+                    <picture>
+                        <source srcset="{{ review_of_the_week.optimized_image.url }}" type="image/webp">
+                        <img height="100" width="100" src="{{ review_of_the_week.image.url }}" alt="Review of the week: {{ review_of_the_week.title }} image" loading="lazy" role="img" aria-labelledby="topReviewTitle1">
+                    </picture>
                 </div>
                 {% endif %}
                 <!-- Content Section -->
@@ -91,7 +100,10 @@
                 <!-- Image Section -->
                 {% if review.image %}
                 <div class="review-image">
-                    <img height="100" width="100" src="{{ review.image.url }}" alt="{{ review.title }} image" role="img" loading="lazy">
+                    <picture>
+                        <source srcset="{{ review.optimized_image.url }}" type="image/webp">
+                        <img height="100" width="100" src="{{ review.image.url }}" alt="{{ review.title }} image" role="img" loading="lazy">
+                    </picture>
                 </div>
                 {% endif %}
                 <!-- Content Section -->
@@ -171,7 +183,10 @@
             {% for deal in deals %}
             <div class="deal-item">
                 <a href="{{ deal.link }}">
-                    <img src="{{ deal.image.url }}" alt="{{ deal.title }} image" class="deal-image" loading="lazy">
+                    <picture>
+                        <source srcset="{{ deal.optimized_image.url }}" type="image/webp">
+                        <img src="{{ deal.image.url }}" alt="{{ deal.title }} image" class="deal-image" loading="lazy">
+                    </picture>
                     <div class="deal-info">
                         <h3>{{ deal.title }}</h3>
                         <p>{{ deal.description }}</p>
