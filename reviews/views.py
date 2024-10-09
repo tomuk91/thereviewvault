@@ -146,7 +146,7 @@ def reviews_by_rating(request, rating):
             reviews = reviews.order_by('-publication_date')
 
         # Pagination logic
-        paginator = Paginator(reviews, 6)  # 6 reviews per page
+        paginator = Paginator(reviews, 7)  # 6 reviews per page
         page_number = request.GET.get('page', 1)
         page_reviews = paginator.get_page(page_number)
 

@@ -5,7 +5,7 @@
 {% load compress %}
 {% load review_extras %}
 {% compress css %}
-<link rel="stylesheet" href="{% static 'reviews/css/category_reviews.css' %}">
+    <link rel="stylesheet" href="{% static 'reviews/css/category_reviews.css' %}">
 {% endcompress %}
 
 <!-- Display the Category as a Header -->
@@ -13,13 +13,13 @@
 <h1 class="text-center">{{ category.name }}</h1>
 <div id="toolbar" class="toolbar">
     <div class="toolbar-content">
-        <a href="?sort=date" class="toolbar-btn" id="sort-date">
+        <a href="?sort=date" class="toolbar-btn" id="sort-date" data-tooltip="Sort by Date">
             <i class="bx bx-calendar"></i>
         </a>
-        <a href="?sort=rating" class="toolbar-btn" id="sort-rating">
+        <a href="?sort=rating" class="toolbar-btn" id="sort-rating" data-tooltip="Sort by Rating">
             <i class="bx bx-star"></i>
         </a>
-        <button class="toolbar-btn" id="toggle-view">
+        <button class="toolbar-btn" id="toggle-view" data-tooltip="Toggle View">
             <i class="bx bx-grid-alt"></i>
         </button>
     </div>
@@ -60,5 +60,33 @@
             }
         });
     });
+document.querySelectorAll('.toolbar-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        // Remove 'active' class from all tooltips
+        document.querySelectorAll('.tooltip').forEach(tooltip => {
+            tooltip.classList.remove('active');
+        });
+
+        // Toggle the tooltip for the clicked button
+        const tooltip = this.querySelector('.tooltip');
+        if (tooltip) {
+            tooltip.classList.add('active');
+
+            // Hide the tooltip after 3 seconds
+            setTimeout(() => {
+                tooltip.classList.remove('active');
+            }, 3000);
+        }
+    });
+
+    // Hide the tooltip if the user taps outside the buttons
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.toolbar-btn')) {
+            document.querySelectorAll('.tooltip').forEach(tooltip => {
+                tooltip.classList.remove('active');
+            });
+        }
+    });
+});
 </script>
 {% endblock %}

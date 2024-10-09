@@ -328,7 +328,7 @@ h5 {
     padding: 0 !important;
     display: flex;
     justify-content: center;
-    max-width: 1490px !important;
+    max-width: 1451px !important;
     margin: 0 auto;
 }
 
@@ -1009,6 +1009,7 @@ body {
 }
 
 .lucky-charm-container {
+    margin-left: 10px !important;
     margin-top: 20px !important;
     display: flex;
     flex-direction: column;
@@ -1134,6 +1135,40 @@ body {
 
 .terms-container a {
     color: #007BFF !important;
+}
+
+/* Tooltip styling */
+.toolbar-content .toolbar-btn {
+    position: relative; /* Needed for positioning the tooltip */
+}
+
+.toolbar-content .toolbar-btn:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%; /* Position the tooltip above the button */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333; /* Dark background for the tooltip */
+    color: #fff; /* White text color */
+    padding: 5px 8px;
+    border-radius: 4px;
+    white-space: nowrap; /* Prevent text from wrapping */
+    font-size: 0.8rem;
+    opacity: 0; /* Hidden by default */
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 1; /* Show tooltip on hover */
+}
+
+.toolbar-content .toolbar-btn:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 100%; /* Place it above the button */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent; /* Make a triangle pointer */
+    border-top-color: #333; /* Match the tooltip background color */
+    margin-bottom: -6px; /* Adjust to align the triangle */
 }
 
 
@@ -1368,7 +1403,8 @@ body {
     }
 
     .navbar li {
-        margin-top: 8px;
+        padding: 0px;
+        margin-top: 20px;
     }
 
     .nav-toggle {

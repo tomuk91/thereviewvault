@@ -1,5 +1,3 @@
-// main.js
-
 // Lazy loading with debounce function
 function debounce(func, delay) {
     let debounceTimer;
@@ -16,20 +14,27 @@ $(window).on('scroll', debounce(function () {
     if ($('#current-page').length > 0 && $('#has-more').length > 0) {
         var scrollHeight = $(document).height();
         var scrollPos = $(window).height() + $(window).scrollTop();
-        var loadMoreUrl = window.location.href.split('?')[0] + '?page=' + (parseInt($('#current-page').val()) + 1);
+        var nextPage = parseInt($('#current-page').val()) + 1;
+        var loadMoreUrl = window.location.href.split('?')[0] + '?page=' + nextPage;
 
         if (scrollPos >= scrollHeight - 200) { // Adjust the threshold as needed
-            if ($('#has-more').val() == "True") { // Check if there's more content to load
-
+            if ($('#has-more').val() === "True" && !$('#reviews-container').data('loading')) { // Check if there's more content to load and not already loading
+                $('#reviews-container').data('loading', true); // Prevent multiple AJAX calls
                 $.ajax({
                     url: loadMoreUrl,
                     dataType: 'json',
                     success: function (data) {
-                        $('#reviews-container').append(data.html); // Append new reviews
-                        $('#current-page').val(parseInt($('#current-page').val()) + 1);
+                        if (data.html) {
+                            $('#reviews-container').append(data.html); // Append new reviews
+                            $('#current-page').val(nextPage);
+                        }
                         if (!data.has_next) {
                             $('#has-more').val("false");
                         }
+                        $('#reviews-container').data('loading', false); // Allow further AJAX calls after success
+                    },
+                    error: function () {
+                        $('#reviews-container').data('loading', false); // Reset loading flag on error
                     }
                 });
             }

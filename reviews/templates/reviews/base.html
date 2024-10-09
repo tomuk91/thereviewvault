@@ -87,23 +87,27 @@
             <span class="visually-hidden">Toggle navigation</span>
             <i class="fas fa-bars"></i>
         </button>
+    
         <ul class="navbar" id="navbar">
             <li><a href="{% url 'review_list' %}">Home</a></li>
             <li class="nav-item dropdown">
-                {% for category in categories %}
-                    <li><a href="{% url 'category_reviews' category.slug %}">{{ category.name }}</a></li>
-                {% endfor %}
+                <a href="#" class="dropdown-toggle">Review Categories</a>
+                <ul class="dropdown-menu">
+                    {% for category in categories %}
+                        <li><a href="{% url 'category_reviews' category.slug %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
             </li>
             <li class="nav-item dropdown">
-                <a href="#" class="dropbtn">Deals</a>
-                <ul class="dropdown-content">
+                <a href="#" class="dropdown-toggle">Deals</a>
+                <ul class="dropdown-menu">
                     {% for category in deals_categories %}
                         <li><a href="{% url 'deals_category' category.slug %}">{{ category.name }}</a></li>
                     {% endfor %}
                 </ul>
             </li>
         </ul>
-
+    
         <!-- Search Form -->
         <form class="search-form" action="{% url 'search_reviews' %}" method="GET">
             <label for="search-input" class="visually-hidden">Search Reviews</label>
@@ -113,6 +117,7 @@
             </button>
         </form>
     </nav>
+    
 
     <!-- Main Content -->
     <main class="page-content" id="main-content">
