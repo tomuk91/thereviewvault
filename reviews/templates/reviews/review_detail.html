@@ -116,23 +116,28 @@
 {% endblock %}
 
 <script type="application/ld+json" defer>
-    {
-        "@context": "https://schema.org",
-        "@type": "Review",
-        "itemReviewed": {
-            "@type": "Thing",
-            "name": "{{ review.title }}"
-        },
-        "author": {
-            "@type": "Person",
-            "name": "{{ review.author }}"
-        },
-        "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "{{ review.rating }}",
-            "bestRating": "5"
-        },
-        "reviewBody": "{{ review.content }}",
-        "datePublished": "{{ review.publication_date|date:'Y-m-d' }}"
+{
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "itemReviewed": {
+        "@type": "Product",
+        "name": "{{ review.title }}"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "{{ review.author }}"
+    },
+    "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "{{ review.rating }}",
+        "bestRating": "5",
+        "worstRating": "0"
+    },
+    "reviewBody": "{{ review.content|truncatewords:20 }}",
+    "datePublished": "{{ review.publication_date|date:'Y-m-d' }}",
+    "publisher": {
+        "@type": "Organization",
+        "name": "The Vault Reviews"
     }
+}
 </script>
