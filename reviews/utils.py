@@ -38,14 +38,14 @@ def post_to_twitter(message, tags=None, url=None, image_path=None, deal=False):
     # Prepare the tweet text
     hashtags = ' '.join([f'#{tag}' for tag in tags[:4]]) if tags else ''
     if deal == True:
-        tweet_text = f"⭐{message}! ⭐\nClick here to get it now: {url if url else ''}\n{hashtags}".strip()
+        tweet_text = f"⭐{message}! ⭐\n\nClick here to get it now: {url if url else ''}\n\n{hashtags}".strip()
     else:
-        tweet_text = f"⭐{message}! ⭐\nRead our full review: {url if url else ''}\n{hashtags}".strip()
+        tweet_text = f"⭐{message}! ⭐\n\nRead our full review: {url if url else ''}\n\n{hashtags}".strip()
 
 
     # Ensure the tweet length doesn't exceed Twitter's character limit
-    if len(tweet_text) > 280:
-        tweet_text = tweet_text[:277] + '...'  # Truncate the message to fit
+    if len(tweet_text) > 300:
+        tweet_text = tweet_text[:297] + '...'  # Truncate the message to fit
 
     try:
         # Post the tweet using API v2

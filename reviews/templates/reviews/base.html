@@ -14,7 +14,7 @@
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ meta_description }}{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords }}{% endblock %}">
-    <link rel="canonical" href="https://www.thevaultreviews.com{{ request.path }}">
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
     <link rel="alternate" href="https://www.thevaultreviews.com" hreflang="en" />
     <link rel="alternate" href="https://www.thevaultreviews.co.uk" hreflang="en-gb" />
     <link rel="alternate" href="https://www.thevaultreviews.com" hreflang="x-default" />
