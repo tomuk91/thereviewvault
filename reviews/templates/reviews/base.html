@@ -4,6 +4,8 @@
 <head>
     {% load static %}
     {% load compress %}
+    {%block header%}
+    {%endblock%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
@@ -12,7 +14,11 @@
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ meta_description }}{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords }}{% endblock %}">
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <link rel="canonical" href="https://www.thevaultreviews.com{{ request.path }}">
+    <link rel="alternate" href="https://www.thevaultreviews.com" hreflang="en" />
+    <link rel="alternate" href="https://www.thevaultreviews.co.uk" hreflang="en-gb" />
+    <link rel="alternate" href="https://www.thevaultreviews.com" hreflang="x-default" />
+
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{% block og_title %}{{ title }}{% endblock %}">
@@ -41,8 +47,9 @@
     
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'reviews/js/main.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="{% static 'reviews/js/main.js' %}" defer></script>
+
 
     <!-- Cookie Consent -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
