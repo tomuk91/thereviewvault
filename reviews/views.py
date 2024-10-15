@@ -14,7 +14,9 @@ from django.http import HttpResponse
 
 # reviews/views.py
 
-from django.http import HttpResponse
+
+def indexnow_key(request):
+    return HttpResponse("a9522e169f464f8694f4ba8856128cca", content_type="text/plain")
 
 def twitter_callback(request):
     # Handle the OAuth callback logic here

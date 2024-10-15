@@ -22,5 +22,6 @@ urlpatterns = [
     path('contact/', views.contact_us, name='contact_us'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("robots.txt", robots_txt, name="robots_txt"),
-    path('callback/', views.twitter_callback, name='twitter_callback')
+    path('callback/', views.twitter_callback, name='twitter_callback'),
+    path('indexnow-key.txt', views.indexnow_key, name='indexnow_key'),
     ]

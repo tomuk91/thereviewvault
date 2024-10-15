@@ -56,3 +56,22 @@ def post_to_twitter(message, tags=None, url=None, image_path=None, deal=False):
         print(f"Successfully posted to Twitter: {response}")
     except tweepy.TweepyException as e:
         print(f"Error posting to Twitter: {e}")
+import requests
+
+def submit_to_indexnow(url):
+    # Your API key from IndexNow
+    api_key = "a9522e169f464f8694f4ba8856128cca"
+    
+    # IndexNow endpoint
+    indexnow_endpoint = f"https://api.indexnow.org/indexnow?url={url}&key={api_key}"
+    
+    # Send the request
+    try:
+        response = requests.get(indexnow_endpoint)
+        if response.status_code == 200:
+            print(f"Successfully submitted {url} to IndexNow.")
+        else:
+            print(f"Failed to submit {url}. Response: {response.status_code}")
+    except Exception as e:
+        print(f"Error submitting {url}: {str(e)}")
+
