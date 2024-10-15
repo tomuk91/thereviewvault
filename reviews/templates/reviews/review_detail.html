@@ -3,7 +3,7 @@
 {% block head %}
 
 <head>
-    <title>{{ review.title }} - Review</title>
+    <title>{{ review.title }}</title>
     <meta name="description" content="{{ review.content|truncatewords:30 }}">
     <meta name="keywords" content="{% for tag in review.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
 </head>
@@ -115,7 +115,7 @@
 </div>
 {% endblock %}
 
-<script type="application/ld+json" defer>
+<script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Review",

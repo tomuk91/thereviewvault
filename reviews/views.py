@@ -95,7 +95,7 @@ def review_list(request):
 # views.py
 def review_detail(request, slug):
     review = get_object_or_404(Review, slug=slug)
-    title = f"{review.title} - Review Website"
+    title = f"{review.title}"
     meta_description = f"Read the review of {review.title} by {review.author}. Rating: {review.rating}/5."
     meta_keywords = f"{review.title}, review, {review.author}, product reviews"
 
