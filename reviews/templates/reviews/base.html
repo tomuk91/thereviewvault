@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    {% load custom_filters %}
     {% load static %}
     {% load compress %}
     {%block header%}
@@ -14,10 +15,11 @@
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ meta_description }}{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords }}{% endblock %}">
-    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host|replace:'www.','' }}{{ request.path }}">
-    <link rel="alternate" href="{{ 'https://www.thevaultreviews.com'|replace:'www.', '' }}" hreflang="en" />
-    <link rel="alternate" href="{{ 'https://www.thevaultreviews.co.uk'|replace:'www.', '' }}" hreflang="en-gb" />
-    <link rel="alternate" href="{{ 'https://www.thevaultreviews.com'|replace:'www.', '' }}" hreflang="x-default" />
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host|remove_www }}{{ request.path }}">
+    <link rel="alternate" href="{{ 'https://www.thevaultreviews.com'|remove_www }}" hreflang="en" />
+    <link rel="alternate" href="{{ 'https://www.thevaultreviews.co.uk'|remove_www }}" hreflang="en-gb" />
+    <link rel="alternate" href="{{ 'https://www.thevaultreviews.com'|remove_www }}" hreflang="x-default" />
+    
     
 
 
