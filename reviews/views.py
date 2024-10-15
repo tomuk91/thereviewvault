@@ -98,8 +98,7 @@ def review_detail(request, slug):
     title = f"{review.title}"
     meta_description = f"Read the review of {review.title} by {review.author}. Rating: {review.rating}/5."
     meta_keywords = f"{review.title}, review, {review.author}, product reviews"
-
-    related_reviews = Review.objects.filter(Q(category=review.category) | Q(tags__in=review.tags.all())).exclude(id=review.id).distinct()[:4]
+    related_reviews = Review.objects.filter(Q(category=review.category) | Q(tags__in=review.tags.all())).exclude(id=review.id).distinct()[:3]
 
     # related_reviews = Review.objects.filter(category=review.category).exclude(id=review.id)[:4]  # Get 4 related reviews excluding the current one
 
