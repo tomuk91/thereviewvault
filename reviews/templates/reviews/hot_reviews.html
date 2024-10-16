@@ -1,0 +1,57 @@
+{% extends "reviews/base.html" %}
+
+{% block content %}
+{% load static %}
+{% load compress %}
+{% load review_extras %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'reviews/css/category_reviews.css' %}">
+{% endcompress %}
+
+<!-- Display the Category as a Header -->
+
+<h1 class="text-center">{{ category.name }}</h1>
+<div id="toolbar" class="toolbar">
+    <div class="toolbar-content">
+        <button class="toolbar-btn" id="toggle-view" data-tooltip="Toggle View">
+            <i class="bx bx-grid-alt"></i>
+        </button>
+    </div>
+</div>
+
+<h2 class="text-center"><i class='bx bxs-hot mx-2'></i>Hot Reviews<i class='bx bxs-hot mx-2'></i></h2>
+<p class="text-center">Our most popular reviews from the week</p>
+
+<!-- Review List Container -->
+<div class="review-list">
+    <div id="reviews-container" class="review-cards">
+        {% if reviews %}
+            {% include 'reviews/review_list_partial.html' %}
+        {% else %}
+            <p class="text-center mx-2">No results found for this search.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock%}
+
+
+{% block javascript %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButton = document.getElementById("toggle-view");
+        const reviewsContainer = document.getElementById("reviews-container");
+    
+        toggleButton.addEventListener("click", function () {
+            if (reviewsContainer.classList.contains("review-cards")) {
+                // Switch to list view
+                reviewsContainer.classList.remove("review-cards");
+                reviewsContainer.classList.add("review-list-view");
+            } else {
+                // Switch to card view
+                reviewsContainer.classList.remove("review-list-view");
+                reviewsContainer.classList.add("review-cards");
+            }
+        });
+    });
+</script>
+{% endblock %}

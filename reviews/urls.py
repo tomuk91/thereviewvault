@@ -24,4 +24,6 @@ urlpatterns = [
     path("robots.txt", robots_txt, name="robots_txt"),
     path('callback/', views.twitter_callback, name='twitter_callback'),
     path('indexnow-key.txt', views.indexnow_key, name='indexnow_key'),
+    path('hot-reviews', views.hot_reviews, name='hot_reviews'),
+
     ]

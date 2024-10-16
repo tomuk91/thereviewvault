@@ -39,7 +39,7 @@ class Review(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
     optimized_image = ImageSpecField(source='image',processors=[SmartResize(800, 800)],format='WEBP',options={'quality': 70})
     thumbnail = ImageSpecField(source='image',processors=[ResizeToFill(200, 200)],format='WEBP',options={'quality': 60})
-
+    views = models.PositiveIntegerField(default=0)
     class Meta:
         ordering = ['-publication_date'] 
         

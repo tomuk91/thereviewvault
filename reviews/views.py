@@ -5,12 +5,14 @@ from deals.models import Deal, DealsCategory
 from django.utils import timezone
 from datetime import timedelta
 from taggit.models import Tag
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
 from django.core.paginator import Paginator
 from django.http import HttpResponse
+from django.utils.timezone import now
+
 
 # reviews/views.py
 
@@ -99,7 +101,8 @@ def review_detail(request, slug):
     meta_description = f"Read the review of {review.title} by {review.author}. Rating: {review.rating}/5."
     meta_keywords = f"{review.title}, review, {review.author}, product reviews"
     related_reviews = Review.objects.filter(Q(category=review.category) | Q(tags__in=review.tags.all())).exclude(id=review.id).distinct()[:3]
-
+    review.views += 1  # Increment the view count
+    review.save(update_fields=['views'])  # Save the view count
     # related_reviews = Review.objects.filter(category=review.category).exclude(id=review.id)[:4]  # Get 4 related reviews excluding the current one
 
     return render(request, 'reviews/review_detail.html', {
@@ -194,6 +197,15 @@ def category_reviews(request, slug):
         'category': category,
         'reviews': page_reviews,  # Paginated reviews
     })
+
+
+def hot_reviews(request):
+    one_week_ago = now() - timedelta(days=7)
+    reviews = Review.objects.filter(publication_date__gte=one_week_ago).order_by('-views')[:5]
+    return render(request, 'reviews/hot_reviews.html', {
+        'reviews': reviews,  # Paginated reviews
+    })
+
 
 def about_us(request):
     return render(request, 'reviews/about_us.html')
