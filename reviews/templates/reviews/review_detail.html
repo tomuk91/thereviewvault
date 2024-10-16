@@ -3,7 +3,6 @@
 {% block head %}
 
 <head>
-    <title>{{ review.title }}</title>
     <meta name="description" content="{{ review.content|truncatewords:30 }}">
     <meta name="keywords" content="{% for tag in review.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
 </head>
