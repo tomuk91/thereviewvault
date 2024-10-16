@@ -30,7 +30,12 @@ def robots_txt(request):
         "Disallow: /secure-admin/",
         "Disallow: /admin/",
         "Disallow: /private/",
-        "Disallow: /tag/",
+        "Disallow: /hot-reviews/",
+        "Disallow: /rating/1/?sort=date"
+        "Disallow: /rating/2/?sort=date"
+        "Disallow: /rating/3/?sort=date"
+        "Disallow: /rating/4/?sort=date"
+        "Disallow: /rating/5/?sort=date"
         "Sitemap: https://www.thevaultreviews.com/sitemap.xml"
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
