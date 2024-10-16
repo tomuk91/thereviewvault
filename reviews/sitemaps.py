@@ -3,8 +3,8 @@ from django.urls import reverse
 from .models import Review
 
 class ReviewSitemap(Sitemap):
-    changefreq = "weekly"  # The frequency search engines should check for updates
-    priority = 0.8  # Priority of the page, 0.0 to 1.0
+    changefreq = "daily"  # The frequency search engines should check for updates
+    priority = 0.7  # Priority of the page, 0.0 to 1.0
 
     def items(self):
         return Review.objects.all()  # Return all published reviews
