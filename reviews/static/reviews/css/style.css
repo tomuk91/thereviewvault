@@ -232,6 +232,7 @@ h5 {
     font-size: 1.1rem;
     color: #666;
     margin-bottom: 10px;
+    width: 90%;
 }
 
 .review-meta {
@@ -260,6 +261,7 @@ h5 {
     margin-top: 10px;
     display: flex;
     align-items: center;
+    width: 17%;
     /* Align stars and rating text */
 }
 
