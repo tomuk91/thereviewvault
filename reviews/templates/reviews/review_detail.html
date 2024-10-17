@@ -69,7 +69,6 @@
         {% cache 600 review_detail review.id %}
         <!-- Cached content for 10 minutes (600 seconds) -->
         <div class="review-content review-text text-center" aria-labelledby="reviewContent">
-            <h2 id="reviewContent">{{ review.title }} - Full Review</h2>
             {{ review.content|safe }}
         </div>
         {% endcache %}
