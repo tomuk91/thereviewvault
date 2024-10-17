@@ -81,7 +81,7 @@ def search_reviews(request):
 def review_list(request):
     today = timezone.now()
     week_ago = today - timedelta(days=7)
-
+    title = "TheVaultReviews | Unbiased Reviews & Deals"
     tags = Tag.objects.values_list('name', flat=True)  # Fetch only the tag names
     tags_json = json.dumps(list(tags))  # Convert QuerySet to a JSON list
     reviews = Review.objects.all().order_by('-publication_date')
@@ -99,6 +99,7 @@ def review_list(request):
     meta_keywords = "product reviews, best tech gadgets, gaming reviews, smart home devices, latest deals, top-rated products, comparison reviews, affordable tech"
 
     return render(request, 'reviews/review_list.html', {
+        'title': title,
         'tags': tags_json,
         'deals_categories': deals_categories,
         'deals': deals,
