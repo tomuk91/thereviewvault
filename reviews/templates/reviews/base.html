@@ -63,7 +63,7 @@
     <script async src="https://platform-api.sharethis.com/js/sharethis.js#property=6703aabfa6330b001a6016bf&product=inline-share-buttons&source=platform"></script>
 
     <!-- Google Analytics -->
-    {% if not DEBUG %}
+    {% if ENABLE_GOOGLE_ANALYTICS %}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBDHTXK0HW"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
