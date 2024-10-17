@@ -104,7 +104,7 @@
                 <!-- Content Section -->
                 <div class="review-content">
                     <h2><a href="{% url 'review_detail' review.slug %}">{{ review.title }}</a></h2>
-                    <p class="review-excerpt">{{ review.content|safe|slice:":120" }}...</p>
+                    <p class="review-excerpt">{{ review.content|safe|slice:":80" }}...</p>
                     <div class="review-meta">
                         <span class="category">{{ review.category.name }}</span> |
                         <span class="author">{{ review.author }}</span>
