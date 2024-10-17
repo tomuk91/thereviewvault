@@ -10,4 +10,15 @@ def deals_list(request):
 def deals_by_category(request, slug):
     category = get_object_or_404(DealsCategory, slug=slug)
     deals = Deal.objects.filter(category=category)
-    return render(request, 'deals/deals_by_category.html', {'category': category, 'deals': deals})
+
+    # Meta description and keywords
+    meta_description = f"Explore the best deals in {category.name}. Find discounted products and exclusive offers in the {category.name} category."
+    meta_keywords = f"{category.name} deals, best {category.name} discounts, {category.name} offers, product deals, discounted {category.name} products"
+
+    return render(request, 'deals/deals_by_category.html', {
+        'category': category,
+        'deals': deals,
+        'meta_description': meta_description,
+        'meta_keywords': meta_keywords,
+    })
+
