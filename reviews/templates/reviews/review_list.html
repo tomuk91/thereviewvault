@@ -142,12 +142,12 @@
     <!-- Optional Sidebar Section -->
     <aside class="sidebar" aria-labelledby="sidebar-heading">
         <div class="sidebar-banner">
-            <img src="{% static 'images/halloween.webp' %}" alt="Sidebar Banner" class="sidebar-banner-image">
+            <img src="{% static 'images/halloween.webp' %}" alt="Sidebar Banner" class="sidebar-banner-image" defer>
         </div>
         <div class="lucky-charm-container text-center mb-4 my-5">
             <h2>Feeling Lucky?</h2>
             <h5>Click the vault to get a random review tag</h5>
-            <img src="{% static 'images/vault.webp' %}" alt="Lucky Charm Bag" id="luckyCharmBag" class="lucky-charm-bag" role="button" loading="lazy">
+            <img src="{% static 'images/vault.webp' %}" alt="Lucky Charm Bag" id="luckyCharmBag" class="lucky-charm-bag" role="button" loading="lazy" defer>
             <div id="randomTagDisplay" class="random-tag-display"></div>
         </div>
         
