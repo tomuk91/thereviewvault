@@ -57,9 +57,11 @@
                 </div>
                 
                 <div class="product-link-container">
-                    <strong>Product Link:</strong>
-                    <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Link to the product page for {{ review.title }}">View Product</a>
-                </div>        
+                    <strong>Check it out:</strong>
+                    <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Link to the product page for {{ review.title }}">
+                        View the latest pricing
+                    </a>
+                </div>                
             </div>
         </div>
 
@@ -75,8 +77,10 @@
 
         <div class="purchase">
             <p class="text-center">
-                <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Purchase link for {{ review.title }}">Like the look of this product? Click here to purchase</a>
-            </p>  
+                <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Purchase link for {{ review.title }}">
+                    Love this product? Click here to get the best deal now!
+                </a>
+                            </p>  
         </div>
 
         <div class="tags">
