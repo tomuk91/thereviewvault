@@ -117,7 +117,7 @@ def review_list(request):
 def review_detail(request, slug):
     review = get_object_or_404(Review, slug=slug)
     title = f"{review.title} | TheVaultReviews"
-    content_snippet = ' '.join(review.content.split()[:30])  # Get the first 30 words of the review content
+    content_snippet = review.content[:147]  # Get the first 150 characters of the review content
     meta_description = f"{content_snippet}"
     meta_keywords = f"{review.title}, review, {review.author}, {review.category}, {', '.join(tag.name for tag in review.tags.all() if tag in review.tags.all())}, product reviews"
     related_reviews = Review.objects.filter(Q(category=review.category) | Q(tags__in=review.tags.all())).exclude(id=review.id).distinct()[:3]
