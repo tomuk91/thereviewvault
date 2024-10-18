@@ -56,7 +56,7 @@ def search_reviews(request):
         return render(request, 'reviews/search_results.html', {'error_message': error_message})
 
     # Search reviews
-    reviews = Review.objects.filter(title__icontains=query)
+    reviews = Review.objects.filter(title__icontains=query, publication_date__lte=timezone.now())
 
     # Pagination
     paginator = Paginator(reviews, 10)  # Show 10 reviews per page
@@ -85,7 +85,7 @@ def review_list(request):
     title = "TheVaultReviews | Unbiased Reviews & Deals"
     tags = Tag.objects.values_list('name', flat=True)  # Fetch only the tag names
     tags_json = json.dumps(list(tags))  # Convert QuerySet to a JSON list
-    reviews = Review.objects.all().order_by('-publication_date')
+    reviews = Review.objects.filter(publication_date__lte=timezone.now()).order_by('-publication_date')
     top_reviews = Review.objects.filter(publication_date__gte=week_ago).order_by('-rating')[:2]
     review_of_the_week = Review.objects.filter(review_of_the_week=True).first()
     deals_categories = DealsCategory.objects.all()
@@ -115,7 +115,7 @@ def review_list(request):
 
 # views.py
 def review_detail(request, slug):
-    review = get_object_or_404(Review, slug=slug)
+    review = get_object_or_404(Review, slug=slug, publication_date__lte=timezone.now())
     title = f"{review.title} | TheVaultReviews"
     content_snippet = review.content[:147]  # Get the first 150 characters of the review content
     meta_description = f"{content_snippet}"
@@ -136,7 +136,7 @@ def review_detail(request, slug):
 
 def tagged_reviews(request, tag_slug):
     tag = Tag.objects.get(slug=tag_slug)
-    reviews = Review.objects.filter(tags__in=[tag])
+    reviews = Review.objects.filter(tags__in=[tag], publication_date__lte=timezone.now())
     
     sort_option = request.GET.get('sort', 'date')
     if sort_option == 'rating':
@@ -170,7 +170,7 @@ def reviews_by_rating(request, rating):
     try:
         # Rounding logic to include half-star ratings
         rounded_rating = round(float(rating) * 2) / 2  # Round to the nearest half
-        reviews = Review.objects.filter(rating__gte=rounded_rating, rating__lt=rounded_rating + 1)
+        reviews = Review.objects.filter(rating__gte=rounded_rating, rating__lt=rounded_rating + 1, publication_date__lte=timezone.now())
 
         # Sorting logic
         sort_option = request.GET.get('sort', 'date')
@@ -211,7 +211,7 @@ def category_reviews(request, slug):
     category = get_object_or_404(Category, slug=slug)
     
     # Fetch all reviews for the category
-    reviews = Review.objects.filter(category=category)
+    reviews = Review.objects.filter(category=category, publication_date__lte=timezone.now())
     
     # Sorting logic
     sort_option = request.GET.get('sort', 'date')
@@ -245,7 +245,7 @@ def category_reviews(request, slug):
 
 def hot_reviews(request):
     one_week_ago = now() - timedelta(days=7)
-    reviews = Review.objects.filter(publication_date__gte=one_week_ago).order_by('-views')[:5]
+    reviews = Review.objects.filter(publication_date__gte=one_week_ago, publication_date__lte=timezone.now()).order_by('-views')[:5]
 
     # Meta description and keywords
     meta_description = "Check out the hottest reviews of the week! Discover the most-viewed and top-rated products reviewed in the past 7 days."

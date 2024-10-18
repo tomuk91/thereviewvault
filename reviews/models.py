@@ -31,7 +31,7 @@ class Review(models.Model):
         validators=[MinValueValidator(0.0), MaxValueValidator(5.0)]
     )    
     content = models.TextField()
-    publication_date = models.DateTimeField(auto_now_add=True)
+    publication_date = models.DateTimeField()
     image = models.ImageField(upload_to='review_images/', blank=True, null=True)
     product_link = models.URLField(blank=True, null=True)  # Product link field
     product_code = models.CharField(max_length=100, blank=True, null=True)
