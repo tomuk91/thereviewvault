@@ -5,18 +5,21 @@ from reviews.utils import post_to_twitter
 from django.utils import timezone
 
 @shared_task
-def post_scheduled_review_to_twitter(review_id):
+def post_scheduled_review_to_twitter(review_id, now):
     review = Review.objects.get(id=review_id)
-
-    if review.publication_date <= timezone.now():
+    
+    # Ensure the message is only posted once, whether immediately or after scheduling
+    if review.publication_date <= timezone.now() or now:
+        # Prepare data for the Twitter post
         review.refresh_from_db()
         tags = [tag.name for tag in review.tags.all()[:4]]
         hashtags = ' '.join([f'#{tag}' for tag in tags])
         message = f"Latest Review: {review.title}"
         current_site = Site.objects.get_current()
         url = f"https://{current_site.domain}{review.get_absolute_url()}"
-
         image_path = review.image.path if review.image else None
+
+        # Post to Twitter
         post_to_twitter(message, tags=tags, url=url, image_path=image_path, deal=False)
         
         # Reset task_scheduled after posting to Twitter (optional)
