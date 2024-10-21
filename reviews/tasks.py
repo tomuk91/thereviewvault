@@ -18,4 +18,9 @@ def post_scheduled_review_to_twitter(review_id):
 
         image_path = review.image.path if review.image else None
         post_to_twitter(message, tags=tags, url=url, image_path=image_path, deal=False)
+        
+        # Reset task_scheduled after posting to Twitter (optional)
+        review.task_scheduled = False
+        review.save(update_fields=['task_scheduled'])
+
 

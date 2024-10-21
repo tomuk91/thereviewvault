@@ -15,13 +15,18 @@ from django.utils import timezone
 
 @receiver(post_save, sender=Review)
 def post_review_to_twitter(sender, instance, created, **kwargs):
-    if created:
-        # Schedule the task to post the review on Twitter at the publication date
+    if created and not instance.task_scheduled:
         if instance.publication_date > timezone.now():
+            # Schedule the task to post the review on Twitter at the publication date
             post_scheduled_review_to_twitter.apply_async(kwargs={'review_id': instance.id}, eta=instance.publication_date)
         else:
             # If the publication date is in the past, post immediately
             post_scheduled_review_to_twitter.delay(instance.id)
+
+        # Mark the task as scheduled to avoid duplication
+        instance.task_scheduled = True
+        instance.save(update_fields=['task_scheduled'])
+
 
 # def handle_post_review_to_twitter(instance):
 #     # Reload the instance from the database to make sure the tags are properly loaded
