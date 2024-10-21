@@ -86,7 +86,7 @@ def review_list(request):
     tags = Tag.objects.values_list('name', flat=True)  # Fetch only the tag names
     tags_json = json.dumps(list(tags))  # Convert QuerySet to a JSON list
     reviews = Review.objects.filter(publication_date__lte=timezone.now()).order_by('-publication_date')
-    top_reviews = Review.objects.filter(publication_date__gte=week_ago).order_by('-rating')[:2]
+    top_reviews = Review.objects.filter(publication_date__gte=week_ago, publication_date__lte=timezone.now()).order_by('-rating')[:2]
     review_of_the_week = Review.objects.filter(review_of_the_week=True).first()
     deals_categories = DealsCategory.objects.all()
     deals = Deal.objects.all().order_by('-created_at')[:10] 
