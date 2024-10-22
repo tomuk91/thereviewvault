@@ -5,6 +5,7 @@
 <head>
     <meta name="description" content="{{ review.content|truncatewords:30 }}">
     <meta name="keywords" content="{% for tag in review.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+    <meta property="og:type" content="article">
 </head>
 {% endblock %}
 
@@ -55,13 +56,12 @@
                     <span>{{ review.product_code }}</span>
                     {% endif %}
                 </div>
-                
                 <div class="product-link-container">
                     <strong>Check it out:</strong>
-                    <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Link to the product page for {{ review.title }}">
-                        View the latest pricing
+                    <a class="text-success" href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Latest pricing and details for {{ review.title }}">
+                        Get the latest pricing
                     </a>
-                </div>                
+                </div>                             
             </div>
         </div>
 

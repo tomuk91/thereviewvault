@@ -66,8 +66,10 @@ def search_reviews(request):
     # Meta description and keywords for SEO
     meta_description = f"Search results for '{query}'. Find detailed reviews and ratings of products matching your search query."
     meta_keywords = f"search, {query}, product reviews, {query} reviews, product ratings, review search results"
+    title = f"Search Results for '{query}'"
 
     context = {
+        'title': title,
         'reviews': page_obj,  # Pass the paginated reviews
         'query': query,
         'is_paginated': page_obj.has_other_pages(),
@@ -82,6 +84,7 @@ def search_reviews(request):
 def review_list(request):
     today = timezone.now()
     week_ago = today - timedelta(days=7)
+    og_image = '/staticfiles/images/logo1.webp'
     title = "TheVaultReviews | Unbiased Reviews & Deals"
     tags = Tag.objects.values_list('name', flat=True)  # Fetch only the tag names
     tags_json = json.dumps(list(tags))  # Convert QuerySet to a JSON list
@@ -101,6 +104,7 @@ def review_list(request):
 
     return render(request, 'reviews/review_list.html', {
         'title': title,
+        'og_image': og_image,
         'tags': tags_json,
         'deals_categories': deals_categories,
         'deals': deals,
@@ -116,16 +120,17 @@ def review_list(request):
 # views.py
 def review_detail(request, slug):
     review = get_object_or_404(Review, slug=slug, publication_date__lte=timezone.now())
-    title = f"{review.title} | TheVaultReviews"
+    title = f"{review.title} | The Vault Reviews"
     content_snippet = review.content[:147]  # Get the first 150 characters of the review content
     meta_description = f"{content_snippet}"
     meta_keywords = f"{review.title}, review, {review.author}, {review.category}, {', '.join(tag.name for tag in review.tags.all() if tag in review.tags.all())}, product reviews"
-    related_reviews = Review.objects.filter(Q(category=review.category) | Q(tags__in=review.tags.all())).exclude(id=review.id).distinct()[:3]
+    related_reviews = Review.objects.filter(Q(category=review.category) | Q(tags__in=review.tags.all()), publication_date__lte=timezone.now()).exclude(id=review.id).distinct()[:3]
     review.views += 1  # Increment the view count
     review.save(update_fields=['views'])  # Save the view count
     # related_reviews = Review.objects.filter(category=review.category).exclude(id=review.id)[:4]  # Get 4 related reviews excluding the current one
 
     return render(request, 'reviews/review_detail.html', {
+        'title': title,
         'review': review,
         'title': title,
         'meta_description': meta_description,
@@ -152,6 +157,7 @@ def tagged_reviews(request, tag_slug):
     # Meta description and keywords
     meta_description = f"Explore reviews tagged with {tag.name}. Read detailed analysis and ratings of products in the {tag.name} category."
     meta_keywords = f"{tag.name}, product reviews, {', '.join(review.title for review in reviews)}, best {tag.name} reviews"
+    title = f"Reviews Tagged with '{tag.name}' | The Vault Reviews"
     
     # Handle AJAX requests for infinite scroll
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -159,6 +165,7 @@ def tagged_reviews(request, tag_slug):
         return JsonResponse({'html': html, 'has_next': page_reviews.has_next()})
     
     return render(request, 'reviews/tagged_reviews.html', {
+        'title': title,
         'tag': tag,
         'reviews': reviews,
         'meta_description': meta_description,
@@ -187,6 +194,7 @@ def reviews_by_rating(request, rating):
         # Meta description and keywords
         meta_description = f"Browse top-rated product reviews with {rounded_rating}-star ratings. Find detailed insights and ratings for a variety of products."
         meta_keywords = f"{rounded_rating}-star reviews, top-rated products, product reviews, best {rounded_rating}-star products"
+        title = f"Reviews with {rounded_rating}-Star Rating | The Vault Reviews"
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if it's an AJAX request
             data = {
@@ -196,6 +204,7 @@ def reviews_by_rating(request, rating):
             return JsonResponse(data)
 
         return render(request, 'reviews/reviews_by_rating.html', {
+            'title': title,
             'reviews': page_reviews,
             'rating': rounded_rating,
             'message': "" if reviews else f"No reviews found for {rounded_rating}-star rating.",
@@ -228,6 +237,7 @@ def category_reviews(request, slug):
     # Meta description and keywords
     meta_description = f"Explore in-depth reviews of products in the {category.name} category. Find top-rated products and expert reviews on {category.name} items."
     meta_keywords = f"{category.name} reviews, top {category.name} products, {category.name} product reviews, best {category.name} products"
+    title = f"Reviews in {category.name} Category | The Vault Reviews"
 
     # Handle AJAX requests for infinite scroll
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -235,6 +245,7 @@ def category_reviews(request, slug):
         return JsonResponse({'html': html, 'has_next': page_reviews.has_next()})
 
     return render(request, 'reviews/category_reviews.html', {
+        'title': title,
         'category': category,
         'reviews': page_reviews,  # Paginated reviews
         'meta_description': meta_description,
@@ -250,8 +261,10 @@ def hot_reviews(request):
     # Meta description and keywords
     meta_description = "Check out the hottest reviews of the week! Discover the most-viewed and top-rated products reviewed in the past 7 days."
     meta_keywords = "hot reviews, most popular reviews, top reviews of the week, trending product reviews, best-reviewed products"
-
+    title = "Hottest Reviews of the Week | The Vault Reviews"
+    
     return render(request, 'reviews/hot_reviews.html', {
+        'title': title,
         'reviews': reviews,  # Top 5 most-viewed reviews
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
@@ -260,40 +273,48 @@ def hot_reviews(request):
 
 
 def about_us(request):
+    title = "About Us | TheVaultReviews"
     meta_description = "Learn more about The Vault Reviews, your go-to source for unbiased product reviews, expert opinions, and the latest deals on top-rated items."
     meta_keywords = "about The Vault Reviews, product review site, unbiased reviews, expert product opinions"
 
     return render(request, 'reviews/about_us.html', {
+        'title': title,
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
     })
 
 
 def privacy_policy(request):
+    title = "Privacy Policy | TheVaultReviews"
     meta_description = "Read our privacy policy to understand how The Vault Reviews collects, uses, and protects your personal information when you visit our website."
     meta_keywords = "privacy policy, data protection, personal information, The Vault Reviews"
 
     return render(request, 'reviews/privacy_policy.html', {
+        'title': title,
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
     })
 
 
 def terms_conditions(request):
+    title = "Terms & Conditions | TheVaultReviews"
     meta_description = "Review the terms and conditions of using The Vault Reviews, including legal agreements and your rights as a user."
     meta_keywords = "terms and conditions, user agreement, legal terms, The Vault Reviews"
 
     return render(request, 'reviews/terms_conditions.html', {
+        'title': title,
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
     })
 
 
 def contact_us(request):
+    title = "Contact Us | TheVaultReviews"
     meta_description = "Get in touch with The Vault Reviews for inquiries, feedback, or support regarding our product reviews and services."
     meta_keywords = "contact The Vault Reviews, customer support, inquiries, feedback"
 
     return render(request, 'reviews/contact_us.html', {
+        'title': title,
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
     })
