@@ -29,45 +29,7 @@
             <button class="btn btn-dark btn-md text-center w-25 m-auto"><a href="/">Return to homepage</a></button>
         {% else %}
             <div id="reviews-container" class="review-cards"> <!-- Consistent class usage -->
-                {% for review in reviews %}
-                <div class="review-card">
-                    <div class="grid-container">
-                        <!-- Image Section -->
-                        {% if review.image %}
-                        <div class="review-image">
-                            <img src="{{ review.image.url }}" alt="{{ review.title }}" loading="lazy">
-                        </div>
-                        {% endif %}
-                        
-                        <!-- Title Section -->
-                        <div class="title">
-                            <h2><a href="{% url 'review_detail' review.slug %}">{{ review.title }}</a></h2>
-                        </div>
-                        
-                        <!-- Meta (Author/Date) Section -->
-                        <div class="meta-info">
-                            <p>By {{ review.author }} | {{ review.publication_date|date:"F j, Y" }}</p>
-                        </div>
-                        
-                        <!-- Rating Section -->
-                        <div class="review-rating">
-                            <span class="stars">
-                                {% render_stars review.rating %}
-                            </span>
-                        </div>
-                        
-                        <!-- Excerpt Section -->
-                        <div class="review-excerpt">
-                            <p>{{ review.content|safe|slice:":150" }}...</p>
-                        </div>
-                        
-                        <!-- Read More Section -->
-                        <div class="read-more">
-                            <a href="{% url 'review_detail' review.slug %}" class="read-more-link">Read review</a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+                {% include 'reviews/review_list_partial.html' %}
             </div>
         {% endif %}
     </div>
