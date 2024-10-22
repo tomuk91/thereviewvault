@@ -84,7 +84,7 @@ def search_reviews(request):
 def review_list(request):
     today = timezone.now()
     week_ago = today - timedelta(days=7)
-    og_image = '/staticfiles/images/logo1.webp'
+    og_image = '/media/review_images/logo1.webp'
     title = "TheVaultReviews | Unbiased Reviews & Deals"
     tags = Tag.objects.values_list('name', flat=True)  # Fetch only the tag names
     tags_json = json.dumps(list(tags))  # Convert QuerySet to a JSON list
