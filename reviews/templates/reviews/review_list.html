@@ -14,11 +14,14 @@
         <div class="article-left text-left">
             <a href="{% url 'review_detail' top_reviews.0.slug %}" aria-labelledby="topReviewTitle1">
                 <picture>
-                    <!-- Serve smaller, optimized images for mobile using srcset -->
-                    <source srcset="{{ top_reviews.0.optimized_image_small.url }}" media="(max-width: 600px)" type="image/webp">
-                    <source srcset="{{ top_reviews.0.optimized_image_medium.url }}" media="(max-width: 1200px)" type="image/webp">
-                    <source srcset="{{ top_reviews.0.optimized_image_large.url }}" type="image/webp">
-                    <img src="{{ top_reviews.0.image.url }}" alt="Review image for {{ top_reviews.0.title }}" width="600" height="400" role="img">
+                    {% if top_reviews.0.optimized_image %}
+                        <!-- Serve WebP images -->
+                        <source srcset="{{ top_reviews.0.optimized_image.url }}" type="image/webp">
+                        <img src="{{ top_reviews.0.image.url }}" alt="Review image for {{ top_reviews.0.title }}" width="600" height="400" role="img">
+                    {% else %}
+                        <!-- Fallback if no image is uploaded -->
+                        <img src="/static/images/default.jpg" alt="Default image for {{ top_reviews.0.title }}" width="600" height="400" role="img">
+                    {% endif %}
                 </picture>
                 <div class="overlay" id="topReviewTitle1">
                     <h2>{{ top_reviews.0.title }}</h2>
@@ -33,16 +36,19 @@
                 </div>
             </a>
         </div>
-
+    
         <!-- Right Article -->
         <div class="article-right text-left">
             <a href="{% url 'review_detail' top_reviews.1.slug %}" aria-labelledby="topReviewTitle2">
                 <picture>
-                    <!-- Serve smaller, optimized images for mobile using srcset -->
-                    <source srcset="{{ top_reviews.1.optimized_image_small.url }}" media="(max-width: 600px)" type="image/webp">
-                    <source srcset="{{ top_reviews.1.optimized_image_medium.url }}" media="(max-width: 1200px)" type="image/webp">
-                    <source srcset="{{ top_reviews.1.optimized_image_large.url }}" type="image/webp">
-                    <img src="{{ top_reviews.1.image.url }}" alt="Review image for {{ top_reviews.1.title }}" width="600" height="400" role="img">
+                    {% if top_reviews.1.optimized_image %}
+                        <!-- Serve WebP images -->
+                        <source srcset="{{ top_reviews.1.optimized_image.url }}" type="image/webp">
+                        <img src="{{ top_reviews.1.image.url }}" alt="Review image for {{ top_reviews.1.title }}" width="600" height="400" role="img">
+                    {% else %}
+                        <!-- Fallback if no image is uploaded -->
+                        <img src="/static/images/default.jpg" alt="Default image for {{ top_reviews.1.title }}" width="600" height="400" role="img">
+                    {% endif %}
                 </picture>
                 <div class="overlay" id="topReviewTitle2">
                     <h2>{{ top_reviews.1.title }}</h2>
@@ -60,9 +66,8 @@
         {% else %}
         <p>No top-rated reviews available this week.</p>
         {% endif %}
-    </div>
+    </div>    
 </div>
-
 
 <div class="container">
     <div class="reviews-section" role="region" aria-labelledby="review-of-the-week">
