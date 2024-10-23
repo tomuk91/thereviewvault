@@ -96,13 +96,14 @@ def review_list(request):
     deals = Deal.objects.all().order_by('-created_at')[:10] 
     paginator = Paginator(reviews, 6)  # Show 6 reviews per page
 
-    page_number = request.GET.get('page')
+    page_number = request.GET.get('page', 1)  # Set default to 1 if 'page' is not provided
     page_reviews = paginator.get_page(page_number)
-    
+
     if page_reviews.number == 3 or page_reviews.number == paginator.num_pages:
         show_full_archive = True
     else:
         show_full_archive = False
+
 
     # Meta description and keywords for SEO
     meta_description = "Discover the latest product reviews, top-rated gadgets, and exclusive deals. Find in-depth reviews and comparisons on tech, gaming, smart home devices, and more."
