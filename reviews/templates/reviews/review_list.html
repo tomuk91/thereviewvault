@@ -5,21 +5,22 @@
 {% load static %}
 
 <!-- Top-rated reviews section -->
-<div class="main-article-header">
+<div class="main-article-header" role="region" aria-labelledby="top-rated-reviews">
+    <h2 id="top-rated-reviews" class="visually-hidden">Top-rated Reviews</h2> <!-- Hidden heading for screen readers -->
 
     <div class="main-article">
         {% if top_reviews %}
         <div class="article-left text-left">
-            <a href="{% url 'review_detail' top_reviews.0.slug %}">
+            <a href="{% url 'review_detail' top_reviews.0.slug %}" aria-labelledby="topReviewTitle1">
                 <picture>
                     <source srcset="{{ top_reviews.0.optimized_image.url }}" type="image/webp">
-                    <img loading="lazy" src="{{ top_reviews.0.image.url }}" alt="{{ top_reviews.0.title }} - Review image for {{ top_reviews.0.title }}" role="img" aria-labelledby="topReviewTitle1">
+                    <img loading="lazy" src="{{ top_reviews.0.image.url }}" alt="Review image for {{ top_reviews.0.title }}" role="img">
                 </picture>
                 <div class="overlay" id="topReviewTitle1">
                     <h2>{{ top_reviews.0.title }}</h2>
                     <p>{{ top_reviews.0.category.name }} | {{ top_reviews.0.author }}</p>
                     <!-- Star Rating Section -->
-                    <div class="review-rating">
+                    <div class="review-rating" aria-label="Rating {{ top_reviews.0.rating }} out of 5">
                         <strong>Rating:</strong>
                         <span class="stars">
                             {% render_stars top_reviews.0.rating %}
@@ -29,16 +30,16 @@
             </a>
         </div>
         <div class="article-right text-left">
-            <a href="{% url 'review_detail' top_reviews.1.slug %}">
+            <a href="{% url 'review_detail' top_reviews.1.slug %}" aria-labelledby="topReviewTitle2">
                 <picture>
                     <source srcset="{{ top_reviews.1.optimized_image.url }}" type="image/webp">
-                    <img loading="lazy" src="{{ top_reviews.1.image.url }}" alt="{{ top_reviews.1.title }} - Review image for {{ top_reviews.1.title }}" role="img" aria-labelledby="topReviewTitle1">
+                    <img loading="lazy" src="{{ top_reviews.1.image.url }}" alt="Review image for {{ top_reviews.1.title }}" role="img">
                 </picture>
                 <div class="overlay" id="topReviewTitle2">
                     <h2>{{ top_reviews.1.title }}</h2>
                     <p>{{ top_reviews.1.category.name }} | {{ top_reviews.1.author }}</p>
                     <!-- Star Rating Section -->
-                    <div class="review-rating">
+                    <div class="review-rating" aria-label="Rating {{ top_reviews.1.rating }} out of 5">
                         <strong>Rating:</strong>
                         <span class="stars">
                             {% render_stars top_reviews.1.rating %}
@@ -54,23 +55,26 @@
 </div>
 
 <div class="container">
-    <div class="reviews-section">
-        <h2 class="mt-5 text-center">Review of the Week</h2>
+    <div class="reviews-section" role="region" aria-labelledby="review-of-the-week">
+        <h2 id="review-of-the-week" class="mt-5 text-center">Review of the Week</h2>
         <div class="review-list review-of-the-week">
             {% if review_of_the_week %}
-            <div class="review-item {% cycle 'bg-light-grey' 'bg-dark-grey' %}">
+            <div class="review-item {% cycle 'bg-light-grey' 'bg-dark-grey' %}" role="article" aria-labelledby="review-of-the-week-title">
                 <!-- Image Section -->
                 {% if review_of_the_week.image %}
                 <div class="review-image">
                     <picture>
                         <source srcset="{{ review_of_the_week.optimized_image.url }}" type="image/webp">
-                        <img height="100" width="100" src="{{ review_of_the_week.image.url }}" alt="Review of the week: {{ review_of_the_week.title }} image" loading="lazy" role="img" aria-labelledby="topReviewTitle1">
+                        <img height="100" width="100" src="{{ review_of_the_week.image.url }}" alt="Image of {{ review_of_the_week.title }}" loading="lazy" role="img">
                     </picture>
                 </div>
                 {% endif %}
                 <!-- Content Section -->
                 <div class="review-content">
-                    <h2><i class='bx bx-trophy mx-2'></i><a href="{% url 'review_detail' review_of_the_week.slug %}">{{ review_of_the_week.title }}</a></h2>
+                    <h2 id="review-of-the-week-title">
+                        <i class='bx bx-trophy mx-2'></i>
+                        <a href="{% url 'review_detail' review_of_the_week.slug %}">{{ review_of_the_week.title }}</a>
+                    </h2>
                     <p class="review-excerpt">{{ review_of_the_week.content|safe|slice:":80" }}...</p>
                     <div class="review-meta">
                         <span class="category">{{ review_of_the_week.category.name }}</span> |
@@ -78,7 +82,7 @@
                     </div>
                 </div>
                 <!-- Star Rating Section -->
-                <div class="review-rating">
+                <div class="review-rating" aria-label="Rating {{ review_of_the_week.rating }} out of 5">
                     <span class="stars">
                         {% render_stars review_of_the_week.rating %}
                     </span>
@@ -91,19 +95,21 @@
             <h2 class="mx-2 text-center">Latest Reviews</h2>
             {% if reviews %}
             {% for review in reviews %}
-            <div class="review-item {% cycle 'bg-light-grey' 'bg-dark-grey' %}">
+            <div class="review-item {% cycle 'bg-light-grey' 'bg-dark-grey' %}" role="article" aria-labelledby="review-{{ review.id }}">
                 <!-- Image Section -->
                 {% if review.image %}
                 <div class="review-image">
                     <picture>
                         <source srcset="{{ review.optimized_image.url }}" type="image/webp">
-                        <img height="100" width="100" src="{{ review.image.url }}" alt="{{ review.title }} image" role="img" loading="lazy">
+                        <img height="100" width="100" src="{{ review.image.url }}" alt="Image of {{ review.title }}" role="img" loading="lazy">
                     </picture>
                 </div>
                 {% endif %}
                 <!-- Content Section -->
                 <div class="review-content">
-                    <h2><a href="{% url 'review_detail' review.slug %}">{{ review.title }}</a></h2>
+                    <h2 id="review-{{ review.id }}">
+                        <a href="{% url 'review_detail' review.slug %}">{{ review.title }}</a>
+                    </h2>
                     <p class="review-excerpt">{{ review.content|safe|slice:":80" }}...</p>
                     <div class="review-meta">
                         <span class="category">{{ review.category.name }}</span> |
@@ -111,7 +117,7 @@
                     </div>
                 </div>
                 <!-- Star Rating Section -->
-                <div class="review-rating">
+                <div class="review-rating" aria-label="Rating {{ review.rating }} out of 5">
                     <span class="stars">
                         {% render_stars review.rating %}
                     </span>
@@ -124,57 +130,57 @@
         </div>
 
     <!-- Pagination Section -->
-    <div class="pagination">
+    <div class="pagination" role="navigation" aria-label="Review Pagination">
         {% if show_full_archive %}
-            <!-- Show the link to the full archive on the 3rd page or last page -->
             <ul class="step-links">
                 <li><a href="{% url 'archive' %}">View full content archive</a></li>
             </ul>
         {% else %}
-            <!-- Default pagination behavior -->
             <ul class="step-links">
                 {% if page_reviews.has_previous %}
-                    <li><a href="?page=1">&laquo; First</a></li>
-                    <li><a href="?page={{ page_reviews.previous_page_number }}">Previous</a></li>
+                    <li><a href="?page=1" aria-label="First page">&laquo; First</a></li>
+                    <li><a href="?page={{ page_reviews.previous_page_number }}" aria-label="Previous page">Previous</a></li>
                 {% endif %}
 
                 {% if page_reviews.has_next %}
-                    <li><a href="?page={{ page_reviews.next_page_number }}">Next</a></li>
-                    <li><a href="?page={{ page_reviews.paginator.num_pages }}">Last &raquo;</a></li>
+                    <li><a href="?page={{ page_reviews.next_page_number }}" aria-label="Next page">Next</a></li>
+                    <li><a href="?page={{ page_reviews.paginator.num_pages }}" aria-label="Last page">Last &raquo;</a></li>
                 {% endif %}
             </ul>
         {% endif %}
     </div>
 </div>
 
-    <!-- Optional Sidebar Section -->
-    <aside class="sidebar" aria-labelledby="sidebar-heading">
-        <div class="sidebar-banner">
-            <img src="{% static 'images/halloween.webp' %}" alt="Sidebar Banner" class="sidebar-banner-image" defer>
-        </div>
-        <div class="lucky-charm-container text-center mb-4 my-5">
-            <h2>Feeling Lucky?</h2>
-            <h5>Click the vault to get a random review tag</h5>
-            <img src="{% static 'images/vault.webp' %}" alt="Lucky Charm Bag" id="luckyCharmBag" class="lucky-charm-bag" role="button" loading="lazy" defer>
-            <div id="randomTagDisplay" class="random-tag-display"></div>
-        </div>
-        
-        <!-- Filter by Rating -->
-        <div class="filter-by-rating">
-            <h2>Filter by Rating</h2>
-            <ul>
-                <li><a href="{% url 'reviews_by_rating' 5 %}" aria-label="Filter by 5 stars">★★★★★ (5 Stars)</a></li>
-                <li><a href="{% url 'reviews_by_rating' 4 %}" aria-label="Filter by 4 stars">★★★★ (4 Stars)</a></li>
-                <li><a href="{% url 'reviews_by_rating' 3 %}" aria-label="Filter by 3 stars">★★★ (3 Stars)</a></li>
-                <li><a href="{% url 'reviews_by_rating' 2 %}" aria-label="Filter by 2 stars">★★ (2 Stars)</a></li>
-                <li><a href="{% url 'reviews_by_rating' 1 %}" aria-label="Filter by 1 star">★ (1 Star)</a></li>
-            </ul>
-        </div>
-    </aside>
+<!-- Sidebar Section -->
+<aside class="sidebar" aria-labelledby="sidebar-heading">
+    <h2 id="sidebar-heading" class="visually-hidden">Sidebar</h2> <!-- Hidden heading for screen readers -->
+    <div class="sidebar-banner">
+        <img src="{% static 'images/halloween.webp' %}" alt="Halloween promotions banner" class="sidebar-banner-image" defer>
+    </div>
+    <div class="lucky-charm-container text-center mb-4 my-5">
+        <h2>Feeling Lucky?</h2>
+        <h5>Click the vault to get a random review tag</h5>
+        <img src="{% static 'images/vault.webp' %}" alt="Lucky Charm Vault" id="luckyCharmBag" class="lucky-charm-bag" role="button" loading="lazy">
+        <div id="randomTagDisplay" class="random-tag-display"></div>
+    </div>
+    
+    <!-- Filter by Rating -->
+    <div class="filter-by-rating">
+        <h2>Filter by Rating</h2>
+        <ul>
+            <li><a href="{% url 'reviews_by_rating' 5 %}" aria-label="Filter by 5 stars">★★★★★ (5 Stars)</a></li>
+            <li><a href="{% url 'reviews_by_rating' 4 %}" aria-label="Filter by 4 stars">★★★★ (4 Stars)</a></li>
+            <li><a href="{% url 'reviews_by_rating' 3 %}" aria-label="Filter by 3 stars">★★★ (3 Stars)</a></li>
+            <li><a href="{% url 'reviews_by_rating' 2 %}" aria-label="Filter by 2 stars">★★ (2 Stars)</a></li>
+            <li><a href="{% url 'reviews_by_rating' 1 %}" aria-label="Filter by 1 star">★ (1 Star)</a></li>
+        </ul>
+    </div>
+</aside>
 </div>
 
-<div class="deals-section">
-    <h2>Latest Deals</h2>
+<!-- Deals Section -->
+<div class="deals-section" role="region" aria-labelledby="latest-deals">
+    <h2 id="latest-deals">Latest Deals</h2>
 
     <!-- Left scroll arrow -->
     <div class="scroll-arrow-left" id="scroll-left" role="button" aria-label="Scroll left">
@@ -184,19 +190,19 @@
     <div class="deals-container" id="deals-container">
         <div class="deals-list">
             {% for deal in deals %}
-            <div class="deal-item">
+            <div class="deal-item" role="article" aria-labelledby="deal-{{ deal.id }}">
                 <a href="{{ deal.link }}">
                     <picture>
                         <source srcset="{{ deal.optimized_image.url }}" type="image/webp">
-                        <img src="{{ deal.image.url }}" alt="{{ deal.title }} image" class="deal-image" loading="lazy">
+                        <img src="{{ deal.image.url }}" alt="Image of {{ deal.title }}" class="deal-image" loading="lazy">
                     </picture>
-                    <div class="deal-info">
+                    <div class="deal-info" id="deal-{{ deal.id }}">
                         <h3>{{ deal.title }}</h3>
                         <p>{{ deal.description }}</p>
                         {% if deal.coupon_code %}
                         <div class="coupon-container">
                             <input type="text" value="{{ deal.coupon_code }}" id="coupon-{{ deal.id }}" readonly aria-label="Coupon code for {{ deal.title }}">
-                            <button onclick="copyCoupon('{{ deal.id }}')" aria-label="Copy coupon code"><i class='bx bx-copy'></i></button>
+                            <button onclick="copyCoupon('{{ deal.id }}')" aria-label="Copy coupon code for {{ deal.title }}"><i class='bx bx-copy'></i></button>
                         </div>
                         {% endif %}
                     </div>
@@ -209,9 +215,12 @@
 
     <!-- Right scroll arrow -->
     <div class="scroll-arrow-right" id="scroll-right" role="button" aria-label="Scroll right">
-
-
+        &#9654;
+    </div>
+</div>
 {% endblock %}
+
+
 
 {% block javascript %}
 <script>

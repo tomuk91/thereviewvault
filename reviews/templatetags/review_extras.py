@@ -5,10 +5,10 @@ register = template.Library()
 
 @register.simple_tag
 def render_stars(rating, max_stars=5):
-    """Renders star icons for a given rating."""
-    full_star = '<i class="fas fa-star"></i>'
-    half_star = '<i class="fas fa-star-half-alt"></i>'
-    empty_star = '<i class="far fa-star"></i>'
+    """Renders star icons for a given rating with accessibility features."""
+    full_star = '<i class="fas fa-star" aria-hidden="true"></i>'
+    half_star = '<i class="fas fa-star-half-alt" aria-hidden="true"></i>'
+    empty_star = '<i class="far fa-star" aria-hidden="true"></i>'
     
     stars_html = ''
     for i in range(1, max_stars + 1):
@@ -19,4 +19,7 @@ def render_stars(rating, max_stars=5):
         else:
             stars_html += empty_star  # Empty star
 
-    return mark_safe(stars_html)
+    # Add accessible text for screen readers
+    accessible_text = f'<span class="sr-only">Rated {rating} out of {max_stars} stars</span>'
+    
+    return mark_safe(stars_html + accessible_text)
