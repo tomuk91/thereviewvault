@@ -335,6 +335,7 @@ h5 {
 }
 
 .review-sidebar ul a {
+    font-family: 'Roboto', sans-serif !important;
     font-size: 18px;
     color: #007bff !important;    /* Blue color for links */
 }
@@ -344,6 +345,7 @@ h5 {
 }
 
 .review-main-content {
+    font-family: 'Roboto', sans-serif !important;
     width: 75%;
 }
 

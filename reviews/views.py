@@ -13,8 +13,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.utils.timezone import now
 from datetime import datetime
-from django.db.models.functions import ExtractYear, ExtractMonth
-
+import calendar  # Add this to import calendar module
 
 
 # reviews/views.py
@@ -116,11 +115,8 @@ def review_list(request):
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
     })
-
-
-import calendar  # Add this to import calendar module
-
-
+    
+@cache_page(60 * 10)  # Cache the view for 15 minutes
 def review_archive(request):
     reviews = Review.objects.all().order_by('-publication_date')
 
@@ -142,6 +138,7 @@ def review_archive(request):
     }
     return render(request, 'reviews/archive.html', context)
 
+@cache_page(60 * 10)  # Cache the view for 15 minutes
 def archive_by_month(request, year, month):
     # Convert month name to number
     month_num = datetime.strptime(month, '%B').month
@@ -170,14 +167,6 @@ def archive_by_month(request, year, month):
         'reviews': reviews  # Pass filtered reviews to the template
     }
     return render(request, 'reviews/archive.html', context)
-
-
-
-
-
-
-
-
 
 
 # views.py
