@@ -365,7 +365,8 @@ h5 {
 }
 
 .review-list li a {
-    font-size: 22px;   /* Increase font size */
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 17px;   /* Increase font size */
     color: #007bff !important;    /* Blue color for links */
     text-decoration: none !important; /* Remove underline */
 }
