@@ -12,9 +12,9 @@
                     <ul>
                         {% for month, reviews in months.items %}
                             <li>
-                                <a href="{% url 'archive_by_month' year=year month=month|date:'F' %}" 
-                                    title="Find reviews in {{ month|date:'F' }} {{ year }}">
-                                    {{ month|date:"F" }}
+                                <a href="{% url 'archive_by_month' year=year month=month %}"
+                                    title="Find reviews in {{ month }} {{ year }}">
+                                    {{ month }}
                                 </a>
                             </li>
                         {% endfor %}
@@ -45,7 +45,7 @@
                 <h2 id="{{ year }}">{{ year }}</h2>
                 <hr>
                 {% for month, reviews in months.items %}
-                    <h3 id="{{ year }}-{{ month|date:'F' }}">{{ month|date:"F" }} {{ year }}</h3>
+                    <h3 id="{{ year }}-{{ month }}">{{ month }}</h3> <!-- Month is already a string -->
                     <ul class="pl-4 review-list">
                         {% for review in reviews %}
                             <li>

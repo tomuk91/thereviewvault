@@ -13,6 +13,8 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.utils.timezone import now
 from datetime import datetime
+from django.db.models.functions import ExtractYear, ExtractMonth
+
 
 
 # reviews/views.py
@@ -116,47 +118,63 @@ def review_list(request):
     })
 
 
+import calendar  # Add this to import calendar module
 
 
-@cache_page(60 * 10)  # Cache the view for 10 minutes
-def archive_view(request, year=None, month=None):
-    archive_data = {}  # Initialize archive_data in both cases
+def review_archive(request):
+    reviews = Review.objects.all().order_by('-publication_date')
 
-    # Group reviews by year and month
-    reviews = Review.objects.filter(publication_date__lte=timezone.now())
-    reviews_by_year = reviews.dates('publication_date', 'year', order='DESC')
-    
-    for y in reviews_by_year:
-        months = reviews.filter(publication_date__year=y.year).dates('publication_date', 'month', order='DESC')
-        archive_data[y.year] = {
-            month: reviews.filter(publication_date__year=y.year, publication_date__month=month.month)
-            for month in months
-        }
+    # Structure reviews by year and month
+    archive_data = {}
+    for review in reviews:
+        year = review.publication_date.year
+        month = review.publication_date.month
+        month_name = calendar.month_name[month]  # Convert month number to name
+        if year not in archive_data:
+            archive_data[year] = {}
+        if month_name not in archive_data[year]:
+            archive_data[year][month_name] = []
+        archive_data[year][month_name].append(review)
 
-    # Check if specific year and month are passed
-    if year and month:
-        month_number = datetime.strptime(month, "%B").month  # Convert month name to number
-        filtered_reviews = Review.objects.filter(
-            publication_date__year=year,
-            publication_date__month=month_number,
-            publication_date__lte=timezone.now()
-        )
-        title = f"Review Archive - {month} {year} | The Vault Reviews"
-        meta_description = f"Explore reviews from {month} {year}. Discover product insights and detailed analysis."
-    else:
-        filtered_reviews = None
-        title = "Review Archive | The Vault Reviews"
-        meta_description = "Explore our comprehensive review archive. Browse reviews by year and month, with insights on the latest products and gadgets."
-
-    meta_keywords = "review archive, product reviews, tech reviews, year-wise reviews, gadget reviews"
-    
-    return render(request, 'reviews/archive.html', {
+    context = {
         'archive_data': archive_data,
-        'reviews': filtered_reviews,
-        'title': title,
-        'meta_description': meta_description,
-        'meta_keywords': meta_keywords,
-    })
+        'reviews': None  # No reviews passed for filtering in this view
+    }
+    return render(request, 'reviews/archive.html', context)
+
+def archive_by_month(request, year, month):
+    # Convert month name to number
+    month_num = datetime.strptime(month, '%B').month
+
+    # Get reviews for the specified year and month
+    reviews = Review.objects.filter(
+        publication_date__year=year,
+        publication_date__month=month_num
+    ).order_by('-publication_date')
+
+    # Structure archive data for sidebar
+    all_reviews = Review.objects.all().order_by('-publication_date')
+    archive_data = {}
+    for review in all_reviews:
+        review_year = review.publication_date.year
+        review_month = review.publication_date.month
+        month_name = calendar.month_name[review_month]  # Convert to month name
+        if review_year not in archive_data:
+            archive_data[review_year] = {}
+        if month_name not in archive_data[review_year]:
+            archive_data[review_year][month_name] = []
+        archive_data[review_year][month_name].append(review)
+
+    context = {
+        'archive_data': archive_data,
+        'reviews': reviews  # Pass filtered reviews to the template
+    }
+    return render(request, 'reviews/archive.html', context)
+
+
+
+
+
 
 
 
