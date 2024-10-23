@@ -123,20 +123,22 @@
             {% endif %}
         </div>
 
-        <!-- Pagination Section -->
+    <!-- Pagination Section -->
     <div class="pagination">
         {% if show_full_archive %}
-            <!-- If on the 3rd page or last page, show the link to the full archive -->
+            <!-- Show the link to the full archive on the 3rd page or last page -->
             <ul class="step-links">
                 <li><a href="{% url 'archive' %}">View full content archive</a></li>
             </ul>
         {% else %}
+            <!-- Default pagination behavior -->
             <ul class="step-links">
                 {% if page_reviews.has_previous %}
                     <li><a href="?page=1">&laquo; First</a></li>
                     <li><a href="?page={{ page_reviews.previous_page_number }}">Previous</a></li>
                 {% endif %}
 
+                <!-- Show current page number and total pages -->
                 <li>Page {{ page_reviews.number }} of {{ page_reviews.paginator.num_pages }}</li>
 
                 {% if page_reviews.has_next %}

@@ -107,7 +107,7 @@ def review_list(request):
     meta_keywords = "product reviews, best tech gadgets, gaming reviews, smart home devices, latest deals, top-rated products, comparison reviews, affordable tech"
 
     return render(request, 'reviews/review_list.html', {
-        'page_obj': page_reviews,
+        'page_reviews': page_reviews,  # Ensure you pass this object
         'show_full_archive': show_full_archive,
         'title': title,
         'og_image': og_image,
