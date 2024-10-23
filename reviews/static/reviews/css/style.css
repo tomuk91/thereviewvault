@@ -314,6 +314,63 @@ h5 {
     object-fit: cover; /* Makes sure the image covers the space without stretching */
 }
 
+.container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.review-sidebar {
+    width: 25%;
+    padding-right: 20px;
+}
+
+.review-sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.review-sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.review-sidebar ul a {
+    font-size: 18px;
+    color: #007bff !important;    /* Blue color for links */
+}
+
+.review-sidebar ul li ul {
+    padding-left: 15px;
+}
+
+.review-main-content {
+    width: 75%;
+}
+
+.review-main-content h2 {
+    margin-top: 0;
+}
+
+.review-main-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+/* Make the archive links bigger, blue, and remove list styling */
+.review-list {
+    list-style: none !important; /* Remove bullet points */
+    padding-left: 0;
+}
+
+.review-list li a {
+    font-size: 22px;   /* Increase font size */
+    color: #007bff !important;    /* Blue color for links */
+    text-decoration: none !important; /* Remove underline */
+}
+
+.review-list li a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
 
 
 

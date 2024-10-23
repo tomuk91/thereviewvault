@@ -1,0 +1,63 @@
+{% extends "reviews/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Sidebar for year and month navigation -->
+    <div class="review-sidebar col-md-3">
+        <h1>Review Archive</h1>
+        <ul class="list-unstyled">
+            {% for year, months in archive_data.items %}
+                <li>
+                    <strong>{{ year }}</strong>
+                    <ul>
+                        {% for month, reviews in months.items %}
+                            <li>
+                                <a href="{% url 'archive_by_month' year=year month=month|date:'F' %}" 
+                                    title="Find reviews in {{ month|date:'F' }} {{ year }}">
+                                    {{ month|date:"F" }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Main Content displaying reviews if filtering by month -->
+    <div class="review-main-content col-md-9">
+        {% if reviews %}
+            <!-- Display year and month headers for filtered view -->
+            <h2>{{ reviews.0.publication_date|date:"Y" }}</h2>
+            <hr>
+            <h3>{{ reviews.0.publication_date|date:"F" }} {{ reviews.0.publication_date|date:"Y" }}</h3>
+            <ul class="review-list pl-4">
+                {% for review in reviews %}
+                    <li>
+                        <a href="{{ review.get_absolute_url }}" 
+                            title="Read the full review of {{ review.title }}">{{ review.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <!-- Show full archive if no filtered reviews -->
+            {% for year, months in archive_data.items %}
+                <h2 id="{{ year }}">{{ year }}</h2>
+                <hr>
+                {% for month, reviews in months.items %}
+                    <h3 id="{{ year }}-{{ month|date:'F' }}">{{ month|date:"F" }} {{ year }}</h3>
+                    <ul class="pl-4 review-list">
+                        {% for review in reviews %}
+                            <li>
+                                <a href="{{ review.get_absolute_url }}" 
+                                    title="Read the full review of {{ review.title }}">{{ review.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

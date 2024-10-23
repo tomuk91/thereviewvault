@@ -25,5 +25,6 @@ urlpatterns = [
     path('callback/', views.twitter_callback, name='twitter_callback'),
     path('indexnow-key.txt', views.indexnow_key, name='indexnow_key'),
     path('hot-reviews', views.hot_reviews, name='hot_reviews'),
-
+    path('archive/', views.archive_view, name='archive'),
+    path('archive/<int:year>/<str:month>/', views.archive_view, name='archive_by_month'),
     ]

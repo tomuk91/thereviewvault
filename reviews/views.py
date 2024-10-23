@@ -80,7 +80,6 @@ def search_reviews(request):
     return render(request, 'reviews/search_results.html', context)
 
 
-
 def review_list(request):
     today = timezone.now()
     week_ago = today - timedelta(days=7)
@@ -114,6 +113,54 @@ def review_list(request):
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
     })
+
+from django.utils.timezone import now
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import cache_page
+from .models import Review
+from datetime import datetime
+
+@cache_page(60 * 10)  # Cache the view for 10 minutes
+def archive_view(request, year=None, month=None):
+    archive_data = {}  # Initialize archive_data in both cases
+
+    # Group reviews by year and month
+    reviews = Review.objects.filter(publication_date__lte=now())
+    reviews_by_year = reviews.dates('publication_date', 'year', order='DESC')
+    
+    for y in reviews_by_year:
+        months = reviews.filter(publication_date__year=y.year).dates('publication_date', 'month', order='DESC')
+        archive_data[y.year] = {
+            month: reviews.filter(publication_date__year=y.year, publication_date__month=month.month)
+            for month in months
+        }
+
+    # Check if specific year and month are passed
+    if year and month:
+        month_number = datetime.strptime(month, "%B").month  # Convert month name to number
+        filtered_reviews = Review.objects.filter(
+            publication_date__year=year,
+            publication_date__month=month_number,
+            publication_date__lte=now()
+        )
+        title = f"Review Archive - {month} {year} | The Vault Reviews"
+        meta_description = f"Explore reviews from {month} {year}. Discover product insights and detailed analysis."
+    else:
+        filtered_reviews = None
+        title = "Review Archive | The Vault Reviews"
+        meta_description = "Explore our comprehensive review archive. Browse reviews by year and month, with insights on the latest products and gadgets."
+
+    meta_keywords = "review archive, product reviews, tech reviews, year-wise reviews, gadget reviews"
+    
+    return render(request, 'reviews/archive.html', {
+        'archive_data': archive_data,
+        'reviews': filtered_reviews,
+        'title': title,
+        'meta_description': meta_description,
+        'meta_keywords': meta_keywords,
+    })
+
+
 
 
 
@@ -271,7 +318,7 @@ def hot_reviews(request):
     })
 
 
-
+@cache_page(60 * 10)  # Cache the view for 15 minutes
 def about_us(request):
     title = "About Us | TheVaultReviews"
     meta_description = "Learn more about The Vault Reviews, your go-to source for unbiased product reviews, expert opinions, and the latest deals on top-rated items."
@@ -283,7 +330,7 @@ def about_us(request):
         'meta_keywords': meta_keywords,
     })
 
-
+@cache_page(60 * 10)  # Cache the view for 15 minutes
 def privacy_policy(request):
     title = "Privacy Policy | TheVaultReviews"
     meta_description = "Read our privacy policy to understand how The Vault Reviews collects, uses, and protects your personal information when you visit our website."
@@ -295,7 +342,7 @@ def privacy_policy(request):
         'meta_keywords': meta_keywords,
     })
 
-
+@cache_page(60 * 10)  # Cache the view for 15 minutes
 def terms_conditions(request):
     title = "Terms & Conditions | TheVaultReviews"
     meta_description = "Review the terms and conditions of using The Vault Reviews, including legal agreements and your rights as a user."
@@ -307,7 +354,7 @@ def terms_conditions(request):
         'meta_keywords': meta_keywords,
     })
 
-
+@cache_page(60 * 10)  # Cache the view for 15 minutes
 def contact_us(request):
     title = "Contact Us | TheVaultReviews"
     meta_description = "Get in touch with The Vault Reviews for inquiries, feedback, or support regarding our product reviews and services."
