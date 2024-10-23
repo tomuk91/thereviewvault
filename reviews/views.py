@@ -12,6 +12,7 @@ from django.views.decorators.cache import cache_page
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.utils.timezone import now
+from datetime import datetime
 
 
 # reviews/views.py
@@ -114,18 +115,15 @@ def review_list(request):
         'meta_keywords': meta_keywords,
     })
 
-from django.utils.timezone import now
-from django.shortcuts import render, get_object_or_404
-from django.views.decorators.cache import cache_page
-from .models import Review
-from datetime import datetime
+
+
 
 @cache_page(60 * 10)  # Cache the view for 10 minutes
 def archive_view(request, year=None, month=None):
     archive_data = {}  # Initialize archive_data in both cases
 
     # Group reviews by year and month
-    reviews = Review.objects.filter(publication_date__lte=now())
+    reviews = Review.objects.filter(publication_date__lte=timezone.now())
     reviews_by_year = reviews.dates('publication_date', 'year', order='DESC')
     
     for y in reviews_by_year:
@@ -141,7 +139,7 @@ def archive_view(request, year=None, month=None):
         filtered_reviews = Review.objects.filter(
             publication_date__year=year,
             publication_date__month=month_number,
-            publication_date__lte=now()
+            publication_date__lte=timezone.now()
         )
         title = f"Review Archive - {month} {year} | The Vault Reviews"
         meta_description = f"Explore reviews from {month} {year}. Discover product insights and detailed analysis."
