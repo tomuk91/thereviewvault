@@ -98,12 +98,18 @@ def review_list(request):
 
     page_number = request.GET.get('page')
     page_reviews = paginator.get_page(page_number)
+    
+    if page_reviews.number == 3 or page_reviews.number == paginator.num_pages:
+        show_full_archive = True
+    else:
+        show_full_archive = False
 
     # Meta description and keywords for SEO
     meta_description = "Discover the latest product reviews, top-rated gadgets, and exclusive deals. Find in-depth reviews and comparisons on tech, gaming, smart home devices, and more."
     meta_keywords = "product reviews, best tech gadgets, gaming reviews, smart home devices, latest deals, top-rated products, comparison reviews, affordable tech"
 
     return render(request, 'reviews/review_list.html', {
+        'show_full_archive': show_full_archive,
         'title': title,
         'og_image': og_image,
         'tags': tags_json,
