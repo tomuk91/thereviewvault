@@ -124,27 +124,29 @@
         </div>
 
         <!-- Pagination Section -->
-        <div class="pagination">
-            {% if show_full_archive %}
+    <div class="pagination">
+        {% if show_full_archive %}
             <!-- If on the 3rd page or last page, show the link to the full archive -->
             <ul class="step-links">
                 <li><a href="{% url 'archive' %}">View full content archive</a></li>
             </ul>
         {% else %}
             <ul class="step-links">
-                {% if reviews.has_previous %}
+                {% if page_reviews.has_previous %}
                     <li><a href="?page=1">&laquo; First</a></li>
-                    <li><a href="?page={{ reviews.previous_page_number }}">Previous</a></li>
+                    <li><a href="?page={{ page_reviews.previous_page_number }}">Previous</a></li>
                 {% endif %}
-        
-                {% if reviews.has_next %}
-                    <li><a href="?page={{ reviews.next_page_number }}">Next</a></li>
-                    <li><a href="?page={{ reviews.paginator.num_pages }}">Last &raquo;</a></li>
+
+                <li>Page {{ page_reviews.number }} of {{ page_reviews.paginator.num_pages }}</li>
+
+                {% if page_reviews.has_next %}
+                    <li><a href="?page={{ page_reviews.next_page_number }}">Next</a></li>
+                    <li><a href="?page={{ page_reviews.paginator.num_pages }}">Last &raquo;</a></li>
                 {% endif %}
             </ul>
-            {% endif %}
-        </div>
+        {% endif %}
     </div>
+</div>
 
     <!-- Optional Sidebar Section -->
     <aside class="sidebar" aria-labelledby="sidebar-heading">
