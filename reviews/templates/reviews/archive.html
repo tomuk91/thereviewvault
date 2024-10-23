@@ -3,39 +3,43 @@
 {% block content %}
 <div class="container mt-5">
     <!-- Sidebar for year and month navigation -->
-    <div class="review-sidebar col-md-3">
+    <aside class="review-sidebar col-md-3" aria-label="Review Archive Sidebar">
         <h1>Review Archive</h1>
-        <ul class="list-unstyled">
-            {% for year, months in archive_data.items %}
-                <li>
-                    <strong>{{ year }}</strong>
-                    <ul>
-                        {% for month, reviews in months.items %}
-                            <li>
-                                <a href="{% url 'archive_by_month' year=year month=month %}"
-                                    title="Find reviews in {{ month }} {{ year }}">
-                                    {{ month }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+        <nav aria-labelledby="archive-heading">
+            <ul class="list-unstyled">
+                {% for year, months in archive_data.items %}
+                    <li>
+                        <strong><a href="#{{ year }}" aria-label="Jump to {{ year }}">{{ year }}</a></strong>
+                        <ul>
+                            {% for month, reviews in months.items %}
+                                <li>
+                                    <a href="{% url 'archive_by_month' year=year month=month %}" 
+                                       title="Find reviews in {{ month }} {{ year }}">
+                                        {{ month }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </aside>
 
     <!-- Main Content displaying reviews if filtering by month -->
-    <div class="review-main-content col-md-9">
+    <section class="review-main-content col-md-9" aria-label="Main Review Content">
         {% if reviews %}
             <!-- Display year and month headers for filtered view -->
             <h2>{{ reviews.0.publication_date|date:"Y" }}</h2>
             <hr>
             <h3>{{ reviews.0.publication_date|date:"F" }} {{ reviews.0.publication_date|date:"Y" }}</h3>
-            <ul class="review-list pl-4">
+            <ul class="review-list pl-4" aria-labelledby="review-list-heading">
                 {% for review in reviews %}
                     <li>
                         <a href="{{ review.get_absolute_url }}" 
-                            title="Read the full review of {{ review.title }}">{{ review.title }}</a>
+                           title="Read the full review of {{ review.title }}">
+                            {{ review.title }}
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
@@ -50,7 +54,9 @@
                         {% for review in reviews %}
                             <li>
                                 <a href="{{ review.get_absolute_url }}" 
-                                    title="Read the full review of {{ review.title }}">{{ review.title }}</a>
+                                   title="Read the full review of {{ review.title }}">
+                                    {{ review.title }}
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -58,6 +64,6 @@
                 {% endfor %}
             {% endfor %}
         {% endif %}
-    </div>
+    </section>
 </div>
 {% endblock %}
