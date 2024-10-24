@@ -37,6 +37,7 @@ def robots_txt(request):
         "Disallow: /*?sort=date",
         "Disallow: /*?sort=rating",
         "Disallow: /*?page=",
+        "Disallow: */none/",
         "Sitemap: https://www.thevaultreviews.com/sitemap.xml"
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
