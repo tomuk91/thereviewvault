@@ -124,7 +124,7 @@ def review_list(request):
     
 @cache_page(60 * 10)  # Cache the view for 15 minutes
 def review_archive(request):
-    reviews = Review.objects.all().order_by('-publication_date')
+    reviews = Review.objects.all().filter(publication_date__lte=timezone.now()).order_by('-publication_date')
 
     # Structure reviews by year and month
     archive_data = {}
