@@ -151,6 +151,7 @@ def archive_by_month(request, year, month):
 
     # Get reviews for the specified year and month
     reviews = Review.objects.filter(
+        publication_date__lte=timezone.now(),
         publication_date__year=year,
         publication_date__month=month_num
     ).order_by('-publication_date')
