@@ -151,13 +151,12 @@ def archive_by_month(request, year, month):
 
     # Get reviews for the specified year and month
     reviews = Review.objects.filter(
-        publication_date__lte=timezone.now(),
         publication_date__year=year,
         publication_date__month=month_num
     ).order_by('-publication_date')
 
     # Structure archive data for sidebar
-    all_reviews = Review.objects.all().order_by('-publication_date')
+    all_reviews = Review.objects.all().filter(publication_date__lte=timezone.now()).order_by('-publication_date')
     archive_data = {}
     for review in all_reviews:
         review_year = review.publication_date.year
