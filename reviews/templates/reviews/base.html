@@ -16,12 +16,11 @@
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ meta_description }}{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords }}{% endblock %}">
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
     
-    <!-- Alternate and hreflang tags for SEO -->
-    <link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="x-default">
-    <link rel="alternate" href="https://www.thevaultreviews.com{{ request.path }}" hreflang="en">
-    <link rel="alternate" href="https://www.thevaultreviews.co.uk{{ request.path }}" hreflang="en-gb">
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host|remove_www }}{{ request.path }}">
+    <link rel="alternate" href="{{ 'https://www.thevaultreviews.com'|remove_www }}{{ request.path }}" hreflang="en" />
+    <link rel="alternate" href="{{ 'https://www.thevaultreviews.co.uk'|remove_www }}{{ request.path }}" hreflang="en-gb" />
+    <link rel="alternate" href="{{ 'https://www.thevaultreviews.com'|remove_www }}{{ request.path }}" hreflang="x-default" />
     
 
     <!-- Open Graph Meta Tags -->
