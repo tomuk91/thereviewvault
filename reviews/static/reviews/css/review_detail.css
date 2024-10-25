@@ -192,6 +192,10 @@ body {
     margin-bottom: 20px; /* Spacing below the box */
 }
 
+.review-detail-content h2,h3,h4 {
+    text-align: center;
+}
+
 
 .btn-primary:hover {
     background-color: #0056b3;
