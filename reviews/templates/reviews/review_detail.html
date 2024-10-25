@@ -25,12 +25,13 @@
                 {% breadcrumbs %}
             </ol>
         </nav>
-        
+
         {% if review.image %}
         <div class="image text-center">
-            <img src="{{ review.image.url }}" alt="Image of {{ review.title }}" class="img-fluid">
+            <img src="{{ review.image.url }}" alt="Image of {{ review.title }}" class="img-fluid" aria-labelledby="reviewContent">
         </div>
         {% endif %}
+
         <div class="d-flex justify-content-between">
             <div class="details">
                 <p class="review-meta">By {{ review.author }} | {{ review.publication_date|date:"F j, Y" }}</p>
@@ -39,34 +40,41 @@
 
         <h1 class="review-title">{{ review.title }}</h1>
 
+        {%if review.pros %}
+            <!-- Navigation Links with Styling -->
+            <nav aria-label="Section Links" class="text-center mt-3">
+                <a href="#pros-cons" class="btn btn-link">Jump to Pros & Cons</a> |
+                <a href="#key-features" class="btn btn-link">Jump to Features</a>
+            </nav>
+        {% endif %}
 
-        <div class="product-info-container mt-4">
-            <h4>Product Information & Ratings</h4>
+
+        <!-- Product Info and Ratings -->
+        <article class="product-info-container mt-4">
+            <h2>Product Information & Ratings</h2>
             <div class="row mt-4">
-                <!-- Main Rating -->
                 <div class="col-md-4">
                     <strong>Rating:</strong>
-                    <span class="stars">
+                    <span class="stars" aria-label="Rating out of 5">
                         {% render_stars review.rating %}
                     </span>
                 </div>
                 
-                <!-- Product Code -->
                 {% if review.product_code %}
                 <div class="col-md-4">
                     <strong>Product Code:</strong> {{ review.product_code }}
                 </div>
                 {% endif %}
         
-                <!-- Pricing Link -->
                 <div class="col-md-4">
                     <strong>Check it out:</strong>
-                    <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Get latest pricing">
                         Get the latest pricing
                     </a>
                 </div>
             </div>
-        
+
+            <!-- Additional Ratings -->
             <div class="row mt-3">
                 {% if review.durability %}
                 <div class="col-md-4">
@@ -89,26 +97,22 @@
                 </div>
                 {% endif %}
             </div>
-            
-        </div>
+        </article>
         <hr>
-        
-
 
         <!-- Review Content -->
-        {% load cache %}
-        {% cache 600 review_detail review.id %}
-        <div class="review-content review-text mt-3" aria-labelledby="reviewContent">
+        <section class="review-content review-text mt-3" id="reviewContent" aria-labelledby="reviewContentHeading">
+            <h2 id="reviewContentHeading">Review Summary</h2>
             {{ review.content|safe }}
-        </div>
-        {% endcache %}
+        </section>
         <hr>
 
-        {% if review.pros %}
-            <!-- Pros and Cons Section -->
+        <!-- Pros and Cons Section -->
+        {% if review.pros or review.cons %}
+        <section id="pros-cons">
             <div class="pros-cons-container mt-4">
                 <div class="col-md-6">
-                    <h4>Pros</h4>
+                    <h3>Pros</h3>
                     <ul class="list-group">
                         {% if review.pros %}
                             {% for pro in review.pros.splitlines %}
@@ -123,7 +127,7 @@
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <h4>Cons</h4>
+                    <h3>Cons</h3>
                     <ul class="list-group">
                         {% if review.cons %}
                             {% for con in review.cons.splitlines %}
@@ -138,53 +142,50 @@
                     </ul>
                 </div>
             </div>
-            
-            <div class="features-container mt-4">
-                <h4 class="text-center">Key Features</h4>
-                <ul class="list-group">
-                    {% if review.features %}
-                        {% for feature in review.features.splitlines %}
-                            <li class="list-group-item" style="display: inline-flex; align-items: center;">
-                                <i style="font-size:1.8rem; margin-right: 10px;" class='bx bx-right-arrow-alt'></i>
-                                <span>{{ feature }}</span>
-                            </li>
-                        {% endfor %}
-                    {% else %}
-                        <li class="list-group-item"><em>No features listed</em></li>
-                    {% endif %}
-                </ul>
-            </div>
+        </section>
+        {% endif %}
+
+        <!-- Key Features Section -->
+        {% if review.features %}
+        <section class="features-container mt-4" id="key-features">
+            <h3 class="text-center">Key Features</h3>
+            <ul class="list-group">
+                {% for feature in review.features.splitlines %}
+                    <li class="list-group-item" style="display: inline-flex; align-items: center;">
+                        <i style="font-size:1.8rem; margin-right: 10px;" class='bx bx-right-arrow-alt'></i>
+                        <span>{{ feature }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
         {% endif %}
         
-
-        <div class="purchase mt-4">
+        <!-- Purchase Link -->
+        <section class="purchase mt-4">
             <p class="text-center">
-                <a style="font-size: 1.4rem;" href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" class="btn display-3 btn-primary">
+                <a style="font-size: 1.4rem;" href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Get the best deal for this product">
                     Like the look of this product? Click here to get the best deal now!
                 </a>
             </p>  
-        </div>
+        </section>
 
         <!-- Tags Section -->
-        <div class="tags mt-4">
+        <section class="tags mt-4">
             <p class="text-center">
                 Tags:
                 {% for tag in review.tags.all %}
-                    <a href="{% url 'tagged_reviews' tag.slug %}" class="tag-link">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                    <a href="{% url 'tagged_reviews' tag.slug %}" class="tag-link" aria-label="Tag: {{ tag.name }}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             </p>  
-        </div>
-
-        <!-- Share Buttons -->
-        <div class="sharethis-inline-share-buttons mt-3"></div>      
+        </section>
 
         <!-- Related Reviews Section -->
-        <div class="related-content mt-4">
+        <section class="related-content mt-4">
             <h3>Related Reviews</h3>
             <div class="related-reviews-container">
                 {% for related_review in related_reviews %}
                     <div class="related-review-item">
-                        <a href="{% url 'review_detail' related_review.slug %}">
+                        <a href="{% url 'review_detail' related_review.slug %}" aria-label="Read related review: {{ related_review.title }}">
                             <div class="related-review-image">
                                 <img src="{{ related_review.image.url }}" alt="{{ related_review.title }}" class="img-fluid">
                             </div>
@@ -196,7 +197,7 @@
                     </div>
                 {% endfor %}
             </div>
-        </div>
+        </section>
     </div>
 </div>
 

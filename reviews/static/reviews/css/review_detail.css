@@ -6,6 +6,27 @@ body {
     padding: 0;
 }
 
+.btn-link {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-3 {
+    margin-top: 1.5rem;
+}
+
+
 /* Container for the review detail page */
 .review-detail-container {
     display: flex;
@@ -141,6 +162,16 @@ body {
 
 /* Review Content Heading */
 .review-content h3 {
+    font-size: 1.5rem;
+    font-weight: bold !important;
+    color: #2c3e50;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+}
+
+/* Review Content Heading */
+.review-content h2 {
     font-size: 1.5rem;
     font-weight: bold !important;
     color: #2c3e50;
