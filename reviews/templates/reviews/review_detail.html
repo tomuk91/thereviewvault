@@ -204,28 +204,40 @@
 {% endblock %}
 
 <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Review",
-    "itemReviewed": {
-        "@type": "Product",
-        "name": "{{ review.title }}"
-    },
-    "author": {
-        "@type": "Person",
-        "name": "{{ review.author }}"
-    },
-    "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": "{{ review.rating }}",
-        "bestRating": "5",
-        "worstRating": "0"
-    },
-    "reviewBody": "{{ review.content|truncatewords:20 }}",
-    "datePublished": "{{ review.publication_date|date:'Y-m-d' }}",
-    "publisher": {
-        "@type": "Organization",
-        "name": "The Vault Reviews"
+    {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "itemReviewed": {
+            "@type": "Product",
+            "name": "{{ review.title }}",
+            "productID": "{{ review.product_code }}",
+            "url": "{{ review.product_link }}",
+            "offers": {
+                "@type": "Offer",
+                "url": "{{ review.product_link }}",
+                "priceCurrency": "USD",
+                "price": "{{ review.price }}"
+            }
+        },
+        "author": {
+            "@type": "Person",
+            "name": "{{ review.author }}"
+        },
+        "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "{{ review.rating }}",
+            "bestRating": "5",
+            "worstRating": "0"
+        },
+        "reviewBody": "{{ review.content|truncatewords:20 }}",
+        "datePublished": "{{ review.publication_date|date:'Y-m-d' }}",
+        "publisher": {
+            "@type": "Organization",
+            "name": "The Vault Reviews"
+        },
+        "pros": "{{ review.pros|join:',' }}",
+        "cons": "{{ review.cons|join:',' }}",
+        "keyFeatures": "{{ review.features|join:',' }}"
     }
-}
-</script>
+    </script>
+    
