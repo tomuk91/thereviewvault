@@ -194,6 +194,40 @@
             <li><a href="{% url 'reviews_by_rating' 1 %}" aria-label="Filter by 1 star">★ (1 Star)</a></li>
         </ul>
     </div>
+
+    <div class="search-wrapper">
+        <h2 class="text-black">Compare Reviews</h2>
+        <form method="GET" action="{% url 'compare_reviews' %}">
+            <!-- Category Filter -->
+            <select name="category" id="category-filter" class="form-select">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+    
+            <!-- Rating Filter -->
+            <select name="rating" id="rating-filter" class="form-select">
+                <option value="">Any Rating</option>
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="2">2 Stars</option>
+                <option value="1">2 Stars</option>
+            </select>
+    
+            <!-- Reviews Selection -->
+            <select name="reviews" multiple="multiple" class="review-select" id="review-select">
+                {% for review in reviews %}
+                    <option value="{{ review.id }}">{{ review.title }} - {{ review.rating }}/5</option>
+                {% endfor %}
+            </select>
+            <div>
+                <button type="submit" class="btn btn-dark">Compare Selected Reviews</button>
+            </div>
+        </form>
+    </div>
+    
 </aside>
 </div>
 
@@ -243,6 +277,33 @@
 
 {% block javascript %}
 <script>
+
+    $(document).ready(function() {
+        $('#review-select').select2({
+            ajax: {
+                url: '/reviews/search/',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        category: $('#category-filter').val(),
+                        rating: $('#rating-filter').val()
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return { id: item.id, text: item.title };
+                        })
+                    };
+                }
+            },
+            placeholder: 'Search reviews',
+            minimumInputLength: 2,
+        });
+        
+    });
 
     function copyCoupon(dealId) {
         var couponField = document.getElementById("coupon-" + dealId);

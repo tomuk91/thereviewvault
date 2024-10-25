@@ -1,7 +1,6 @@
 {% extends "reviews/base.html" %}
 
 {% block head %}
-
 <head>
     <meta name="description" content="{{ review.content|truncatewords:30 }}">
     <meta name="keywords" content="{% for tag in review.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
@@ -18,7 +17,6 @@
 <link rel="stylesheet" onload="this.media='all'" href="{% static 'reviews/css/review_detail.css' %}">
 {% endcompress %}
 
-
 <div class="review-detail-container">
     <div class="review-detail-content">
         {% load breadcrumbs %}
@@ -30,91 +28,178 @@
         
         {% if review.image %}
         <div class="image text-center">
-            <img src="{{ review.image.url }}" alt="Image of {{ review.title }}" width="auto" height="500" loading="lazy">
+            <img src="{{ review.image.url }}" alt="Image of {{ review.title }}" class="img-fluid">
         </div>
         {% endif %}
-
         <div class="d-flex justify-content-between">
             <div class="details">
-                <p class="review-meta">By {{ review.author }} |
-                    {{ review.publication_date|date:"F j, Y" }}</p>
+                <p class="review-meta">By {{ review.author }} | {{ review.publication_date|date:"F j, Y" }}</p>
             </div>
         </div>
 
         <h1 class="review-title">{{ review.title }}</h1>
-        <div class="info-box">
-            <div class="review-rating info-container">
-                <div class="rating-container">
+
+
+        <div class="product-info-container mt-4">
+            <h4>Product Information & Ratings</h4>
+            <div class="row mt-4">
+                <!-- Main Rating -->
+                <div class="col-md-4">
                     <strong>Rating:</strong>
-                    <span class="stars" aria-label="Rating of {{ review.rating }} out of 5">
+                    <span class="stars">
                         {% render_stars review.rating %}
                     </span>
                 </div>
-                <div class="product-code-container">
-                    {% if review.product_code %}
-                    <strong>Product Code:</strong>
-                    <span>{{ review.product_code }}</span>
-                    {% endif %}
+                
+                <!-- Product Code -->
+                {% if review.product_code %}
+                <div class="col-md-4">
+                    <strong>Product Code:</strong> {{ review.product_code }}
                 </div>
-                <div class="product-link-container">
+                {% endif %}
+        
+                <!-- Pricing Link -->
+                <div class="col-md-4">
                     <strong>Check it out:</strong>
-                    <a class="text-success" href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Latest pricing and details for {{ review.title }}">
+                    <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                         Get the latest pricing
                     </a>
-                </div>                             
+                </div>
             </div>
+        
+            <div class="row mt-3">
+                {% if review.durability %}
+                <div class="col-md-4">
+                    <strong>Durability:</strong>
+                    <span class="stars">{% render_stars review.durability %}</span>
+                </div>
+                {% endif %}
+                
+                {% if review.ease_of_use %}
+                <div class="col-md-4">
+                    <strong>Ease of Use:</strong>
+                    <span class="stars">{% render_stars review.ease_of_use %}</span>
+                </div>
+                {% endif %}
+                
+                {% if review.value_for_money %}
+                <div class="col-md-4">
+                    <strong>Value for Money:</strong>
+                    <span class="stars">{% render_stars review.value_for_money %}</span>
+                </div>
+                {% endif %}
+            </div>
+            
         </div>
-
         <hr>
+        
 
+
+        <!-- Review Content -->
         {% load cache %}
         {% cache 600 review_detail review.id %}
-        <!-- Cached content for 10 minutes (600 seconds) -->
-        <div class="review-content review-text text-center" aria-labelledby="reviewContent">
+        <div class="review-content review-text mt-3" aria-labelledby="reviewContent">
             {{ review.content|safe }}
         </div>
         {% endcache %}
+        <hr>
 
-        <div class="purchase">
+        {% if reviews.pro %}
+            <!-- Pros and Cons Section -->
+            <div class="pros-cons-container mt-4">
+                <div class="col-md-6">
+                    <h4>Pros</h4>
+                    <ul class="list-group">
+                        {% if review.pros %}
+                            {% for pro in review.pros.splitlines %}
+                                <li class="list-group-item" style="display: inline-flex; align-items: center;">
+                                    <i style="font-size:1.8rem; color:green; margin-right: 10px;" class='bx bx-check'></i>
+                                    <span>{{ pro }}</span>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="list-group-item"><em>No pros listed</em></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Cons</h4>
+                    <ul class="list-group">
+                        {% if review.cons %}
+                            {% for con in review.cons.splitlines %}
+                                <li class="list-group-item" style="display: inline-flex; align-items: center;">
+                                    <i style="font-size:1.8rem; color:red; margin-right: 10px;" class='bx bx-x'></i>
+                                    <span>{{ con }}</span>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="list-group-item"><em>No cons listed</em></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="features-container mt-4">
+                <h4 class="text-center">Key Features</h4>
+                <ul class="list-group">
+                    {% if review.features %}
+                        {% for feature in review.features.splitlines %}
+                            <li class="list-group-item" style="display: inline-flex; align-items: center;">
+                                <i style="font-size:1.8rem; margin-right: 10px;" class='bx bx-right-arrow-alt'></i>
+                                <span>{{ feature }}</span>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="list-group-item"><em>No features listed</em></li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+        
+
+        <div class="purchase mt-4">
             <p class="text-center">
-                <a href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" aria-label="Purchase link for {{ review.title }}">
-                    Love this product? Click here to get the best deal now!
+                <a style="font-size: 1.4rem;" href="{{ review.product_link }}" target="_blank" rel="noopener noreferrer" class="btn display-3 btn-primary">
+                    Like the look of this product? Click here to get the best deal now!
                 </a>
-                            </p>  
+            </p>  
         </div>
 
-        <div class="tags">
+        <!-- Tags Section -->
+        <div class="tags mt-4">
             <p class="text-center">
                 Tags:
                 {% for tag in review.tags.all %}
-                <a href="{% url 'tagged_reviews' tag.slug %}" class="tag-link" aria-label="View reviews tagged with {{ tag.name }}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                    <a href="{% url 'tagged_reviews' tag.slug %}" class="tag-link">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             </p>  
         </div>
+
+        <!-- Share Buttons -->
         <div class="sharethis-inline-share-buttons mt-3"></div>      
 
-
-        <div class="related-content mb-3">
+        <!-- Related Reviews Section -->
+        <div class="related-content mt-4">
             <h3>Related Reviews</h3>
             <div class="related-reviews-container">
                 {% for related_review in related_reviews %}
-                <div class="related-review-item">
-                    <a href="{% url 'review_detail' related_review.slug %}" aria-label="Read related review: {{ related_review.title }}">
-                        <div class="related-review-image">
-                            <img src="{{ related_review.image.url }}" alt="Image of {{ related_review.title }}" loading="lazy">
-                        </div>
-                        <div class="related-review-info">
-                            <h4>{{ related_review.title }}</h4>
-                            <p>{{ related_review.content|safe|slice:":100" }}...</p>
-                        </div>
-                    </a>
-                </div>
+                    <div class="related-review-item">
+                        <a href="{% url 'review_detail' related_review.slug %}">
+                            <div class="related-review-image">
+                                <img src="{{ related_review.image.url }}" alt="{{ related_review.title }}" class="img-fluid">
+                            </div>
+                            <div class="related-review-info">
+                                <h4>{{ related_review.title }}</h4>
+                                <p>{{ related_review.content|safe|slice:":100" }}...</p>
+                            </div>
+                        </a>
+                    </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-    
 </div>
+
 {% endblock %}
 
 <script type="application/ld+json">

@@ -1,0 +1,110 @@
+/* Wrapper to align sidebar and table */
+.compare-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+}
+
+.review-image {
+    width: 100% !important;
+    text-align: center !important; /* Center the image container */
+}
+
+.review-image img {
+    display: block !important;
+    margin: 0 auto !important; /* Center the image horizontally */
+    max-width: 100px !important; /* Adjust the image size as needed */
+    height: auto !important;
+}
+
+
+/* Table Styling */
+table {
+    justify-content: center;
+    width: 70%; /* Adjust table width */
+    border-collapse: collapse;
+    font-size: 1rem;
+    text-align: left;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.centered-sidebar {
+    justify-content: center !important;
+}
+
+
+th {
+    background-color: rgb(86,121,132);
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+td {
+    background-color: #F5F8FC;
+}
+
+tbody tr:nth-child(even) td {
+    background-color: #FFFFFF;
+}
+
+/* Sidebar Styling */
+.compare-sidebar {
+    flex: 0 0 25%;
+    max-width: 350px;
+    background-color: #F5F8FC;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.compare-sidebar h3 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.compare-sidebar form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.compare-sidebar select, .compare-sidebar button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
+
+/* Responsive for Table and Sidebar */
+@media (max-width: 768px) {
+    .compare-wrapper {
+        flex-direction: column; /* Stack sidebar and table */
+        align-items: center;
+    }
+
+    table {
+        width: 100%; /* Full width on mobile */
+        margin-top: 20px;
+    }
+
+    .compare-sidebar {
+        max-width: none;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        text-align: center;
+        padding: 10px;
+    }
+}

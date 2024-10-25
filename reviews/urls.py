@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import privacy_policy
+from .views import compare_reviews_view, privacy_policy, review_overview
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import ReviewSitemap
 from .views import robots_txt
@@ -27,4 +27,7 @@ urlpatterns = [
     path('hot-reviews', views.hot_reviews, name='hot_reviews'),
     path('archive/', views.review_archive, name='archive'),
     path('archive/<int:year>/<str:month>/', views.archive_by_month, name='archive_by_month'),
+    path('reviews/', review_overview, name='review_overview'),
+    path('compare-reviews/', compare_reviews_view, name='compare_reviews'),
+    path('reviews/search/', views.search_reviews, name='search_reviews'),
     ]

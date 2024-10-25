@@ -309,6 +309,47 @@ def category_reviews(request, slug):
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
     })
+    
+
+def search_reviews(request):
+    search_term = request.GET.get('search', '')
+    category_id = request.GET.get('category', '')
+    rating_filter = request.GET.get('rating', '')
+
+    # Filter reviews by title or tags containing the search term
+    reviews = Review.objects.filter(
+        Q(title__icontains=search_term) | Q(tags__name__icontains=search_term)
+    ).distinct()
+
+    # Apply category filter if selected
+    if category_id:
+        reviews = reviews.filter(category_id=category_id)
+
+    # Apply rating filter if selected
+    if rating_filter:
+        reviews = reviews.filter(rating=rating_filter)
+
+    reviews = reviews[:20]  # Limit the results
+    results = [{'id': review.id, 'title': f'{review.title} - {review.rating}/5'} for review in reviews]
+
+    return JsonResponse(results, safe=False)
+
+
+
+def compare_reviews_view(request):
+    review_ids = request.GET.getlist('reviews')  # Get selected review IDs from the query string
+        
+    reviews = Review.objects.filter(id__in=review_ids)
+    
+    for review in reviews:
+        review.full_url = request.build_absolute_uri(review.get_absolute_url())
+
+    return render(request, 'reviews/compare_reviews.html', {'reviews': reviews})
+
+def review_overview(request):
+    reviews = Review.objects.all()
+    return render(request, 'review_overview.html', {'reviews': reviews})
+
 
 
 
