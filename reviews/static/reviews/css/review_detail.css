@@ -97,20 +97,25 @@ body {
     margin-bottom: 20px;
 }
 
-/* Unified Product Info & Ratings Row Styling */
-.product-info-row, .additional-ratings-row {
+/* Flexbox helper for centering content */
+.flex-row-center {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap; /* Wraps items for better alignment when content is missing */
+    gap: 15px;
 }
 
-.product-info-row .col-md-4, .additional-ratings-row .col-md-4 {
-    padding: 10px;
+/* Align and space columns evenly */
+.product-info-container .col-md-4,
+.additional-ratings-container .col-md-4 {
+    flex: 1;
     text-align: center;
+    padding: 10px;
 }
 
-/* Button Styling */
-.btn-primary {
+/* Update button styles */
+.product-info-container .btn-primary {
     background-color: darkgreen !important;
     color: white !important;
     padding: 4px 8px;
@@ -118,16 +123,9 @@ body {
     font-weight: bold;
 }
 
-.btn-primary:hover {
-    background-color: 3B5B63 !important;
+.product-info-container .btn-primary:hover {
+    background-color: #3B5B63 !important;
     color: white !important;
-}
-
-/* Image styling */
-.review-image img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 30px;
 }
 
 /* Review content styling */
@@ -137,84 +135,13 @@ body {
     color: #333;
 }
 
-/* Review text paragraph spacing */
-.review-text p {
-    margin-bottom: 20px;
-}
-
-/* Review Title */
-.review-title {
-    text-align: center;
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 10px;
-    line-height: 1.3;
-}
-
-/* General Review Content Styling */
-.review-content p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: #333;
-    margin-bottom: 1.2rem;
-}
-
-/* Review Content Heading */
-.review-content h3 {
+.review-content h3, .review-content h2 {
     font-size: 1.5rem;
     font-weight: bold !important;
     color: #2c3e50;
     margin-top: 2rem;
     margin-bottom: 1rem;
     text-transform: capitalize;
-}
-
-/* Review Content Heading */
-.review-content h2 {
-    font-size: 1.5rem;
-    font-weight: bold !important;
-    color: #2c3e50;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    text-transform: capitalize;
-}
-
-/* Styling for Lists */
-.review-content ul {
-    margin-left: 1.5rem;
-    padding-left: 1rem;
-    list-style-type: disc;
-}
-
-.review-content ul li {
-    margin-bottom: 0.8rem;
-    font-size: 1.1rem;
-    color: #333;
-}
-
-/* Optional: Style blockquote for callout text */
-.review-content blockquote {
-    font-size: 1.2rem;
-    color: #555;
-    margin: 1.5rem 0;
-    padding: 1rem;
-    background-color: #f4f4f4;
-    border-left: 4px solid #1e6f9f;
-}
-
-/* Focus state for accessibility */
-button:focus, a:focus {
-    outline: 3px solid #1e6f9f;
-}
-
-/* Product Links */
-.product-link-container a {
-    color: #007bff;
-}
-
-.product-link-container a:hover {
-    text-decoration: underline;
 }
 
 /* Unified styling for Info Boxes */
@@ -246,83 +173,31 @@ button:focus, a:focus {
     text-align: center;
 }
 
-/* Update button styles */
-.product-info-row .btn-primary {
-    background-color: #007bff; /* Blue background */
-    color: white;              /* White text */
-    border: none;              /* Remove border */
-    padding: 10px 20px;        /* Adjust padding */
-    border-radius: 5px;        /* Rounded corners */
-    font-size: 0.9rem;         /* Font size */
-    font-weight: bold;         /* Bold text */
-    transition: background-color 0.3s ease; /* Smooth hover transition */
+/* Button Styling */
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-left: 5px;
+    display: inline-block;
 }
 
-/* Button hover state */
-.product-info-row .btn-primary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    color: white;              /* Keep text white */
-    text-decoration: none;     /* Remove underline */
-}
-
-/* Align the button inline with "Check it out" */
-.product-info-row .col-md-4 {
-    display: flex;
-    align-items: center;   /* Vertically aligns items */
-    justify-content: flex-start; /* Align content to the left */
-    gap: 10px;             /* Adds space between the text and button */
-}
-
-/* Update button styles to fit inline */
-.product-info-row .btn-primary {
-    padding: 5px 12px;     /* Reduce padding for a smaller button */
-    font-size: 0.85rem;    /* Slightly smaller font */
-    margin-left: 5px;      /* Add space from the text */
-}
-
-/* Align the button inline with "Check it out" */
-.product-info-row .col-md-4 {
-    display: flex;
-    align-items: center;   /* Vertically aligns items */
-    justify-content: flex-start; /* Align content to the left */
-    gap: 5px;             /* Adds space between the text and button */
-}
-
-/* Update button styles to fit inline */
-.product-info-row .btn-primary {
-    padding: 5px 12px;     /* Reduce padding for a smaller button */
-    font-size: 0.85rem;    /* Slightly smaller font */
-    margin-left: 5px;      /* Add space from the text */
-    display: inline-block; /* Ensure it's inline */
+.btn-primary:hover {
+    background-color: #0056b3;
+    text-decoration: none;
 }
 
 /* Ensure button and text are aligned properly */
-.product-info-row .col-md-4 {
+.product-info-container .col-md-4 {
     display: flex;
-    align-items: center;   /* Vertically align items */
-    justify-content: flex-start; /* Align content to the left */
-    gap: 10px;             /* Add space between the text and button */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* Ensure the button is inline */
-.product-info-row .btn-primary {
-    display: inline-block;
-    padding: 5px 12px;     /* Adjust padding for a smaller button */
-    font-size: 0.85rem;    /* Slightly smaller font size */
-    margin-left: 5px;      /* Add space between the text and button */
-}
-
-.related-review-item:hover {
-    transform: scale(1.05);
-}
-
-/* Image styling for related reviews */
-.review-image img, .related-review-image img {
-    max-width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
-
+/* Responsive styling for smaller screens */
 @media (max-width: 768px) {
     .product-info-container .row {
         flex-direction: column;
@@ -340,10 +215,9 @@ button:focus, a:focus {
     }
 }
 
-/* Responsive styling */
 @media (max-width: 500px) {
     .related-review-card {
-        flex: 1 1 100%; /* Shows one item per row */
+        flex: 1 1 100%;
         max-width: 100%;
     }
 }
