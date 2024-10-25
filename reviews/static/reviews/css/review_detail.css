@@ -184,6 +184,15 @@ body {
     display: inline-block;
 }
 
+.product-info-container {
+    background-color: rgba(241,245,250, 0.8); /* White background with 80% opacity */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Add padding inside the box */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    margin-bottom: 20px; /* Spacing below the box */
+}
+
+
 .btn-primary:hover {
     background-color: #0056b3;
     text-decoration: none;
@@ -197,23 +206,33 @@ body {
     gap: 10px;
 }
 
-/* Responsive styling for smaller screens */
 @media (max-width: 768px) {
     .product-info-container .row {
+        display: flex;
         flex-direction: column;
         text-align: center;
     }
 
     .product-info-container .col-md-4 {
-        margin-bottom: 15px;
         text-align: center;
     }
 
     .product-info-container .btn-primary {
-        width: 100%; /* Full width button on mobile */
+        width: 100%; 
+        order: 5; /* Ensure it's moved to the last position */
         margin-top: 10px;
     }
+
+    .product-info-container .check-text {
+        display: none; 
+    }
+
+    .flex-row-center {
+        gap: 0px;
+    }
 }
+
+
 
 @media (max-width: 500px) {
     .related-review-card {

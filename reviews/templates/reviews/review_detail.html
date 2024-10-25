@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <h1 class="review-title">{{ review.title }}</h1>
+        <h1 class="review-title text-center">{{ review.title }}</h1>
 
         {%if review.pros %}
             <!-- Navigation Links with Styling -->
@@ -66,11 +66,11 @@
                 {% endif %}
         
                 <div class="col-md-4">
-                    <strong>Check it out:</strong>
+                    <strong class="check-text">Check it out:</strong>
                     <a href="{{ review.product_link }}" target="_blank" class="btn btn-primary" aria-label="Get latest pricing">
                         Get the latest pricing
                     </a>
-                </div>
+                </div>                
             </div>
         
             <!-- Additional Ratings -->
