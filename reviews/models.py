@@ -49,9 +49,21 @@ class Review(models.Model):
 
     # New fields for pricing, ease of use, durability, customer support, and value for money
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    durability = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, blank=True)
-    ease_of_use = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, blank=True)
-    value_for_money = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, blank=True)
+    durability = models.DecimalField(
+            max_digits=3, decimal_places=1,
+            validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
+            null=True, blank=True
+        )
+    ease_of_use = models.DecimalField(
+        max_digits=3, decimal_places=1,
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
+        null=True, blank=True
+    )
+    value_for_money = models.DecimalField(
+        max_digits=3, decimal_places=1,
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
+        null=True, blank=True
+    )
 
     class Meta:
         ordering = ['-publication_date']
