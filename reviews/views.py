@@ -311,7 +311,7 @@ def category_reviews(request, slug):
     })
     
 
-def search_reviews(request):
+def search_reviews_for_compare(request):
     search_term = request.GET.get('search', '')
     category_id = request.GET.get('category', '')
     rating_filter = request.GET.get('rating', '')

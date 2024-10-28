@@ -29,5 +29,5 @@ urlpatterns = [
     path('archive/<int:year>/<str:month>/', views.archive_by_month, name='archive_by_month'),
     path('reviews/', review_overview, name='review_overview'),
     path('compare-reviews/', compare_reviews_view, name='compare_reviews'),
-    path('reviews/search/', views.search_reviews, name='search_reviews'),
+    path('reviews/search/', views.search_reviews_for_compare, name='search_reviews_for_compare'),
     ]
