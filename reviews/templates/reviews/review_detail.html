@@ -27,10 +27,11 @@
         </nav>
 
         {% if review.image %}
-        <div class="image text-center">
-            <img src="{{ review.image.url }}" alt="Image of {{ review.title }}" class="img-fluid" aria-labelledby="reviewContent">
-        </div>
+            <div class="image text-center">
+                <img src="{{ review.image.url }}" alt="Image of {{ review.title }}" class="img-fluid fixed-height-img" aria-labelledby="reviewContent">
+            </div>
         {% endif %}
+    
 
         <div class="d-flex justify-content-between">
             <div class="details">

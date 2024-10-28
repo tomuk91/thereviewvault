@@ -1511,8 +1511,8 @@ body {
     .review-content {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        text-align: center;
+        justify-content: center !important;
+        text-align: justify;
         align-items: center;
         /* Center the text */
     }
