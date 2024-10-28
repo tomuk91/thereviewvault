@@ -19,6 +19,11 @@
     height: auto !important;
 }
 
+.table-responsive {
+    overflow-x: auto;
+}
+
+
 
 /* Table Styling */
 table {
@@ -93,9 +98,12 @@ tbody tr:nth-child(even) td {
         align-items: center;
     }
 
-    table {
+    .table-responsive {
+        overflow-x: auto; /* Enable horizontal scroll */
         width: 100%; /* Full width on mobile */
         margin-top: 20px;
+        padding: 0 15px; /* Add padding for better visibility */
+        box-sizing: border-box;
     }
 
     .compare-sidebar {
@@ -103,8 +111,23 @@ tbody tr:nth-child(even) td {
         margin-bottom: 20px;
     }
 
+    table {
+        width: 100%; /* Full width on mobile */
+        border-collapse: collapse;
+    }
+
     th, td {
         text-align: center;
         padding: 10px;
+        white-space: nowrap; /* Prevent wrapping */
     }
+
+    .table tbody tr {
+        border-bottom: 1px solid #ddd; /* Optional: row separator */
+    }
+}
+
+/* General Table Styling */
+.table thead th, .table tbody td {
+    padding: 10px;
 }

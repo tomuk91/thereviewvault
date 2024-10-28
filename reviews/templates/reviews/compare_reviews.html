@@ -48,198 +48,201 @@
     </div>
 
     {% if reviews %}
-    <table class="text-center">
-        <thead>
-            <tr>
-                <th>Attribute</th>
-                {% for review in reviews %}
-                <th>{{ review.title|remove_review }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Image -->
-            <tr>
-                <td class="fw-bolder">Image</td>
-                {% for review in reviews %}
-                    <td> 
-                        {% if review.image %}
-                            <div class="review-image text-center">
-                                <img src="{{ review.optimized_image.url }}" alt="{{ review.title }}" loading="lazy">
-                            </div>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>  
+    <div class="table-responsive">
 
-            <!-- Rating -->
-            <tr>
-                <td class="fw-bolder">Rating</td>
-                {% for review in reviews %}
-                    <td><span class="stars">
-                        {% render_stars review.rating %}
-                    </span></td>
-                {% endfor %}
-            </tr>
+        <table class=" table text-center">
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    {% for review in reviews %}
+                    <th>{{ review.title|remove_review }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Image -->
+                <tr>
+                    <td class="fw-bolder">Image</td>
+                    {% for review in reviews %}
+                        <td> 
+                            {% if review.image %}
+                                <div class="review-image text-center">
+                                    <img src="{{ review.optimized_image.url }}" alt="{{ review.title }}" loading="lazy">
+                                </div>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>  
 
-            <!-- Category -->
-            <tr>
-                <td class="fw-bolder">Category</td>
-                {% for review in reviews %}
-                    <td>{{ review.category.name }}</td>
-                {% endfor %}
-            </tr>
+                <!-- Rating -->
+                <tr>
+                    <td class="fw-bolder">Rating</td>
+                    {% for review in reviews %}
+                        <td><span class="stars">
+                            {% render_stars review.rating %}
+                        </span></td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Author -->
-            <tr>
-                <td class="fw-bolder">Author</td>
-                {% for review in reviews %}
-                    <td>{{ review.author }}</td>
-                {% endfor %}
-            </tr>
+                <!-- Category -->
+                <tr>
+                    <td class="fw-bolder">Category</td>
+                    {% for review in reviews %}
+                        <td>{{ review.category.name }}</td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Product Code -->
-            <tr>
-                <td class="fw-bolder">Product Code</td>
-                {% for review in reviews %}
-                    <td>{{ review.product_code }}</td>
-                {% endfor %}
-            </tr>
+                <!-- Author -->
+                <tr>
+                    <td class="fw-bolder">Author</td>
+                    {% for review in reviews %}
+                        <td>{{ review.author }}</td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Publication Date -->
-            <tr>
-                <td class="fw-bolder">Publication Date</td>
-                {% for review in reviews %}
-                    <td>{{ review.publication_date|date:"F d, Y" }}</td>
-                {% endfor %}
-            </tr>
+                <!-- Product Code -->
+                <tr>
+                    <td class="fw-bolder">Product Code</td>
+                    {% for review in reviews %}
+                        <td>{{ review.product_code }}</td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Content Summary -->
-            <tr>
-                <td class="fw-bolder">Content Summary</td>
-                {% for review in reviews %}
-                    <td>{{ review.content|safe|truncatewords:20 }}</td>
-                {% endfor %}
-            </tr>
+                <!-- Publication Date -->
+                <tr>
+                    <td class="fw-bolder">Publication Date</td>
+                    {% for review in reviews %}
+                        <td>{{ review.publication_date|date:"F d, Y" }}</td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Pros -->
-            <tr>
-                <td class="fw-bolder">Pros</td>
-                {% for review in reviews %}
-                    <td>
-                        {% if review.pros %}
-                            {{ review.pros|linebreaks }}
-                        {% else %}
-                            <em>N/A</em>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
+                <!-- Content Summary -->
+                <tr>
+                    <td class="fw-bolder">Content Summary</td>
+                    {% for review in reviews %}
+                        <td>{{ review.content|safe|truncatewords:20 }}</td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Cons -->
-            <tr>
-                <td class="fw-bolder">Cons</td>
-                {% for review in reviews %}
-                    <td>
-                        {% if review.cons %}
-                            {{ review.cons|linebreaks }}
-                        {% else %}
-                            <em>N/A</em>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
+                <!-- Pros -->
+                <tr>
+                    <td class="fw-bolder">Pros</td>
+                    {% for review in reviews %}
+                        <td>
+                            {% if review.pros %}
+                                {{ review.pros|linebreaks }}
+                            {% else %}
+                                <em>N/A</em>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Features -->
-            <tr>
-                <td class="fw-bolder">Features</td>
-                {% for review in reviews %}
-                    <td>
-                        {% if review.features %}
-                            {{ review.features|linebreaks }}
-                        {% else %}
-                            <em>N/A</em>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
+                <!-- Cons -->
+                <tr>
+                    <td class="fw-bolder">Cons</td>
+                    {% for review in reviews %}
+                        <td>
+                            {% if review.cons %}
+                                {{ review.cons|linebreaks }}
+                            {% else %}
+                                <em>N/A</em>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
 
-            <tr>
-                <td class="fw-bolder">Durability</td>
-                {% for review in reviews %}
-                    <td>
-                        {% if review.durability %}
-                        <span class="stars">
-                            {% render_stars review.durability %}
-                        </span>
-                        {% else %}
-                            <em>N/A</em>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <td class="fw-bolder">Ease of Use</td>
-                {% for review in reviews %}
-                    <td>
-                        {% if review.ease_of_use %}
-                        <span class="stars">
-                            {% render_stars review.ease_of_use %}
-                        </span>
-                        {% else %}
-                            <em>N/A</em>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <td class="fw-bolder">Value for Money</td>
-                {% for review in reviews %}
-                    <td>
-                        {% if review.value_for_money %}
-                        <span class="stars">
-                            {% render_stars review.value_for_money %}
-                        </span>
-                        {% else %}
-                            <em>N/A</em>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
+                <!-- Features -->
+                <tr>
+                    <td class="fw-bolder">Features</td>
+                    {% for review in reviews %}
+                        <td>
+                            {% if review.features %}
+                                {{ review.features|linebreaks }}
+                            {% else %}
+                                <em>N/A</em>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Pricing -->
-            <tr>
-                <td class="fw-bolder">Price At Review</td>
-                {% for review in reviews %}
-                    <td>
-                        {% if review.price %}
-                            £{{ review.price }}
-                        {% else %}
-                            <em>N/A</em>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <td class="fw-bolder">Latest Pricing</td>
-                {% for review in reviews %}
-                    <td class="fw-bolder text-primary"><a href="{{ review.product_link }}">Check Pricing</a></td>
-                {% endfor %}
-            </tr>
+                <tr>
+                    <td class="fw-bolder">Durability</td>
+                    {% for review in reviews %}
+                        <td>
+                            {% if review.durability %}
+                            <span class="stars">
+                                {% render_stars review.durability %}
+                            </span>
+                            {% else %}
+                                <em>N/A</em>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bolder">Ease of Use</td>
+                    {% for review in reviews %}
+                        <td>
+                            {% if review.ease_of_use %}
+                            <span class="stars">
+                                {% render_stars review.ease_of_use %}
+                            </span>
+                            {% else %}
+                                <em>N/A</em>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bolder">Value for Money</td>
+                    {% for review in reviews %}
+                        <td>
+                            {% if review.value_for_money %}
+                            <span class="stars">
+                                {% render_stars review.value_for_money %}
+                            </span>
+                            {% else %}
+                                <em>N/A</em>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
 
-            <!-- Review Link -->
-            <tr>
-                <td class="fw-bolder">Review Link</td>
-                {% for review in reviews %}
-                    <td class="fw-bolder text-primary">
-                        <a href="{{ review.get_absolute_url }}" title="Read the full review of {{ review.title }}">
-                            {{ review.full_url }}
-                        </a>
-                    </td>
-                {% endfor %}
-            </tr>
-        </tbody>
-    </table>
+                <!-- Pricing -->
+                <tr>
+                    <td class="fw-bolder">Price At Review</td>
+                    {% for review in reviews %}
+                        <td>
+                            {% if review.price %}
+                                £{{ review.price }}
+                            {% else %}
+                                <em>N/A</em>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="fw-bolder">Latest Pricing</td>
+                    {% for review in reviews %}
+                        <td class="fw-bolder text-primary"><a href="{{ review.product_link }}">Check Pricing</a></td>
+                    {% endfor %}
+                </tr>
+
+                <!-- Review Link -->
+                <tr>
+                    <td class="fw-bolder">Review Link</td>
+                    {% for review in reviews %}
+                        <td class="fw-bolder text-primary">
+                            <a href="{{ review.get_absolute_url }}" title="Read the full review of {{ review.title }}">
+                                {{ review.full_url }}
+                            </a>
+                        </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
     {% endif %}
 </div>
 
