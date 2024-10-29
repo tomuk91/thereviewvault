@@ -122,57 +122,72 @@ def review_list(request):
         'meta_keywords': meta_keywords,
     })
     
-@cache_page(60 * 10)  # Cache the view for 15 minutes
+from django.utils.html import format_html
+from django.utils import timezone
+from datetime import datetime
+import calendar
+
+@cache_page(60 * 10)  # Cache for 15 minutes
 def review_archive(request):
     reviews = Review.objects.all().filter(publication_date__lte=timezone.now()).order_by('-publication_date')
-
-    # Structure reviews by year and month
     archive_data = {}
+
     for review in reviews:
         year = review.publication_date.year
         month = review.publication_date.month
-        month_name = calendar.month_name[month]  # Convert month number to name
+        month_name = calendar.month_name[month]
         if year not in archive_data:
             archive_data[year] = {}
         if month_name not in archive_data[year]:
             archive_data[year][month_name] = []
         archive_data[year][month_name].append(review)
 
+    title = "Review Archive"
+    meta_description = "Explore our archive of product reviews, categorized by date to help you find insights on past products."
+    meta_keywords = "product review archive, product reviews by date, monthly review archive"
+
     context = {
         'archive_data': archive_data,
-        'reviews': None  # No reviews passed for filtering in this view
+        'reviews': None,
+        'title': title,
+        'meta_description': meta_description,
+        'meta_keywords': meta_keywords,
     }
     return render(request, 'reviews/archive.html', context)
 
-@cache_page(60 * 10)  # Cache the view for 15 minutes
+@cache_page(60 * 10)  # Cache for 15 minutes
 def archive_by_month(request, year, month):
-    # Convert month name to number
     month_num = datetime.strptime(month, '%B').month
-
-    # Get reviews for the specified year and month
     reviews = Review.objects.filter(
         publication_date__year=year,
         publication_date__month=month_num
     ).order_by('-publication_date')
 
-    # Structure archive data for sidebar
     all_reviews = Review.objects.all().filter(publication_date__lte=timezone.now()).order_by('-publication_date')
     archive_data = {}
     for review in all_reviews:
         review_year = review.publication_date.year
         review_month = review.publication_date.month
-        month_name = calendar.month_name[review_month]  # Convert to month name
+        month_name = calendar.month_name[review_month]
         if review_year not in archive_data:
             archive_data[review_year] = {}
         if month_name not in archive_data[review_year]:
             archive_data[review_year][month_name] = []
         archive_data[review_year][month_name].append(review)
 
+    title = f"Product Reviews - {month} {year}"
+    meta_description = f"Discover product reviews from {month} {year}, with insights into products released during that month."
+    meta_keywords = f"{month} {year} reviews, product reviews {year}, {month} reviews"
+
     context = {
         'archive_data': archive_data,
-        'reviews': reviews  # Pass filtered reviews to the template
+        'reviews': reviews,
+        'title': title,
+        'meta_description': meta_description,
+        'meta_keywords': meta_keywords,
     }
     return render(request, 'reviews/archive.html', context)
+
 
 
 # views.py
@@ -335,23 +350,31 @@ def search_reviews_for_compare(request):
     return JsonResponse(results, safe=False)
 
 
-
 def compare_reviews_view(request):
     review_ids = request.GET.getlist('reviews')  # Get selected review IDs from the query string
-        
     reviews = Review.objects.filter(id__in=review_ids)
     
+    # Construct absolute URLs for each review
     for review in reviews:
         review.full_url = request.build_absolute_uri(review.get_absolute_url())
 
-    return render(request, 'reviews/compare_reviews.html', {'reviews': reviews})
+    # SEO elements
+    title = "Compare Product Reviews"
+    meta_description = "Compare multiple product reviews side-by-side to help you make informed purchasing decisions. Find insights on ratings, pros, cons, and more."
+    meta_keywords = "product review comparison, compare reviews, product insights, review pros and cons, buying guide"
+
+    # Pass SEO data to the template
+    return render(request, 'reviews/compare_reviews.html', {
+        'reviews': reviews,
+        'title': title,
+        'meta_description': meta_description,
+        'meta_keywords': meta_keywords,
+    })
+
 
 def review_overview(request):
     reviews = Review.objects.all()
     return render(request, 'review_overview.html', {'reviews': reviews})
-
-
-
 
 def hot_reviews(request):
     one_week_ago = now() - timedelta(days=7)
