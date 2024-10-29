@@ -53,9 +53,9 @@
         <table class=" table text-center">
             <thead>
                 <tr>
-                    <th>Attribute</th>
+                    <th class="fixed-column">Attribute</th>
                     {% for review in reviews %}
-                    <th>{{ review.title|remove_review }}</th>
+                    <th class="equal-width">{{ review.title|remove_review }}</th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -124,13 +124,17 @@
                     {% endfor %}
                 </tr>
 
-                <!-- Pros -->
+                        <!-- Pros -->
                 <tr>
                     <td class="fw-bolder">Pros</td>
                     {% for review in reviews %}
                         <td>
                             {% if review.pros %}
-                                {{ review.pros|linebreaks }}
+                                <ul>
+                                    {% for pro in review.pros.splitlines %}
+                                        <li>{{ pro }}</li>
+                                    {% endfor %}
+                                </ul>
                             {% else %}
                                 <em>N/A</em>
                             {% endif %}
@@ -144,28 +148,34 @@
                     {% for review in reviews %}
                         <td>
                             {% if review.cons %}
-                                {{ review.cons|linebreaks }}
+                                <ul>
+                                    {% for con in review.cons.splitlines %}
+                                        <li>{{ con }}</li>
+                                    {% endfor %}
+                                </ul>
                             {% else %}
                                 <em>N/A</em>
                             {% endif %}
                         </td>
                     {% endfor %}
                 </tr>
-
-                <!-- Features -->
+                        <!-- Features -->
                 <tr>
                     <td class="fw-bolder">Features</td>
                     {% for review in reviews %}
                         <td>
                             {% if review.features %}
-                                {{ review.features|linebreaks }}
+                                <ul>
+                                    {% for feature in review.features.splitlines %}
+                                        <li>{{ feature }}</li>
+                                    {% endfor %}
+                                </ul>
                             {% else %}
                                 <em>N/A</em>
                             {% endif %}
                         </td>
                     {% endfor %}
                 </tr>
-
                 <tr>
                     <td class="fw-bolder">Durability</td>
                     {% for review in reviews %}

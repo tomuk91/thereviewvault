@@ -9,13 +9,13 @@
 
 .review-image {
     width: 100% !important;
-    text-align: center !important; /* Center the image container */
+    text-align: center !important;
 }
 
 .review-image img {
     display: block !important;
-    margin: 0 auto !important; /* Center the image horizontally */
-    max-width: 100px !important; /* Adjust the image size as needed */
+    margin: 0 auto !important;
+    max-width: 100px !important;
     height: auto !important;
 }
 
@@ -23,27 +23,22 @@
     overflow-x: auto;
 }
 
-
-
 /* Table Styling */
 table {
     justify-content: center;
-    width: 70%; /* Adjust table width */
+    width: 70%;
     border-collapse: collapse;
     font-size: 1rem;
     text-align: left;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Ensures equal column width */
 }
 
 th, td {
     padding: 15px;
     border: 1px solid #ddd;
+    word-break: break-word; /* Prevent text overflow */
 }
-
-.centered-sidebar {
-    justify-content: center !important;
-}
-
 
 th {
     background-color: rgb(86,121,132);
@@ -70,6 +65,10 @@ tbody tr:nth-child(even) td {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.table li {
+    text-align: left !important;
+}
+
 .compare-sidebar h3 {
     font-size: 1.25rem;
     margin-bottom: 15px;
@@ -89,20 +88,18 @@ tbody tr:nth-child(even) td {
     border: 1px solid #ccc;
 }
 
-
-
 /* Responsive for Table and Sidebar */
 @media (max-width: 768px) {
     .compare-wrapper {
-        flex-direction: column; /* Stack sidebar and table */
+        flex-direction: column;
         align-items: center;
     }
 
     .table-responsive {
-        overflow-x: auto; /* Enable horizontal scroll */
-        width: 100%; /* Full width on mobile */
+        overflow-x: auto;
+        width: 100%;
         margin-top: 20px;
-        padding: 0 15px; /* Add padding for better visibility */
+        padding: 0 15px;
         box-sizing: border-box;
     }
 
@@ -112,22 +109,31 @@ tbody tr:nth-child(even) td {
     }
 
     table {
-        width: 100%; /* Full width on mobile */
+        width: 100%;
         border-collapse: collapse;
     }
 
     th, td {
         text-align: center;
         padding: 10px;
-        white-space: nowrap; /* Prevent wrapping */
+        white-space: normal; /* Allow text wrapping on mobile */
     }
 
     .table tbody tr {
-        border-bottom: 1px solid #ddd; /* Optional: row separator */
+        border-bottom: 1px solid #ddd;
     }
 }
 
 /* General Table Styling */
 .table thead th, .table tbody td {
     padding: 10px;
+}
+
+/* Specific Column Width Control */
+.fixed-column {
+    width: 150px;
+}
+
+.equal-width {
+    width: calc(50% - 75px);
 }

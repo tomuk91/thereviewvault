@@ -1218,7 +1218,6 @@ body {
     justify-content: center;
     /* background-color: #f8f9fc; */
     border-radius: 15px;
-    width: 100%;
     margin: 0 auto; /* Center the container */
     color: black;
     background-color: rgba(241 245 250 / 0.9) !important;
@@ -1441,6 +1440,10 @@ body {
         width: calc(50% - 10px); /* Two items per row on mobile */
     }
 
+    .lucky-charm-container {
+        width: 100%;
+    }
+
     .sidebar {
         gap:10px;
         width: 100%;
@@ -1511,10 +1514,19 @@ body {
     .review-content {
         display: flex;
         flex-direction: column;
-        justify-content: center !important;
-        text-align: justify;
+        justify-content: left !important;
+        text-align: left;
         align-items: center;
         /* Center the text */
+    }
+
+    body {
+        font-size: 1rem !important;
+    }
+
+    .review-detail-container {
+        padding: 1px !important;
+
     }
 
     .review-content h2:hover {
@@ -1524,6 +1536,7 @@ body {
     }
 
     .review-content h2 {
+        text-align: center;
         font-size: 1.3rem;
         margin-bottom: 8px;
     }

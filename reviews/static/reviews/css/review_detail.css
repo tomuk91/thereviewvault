@@ -244,7 +244,7 @@ body {
     .product-info-container .row {
         display: flex;
         flex-direction: column;
-        text-align: center;
+        text-align: left;
     }
 
     .product-info-container .col-md-4 {
@@ -255,6 +255,11 @@ body {
         width: 100%; 
         order: 5; /* Ensure it's moved to the last position */
         margin-top: 10px;
+    }
+
+    .review-text {
+        font-size: 1rem;
+        text-align: left;
     }
 
     .product-info-container .check-text {
