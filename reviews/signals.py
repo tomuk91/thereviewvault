@@ -28,6 +28,10 @@ def post_review_to_twitter(sender, instance, created, **kwargs):
             instance.task_scheduled = True
             instance.save(update_fields=['task_scheduled'])
 
+        # Set task_scheduled flag before initiating transaction
+        instance.task_scheduled = True
+        instance.save(update_fields=['task_scheduled'])
+        
         # Ensure the task is scheduled only after the review has been fully saved
         transaction.on_commit(schedule_task)
 

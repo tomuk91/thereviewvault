@@ -21,23 +21,24 @@
 
 .table-responsive {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 /* Table Styling */
 table {
-    justify-content: center;
     width: 70%;
     border-collapse: collapse;
     font-size: 1rem;
     text-align: left;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    table-layout: fixed; /* Ensures equal column width */
+    table-layout: fixed;
 }
 
 th, td {
     padding: 15px;
     border: 1px solid #ddd;
-    word-break: break-word; /* Prevent text overflow */
+    word-break: break-word;
+    white-space: normal; /* Ensure text wraps */
 }
 
 th {
@@ -55,6 +56,18 @@ tbody tr:nth-child(even) td {
     background-color: #FFFFFF;
 }
 
+/* Bullet Point Styling in Table Cells */
+td ul {
+    padding-left: 20px;
+    margin: 0;
+    list-style-type: disc; /* Standard bullet points */
+}
+
+td ul li {
+    margin-bottom: 5px;
+    text-align: left !important;
+}
+
 /* Sidebar Styling */
 .compare-sidebar {
     flex: 0 0 25%;
@@ -63,10 +76,6 @@ tbody tr:nth-child(even) td {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.table li {
-    text-align: left !important;
 }
 
 .compare-sidebar h3 {
@@ -110,13 +119,13 @@ tbody tr:nth-child(even) td {
 
     table {
         width: 100%;
-        border-collapse: collapse;
+        table-layout: auto; /* Allows columns to resize for mobile */
     }
 
     th, td {
         text-align: center;
         padding: 10px;
-        white-space: normal; /* Allow text wrapping on mobile */
+        white-space: nowrap; /* Prevent text wrapping */
     }
 
     .table tbody tr {
@@ -131,7 +140,7 @@ tbody tr:nth-child(even) td {
 
 /* Specific Column Width Control */
 .fixed-column {
-    width: 150px;
+    width: 120px;
 }
 
 .equal-width {
