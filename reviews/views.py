@@ -17,8 +17,6 @@ import calendar  # Add this to import calendar module
 
 
 # reviews/views.py
-
-
 def indexnow_key(request):
     return HttpResponse("a9522e169f464f8694f4ba8856128cca", content_type="text/plain")
 
@@ -88,7 +86,11 @@ def review_list(request):
     week_ago = today - timedelta(days=7)
     og_image = '/media/review_images/logo1.webp'
     title = "TheVaultReviews | Unbiased Reviews & Deals"
-    tags = Tag.objects.values_list('name', flat=True)  # Fetch only the tag names
+    tags = (
+        Tag.objects.annotate(review_count=Count('review'))
+        .filter(review_count__gt=0)
+        .values_list('name', flat=True)
+    )    
     tags_json = json.dumps(list(tags))  # Convert QuerySet to a JSON list
     reviews = Review.objects.filter(publication_date__lte=timezone.now()).order_by('-publication_date')
     top_reviews = Review.objects.filter(publication_date__gte=week_ago, publication_date__lte=timezone.now()).order_by('-rating')[:2]

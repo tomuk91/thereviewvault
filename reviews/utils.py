@@ -36,7 +36,7 @@ def post_to_twitter(message, tags=None, url=None, image_path=None, deal=False):
             print(f"Error uploading media to Twitter: {e}")
 
     # Prepare the tweet text
-    hashtags = ' '.join([f'#{tag}' for tag in tags[:4]]) if tags else ''
+    hashtags = ' '.join([f'#{tag.replace(" ", "")}' for tag in tags[:4]]) if tags else ''
     if deal == True:
         tweet_text = f"⭐{message}! ⭐\n\nClick here to get it now: {url if url else ''}\n\n{hashtags}".strip()
     else:
