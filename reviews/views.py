@@ -55,9 +55,18 @@ def search_reviews(request):
     if len(query) > 100:
         error_message = "Search term is too long. Please enter a shorter search term."
         return render(request, 'reviews/search_results.html', {'error_message': error_message})
-
-    # Search reviews
-    reviews = Review.objects.filter(title__icontains=query, publication_date__lte=timezone.now())
+    
+    # Check if the request is an AJAX request (JavaScript request in Django)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        reviews = Review.objects.filter(
+            Q(title__icontains=query) | Q(tags__name__icontains=query),
+            publication_date__lte=timezone.now()
+        ).distinct()
+    else:
+        reviews = Review.objects.filter(
+            title__icontains=query,
+            publication_date__lte=timezone.now()
+        )
 
     # Pagination
     paginator = Paginator(reviews, 10)  # Show 10 reviews per page
