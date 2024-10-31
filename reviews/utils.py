@@ -61,6 +61,10 @@ def post_to_twitter(message, tags=None, url=None, image_path=None, deal=False):
     except tweepy.TweepyException as e:
         print(f"Error posting to Twitter: {e}")
 
+
+# Set up basic logging configuration (if not already configured elsewhere)
+logging.basicConfig(level=logging.INFO)
+
 # Get the logger for the current module
 logger = logging.getLogger(__name__)
 
@@ -73,12 +77,13 @@ def submit_to_indexnow(url):
     
     # Send the request
     try:
-        response = requests.get(indexnow_endpoint)
+        response = requests.post(indexnow_endpoint)  # Use POST instead of GET
         if response.status_code == 200:
             logger.info(f"Successfully submitted {url} to IndexNow.")
         else:
-            logger.error(f"Failed to submit {url}. Response: {response.status_code}")
+            logger.error(f"Failed to submit {url}. Status: {response.status_code}, Response: {response.text}")
     except Exception as e:
         logger.error(f"Error submitting {url}: {str(e)}")
+
 
 
