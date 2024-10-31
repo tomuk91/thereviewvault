@@ -2,6 +2,10 @@
 
 import tweepy
 from django.conf import settings
+import requests
+import logging
+import requests
+
 
 def post_to_twitter(message, tags=None, url=None, image_path=None, deal=False):
     """
@@ -56,7 +60,9 @@ def post_to_twitter(message, tags=None, url=None, image_path=None, deal=False):
         print(f"Successfully posted to Twitter: {response}")
     except tweepy.TweepyException as e:
         print(f"Error posting to Twitter: {e}")
-import requests
+
+# Get the logger for the current module
+logger = logging.getLogger(__name__)
 
 def submit_to_indexnow(url):
     # Your API key from IndexNow
@@ -69,9 +75,10 @@ def submit_to_indexnow(url):
     try:
         response = requests.get(indexnow_endpoint)
         if response.status_code == 200:
-            print(f"Successfully submitted {url} to IndexNow.")
+            logger.info(f"Successfully submitted {url} to IndexNow.")
         else:
-            print(f"Failed to submit {url}. Response: {response.status_code}")
+            logger.warning(f"Failed to submit {url}. Response: {response.status_code}")
     except Exception as e:
-        print(f"Error submitting {url}: {str(e)}")
+        logger.error(f"Error submitting {url}: {str(e)}")
+
 
