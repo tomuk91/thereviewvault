@@ -77,7 +77,7 @@ def submit_to_indexnow(url):
         if response.status_code == 200:
             logger.info(f"Successfully submitted {url} to IndexNow.")
         else:
-            logger.warning(f"Failed to submit {url}. Response: {response.status_code}")
+            logger.error(f"Failed to submit {url}. Response: {response.status_code}")
     except Exception as e:
         logger.error(f"Error submitting {url}: {str(e)}")
 
