@@ -215,7 +215,7 @@
     "productID": "{{ review.product_code }}",
     "url": "{{ review.product_link }}",
     "image": "{{ review.image.url }}",
-    "description": "{{ review.content|truncatewords:30 }}",
+    "description": "{{ review.content|safe|truncatewords:30 }}",
     "offers": {
         "@type": "Offer",
         "url": "{{ review.product_link }}",
