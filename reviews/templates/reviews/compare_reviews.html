@@ -181,6 +181,39 @@
                     </td>
                     {% endfor %}
                 </tr>
+                <!-- Durability Row -->
+                <tr>
+                    <td class="fw-bolder">Durability</td>
+                    {% for review in reviews %}
+                        {% if review.durability %}
+                            <td><span class="stars">{% render_stars review.durability %}</span></td>
+                        {% else %}
+                            <td><em>N/A</em></td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <!-- Ease of use Row -->
+                <tr>
+                    <td class="fw-bolder">Ease of use</td>
+                    {% for review in reviews %}
+                        {% if review.ease_of_use %}
+                            <td><span class="stars">{% render_stars review.ease_of_use %}</span></td>
+                        {% else %}
+                            <td><em>N/A</em></td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <!-- Ease of use Row -->
+                <tr>
+                    <td class="fw-bolder">Value for money</td>
+                    {% for review in reviews %}
+                        {% if review.value_for_money %}
+                            <td><span class="stars">{% render_stars review.value_for_money %}</span></td>
+                        {% else %}
+                            <td><em>N/A</em></td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
                 <!-- Latest Pricing Row -->
                 <tr>
                     <td class="fw-bolder">Latest Pricing</td>
@@ -241,7 +274,41 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="review-attribute"><strong>Review Link:</strong> <a href="{{ review.get_absolute_url }}" class="text-primary">{{ review.full_url }}</a></div>
+                <div class="review-attribute">
+                    <strong>Durability:</strong> 
+                    {% if review.durability %}
+                        <span class="stars">{% render_stars review.durability %}</span>
+                    {% else %}
+                        <em>N/A</em>
+                    {% endif %}
+                </div>
+                
+                <div class="review-attribute">
+                    <strong>Ease of Use:</strong> 
+                    {% if review.ease_of_use %}
+                        <span class="stars">{% render_stars review.ease_of_use %}</span>
+                    {% else %}
+                        <em>N/A</em>
+                    {% endif %}
+                </div>
+                
+                <div class="review-attribute">
+                    <strong>Value for Money:</strong> 
+                    {% if review.value_for_money %}
+                        <span class="stars">{% render_stars review.value_for_money %}</span>
+                    {% else %}
+                        <em>N/A</em>
+                    {% endif %}
+                </div>
+                
+                <div class="review-attribute">
+                    <strong>Review Link:</strong> 
+                    {% if review.get_absolute_url %}
+                        <a href="{{ review.get_absolute_url }}" class="text-primary">{{ review.full_url }}</a>
+                    {% else %}
+                        <em>N/A</em>
+                    {% endif %}
+                </div>        
             </div>
             {% endfor %}
         </div>
