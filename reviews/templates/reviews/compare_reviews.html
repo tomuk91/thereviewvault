@@ -11,7 +11,7 @@
 
 {% if reviews %}
     <h1 class="text-center">Compare Results</h1>
-{% endif%}
+{% endif %}
 
 <div class="compare-wrapper {% if not reviews %}centered-sidebar{% endif %}">
     <div class="compare-sidebar">
@@ -49,216 +49,209 @@
 
     {% if reviews %}
     <div class="table-responsive">
-        <table class=" table text-center">
+        <!-- Desktop Table View -->
+        <table class="table text-center desktop-view">
             <thead>
                 <tr>
-                    <th class="fixed-column">Attribute</th>
+                    <th style="width:120px;">Attribute</th>
                     {% for review in reviews %}
-                    <th class="equal-width">{{ review.title|remove_review }}</th>
+                    <th>{{ review.title|remove_review }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
-                <!-- Image -->
+                <!-- Image Row -->
                 <tr>
                     <td class="fw-bolder">Image</td>
                     {% for review in reviews %}
-                        <td> 
-                            {% if review.image %}
-                                <div class="review-image text-center">
-                                    <img src="{{ review.optimized_image.url }}" alt="{{ review.title }}" loading="lazy">
-                                </div>
-                            {% endif %}
-                        </td>
+                    <td>
+                        {% if review.image %}
+                            <div class="review-image" style="text-align: center;">
+                                <img src="{{ review.optimized_image.url }}" alt="{{ review.title }}" loading="lazy">
+                            </div>
+                        {% else %}
+                            <em>N/A</em>
+                        {% endif %}
+                    </td>
                     {% endfor %}
-                </tr>  
-
-                <!-- Rating -->
+                </tr>
+                <!-- Rating Row -->
                 <tr>
                     <td class="fw-bolder">Rating</td>
                     {% for review in reviews %}
-                        <td><span class="stars">
-                            {% render_stars review.rating %}
-                        </span></td>
+                    <td><span class="stars">{% render_stars review.rating %}</span></td>
                     {% endfor %}
                 </tr>
-
-                <!-- Category -->
+                <!-- Category Row -->
                 <tr>
                     <td class="fw-bolder">Category</td>
                     {% for review in reviews %}
-                        <td>{{ review.category.name }}</td>
+                    <td>{{ review.category.name }}</td>
                     {% endfor %}
                 </tr>
-
-                <!-- Author -->
+                <!-- Author Row -->
                 <tr>
                     <td class="fw-bolder">Author</td>
                     {% for review in reviews %}
-                        <td>{{ review.author }}</td>
+                    <td>{{ review.author }}</td>
                     {% endfor %}
                 </tr>
-
-                <!-- Product Code -->
+                <!-- Product Code Row -->
                 <tr>
                     <td class="fw-bolder">Product Code</td>
                     {% for review in reviews %}
-                        <td>{{ review.product_code }}</td>
+                    <td>{{ review.product_code }}</td>
                     {% endfor %}
                 </tr>
-
-                <!-- Publication Date -->
+                <!-- Publication Date Row -->
                 <tr>
                     <td class="fw-bolder">Publication Date</td>
                     {% for review in reviews %}
-                        <td>{{ review.publication_date|date:"F d, Y" }}</td>
+                    <td>{{ review.publication_date|date:"F d, Y" }}</td>
                     {% endfor %}
                 </tr>
-
-                <!-- Content Summary -->
+                <!-- Content Summary Row -->
                 <tr>
                     <td class="fw-bolder">Content Summary</td>
                     {% for review in reviews %}
-                        <td>{{ review.content|safe|truncatewords:20 }}</td>
+                    <td>{{ review.content|safe|truncatewords:20 }}</td>
                     {% endfor %}
                 </tr>
-
-                        <!-- Pros -->
+                <!-- Pros Row -->
                 <tr>
                     <td class="fw-bolder">Pros</td>
                     {% for review in reviews %}
-                        <td>
-                            {% if review.pros %}
-                                <ul>
-                                    {% for pro in review.pros.splitlines %}
-                                        <li>{{ pro }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <em>N/A</em>
-                            {% endif %}
-                        </td>
+                    <td>
+                        {% if review.pros %}
+                            <ul class="review-list">
+                                {% for line in review.pros.splitlines %}
+                                    <li>{{ line }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <em>N/A</em>
+                        {% endif %}
+                    </td>
                     {% endfor %}
                 </tr>
-
-                <!-- Cons -->
+                <!-- Cons Row -->
                 <tr>
                     <td class="fw-bolder">Cons</td>
                     {% for review in reviews %}
-                        <td>
-                            {% if review.cons %}
-                                <ul>
-                                    {% for con in review.cons.splitlines %}
-                                        <li>{{ con }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <em>N/A</em>
-                            {% endif %}
-                        </td>
+                    <td>
+                        {% if review.cons %}
+                            <ul class="review-list">
+                                {% for line in review.cons.splitlines %}
+                                    <li>{{ line }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <em>N/A</em>
+                        {% endif %}
+                    </td>
                     {% endfor %}
                 </tr>
-                        <!-- Features -->
+                <!-- Features Row -->
                 <tr>
                     <td class="fw-bolder">Features</td>
                     {% for review in reviews %}
-                        <td>
-                            {% if review.features %}
-                                <ul>
-                                    {% for feature in review.features.splitlines %}
-                                        <li>{{ feature }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <em>N/A</em>
-                            {% endif %}
-                        </td>
+                    <td>
+                        {% if review.features %}
+                            <ul class="review-list">
+                                {% for line in review.features.splitlines %}
+                                    <li>{{ line }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <em>N/A</em>
+                        {% endif %}
+                    </td>
                     {% endfor %}
                 </tr>
-                <tr>
-                    <td class="fw-bolder">Durability</td>
-                    {% for review in reviews %}
-                        <td>
-                            {% if review.durability %}
-                            <span class="stars">
-                                {% render_stars review.durability %}
-                            </span>
-                            {% else %}
-                                <em>N/A</em>
-                            {% endif %}
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td class="fw-bolder">Ease of Use</td>
-                    {% for review in reviews %}
-                        <td>
-                            {% if review.ease_of_use %}
-                            <span class="stars">
-                                {% render_stars review.ease_of_use %}
-                            </span>
-                            {% else %}
-                                <em>N/A</em>
-                            {% endif %}
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td class="fw-bolder">Value for Money</td>
-                    {% for review in reviews %}
-                        <td>
-                            {% if review.value_for_money %}
-                            <span class="stars">
-                                {% render_stars review.value_for_money %}
-                            </span>
-                            {% else %}
-                                <em>N/A</em>
-                            {% endif %}
-                        </td>
-                    {% endfor %}
-                </tr>
-
-                <!-- Pricing -->
+                <!-- Price At Review Row -->
                 <tr>
                     <td class="fw-bolder">Price At Review</td>
                     {% for review in reviews %}
-                        <td>
-                            {% if review.price %}
-                                £{{ review.price }}
-                            {% else %}
-                                <em>N/A</em>
-                            {% endif %}
-                        </td>
+                    <td>
+                        {% if review.price %}
+                            £{{ review.price }}
+                        {% else %}
+                            <em>N/A</em>
+                        {% endif %}
+                    </td>
                     {% endfor %}
                 </tr>
+                <!-- Latest Pricing Row -->
                 <tr>
                     <td class="fw-bolder">Latest Pricing</td>
                     {% for review in reviews %}
-                        <td class="fw-bolder text-primary"><a href="{{ review.product_link }}">Check Pricing</a></td>
+                    <td class="fw-bolder text-primary"><a href="{{ review.product_link }}">Check Pricing</a></td>
                     {% endfor %}
                 </tr>
-
-                <!-- Review Link -->
+                <!-- Review Link Row -->
                 <tr>
                     <td class="fw-bolder">Review Link</td>
                     {% for review in reviews %}
-                        <td class="fw-bolder text-primary">
-                            <a href="{{ review.get_absolute_url }}" title="Read the full review of {{ review.title }}">
-                                {{ review.full_url }}
-                            </a>
-                        </td>
+                    <td class="fw-bolder text-primary">
+                        <a href="{{ review.get_absolute_url }}" title="Read the full review of {{ review.title }}">
+                            {{ review.full_url }}
+                        </a>
+                    </td>
                     {% endfor %}
                 </tr>
             </tbody>
         </table>
+
+        <!-- Mobile Card View -->
+        <div class="mobile-view">
+            {% for review in reviews %}
+            <div class="review-card">
+                <h3 class="review-title">{{ review.title|remove_review }}</h3>
+                <div class="review-attribute"><strong>Image:</strong>
+                    {% if review.image %}
+                        <img src="{{ review.optimized_image.url }}" alt="{{ review.title }}" loading="lazy" class="review-image">
+                    {% else %}
+                        <em>N/A</em>
+                    {% endif %}
+                </div>
+                <div class="review-attribute"><strong>Rating:</strong> <span class="stars">{% render_stars review.rating %}</span></div>
+                <div class="review-attribute"><strong>Category:</strong> {{ review.category.name }}</div>
+                <div class="review-attribute"><strong>Author:</strong> {{ review.author }}</div>
+                <div class="review-attribute"><strong>Product Code:</strong> {{ review.product_code }}</div>
+                <div class="review-attribute"><strong>Publication Date:</strong> {{ review.publication_date|date:"F d, Y" }}</div>
+                <div class="review-attribute"><strong>Content Summary:</strong> {{ review.content|safe|truncatewords:20 }}</div>
+                <div class="review-attribute"><strong>Pros:</strong>
+                    <ul class="review-list">
+                        {% for line in review.pros.splitlines %}
+                            <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="review-attribute"><strong>Cons:</strong>
+                    <ul class="review-list">
+                        {% for line in review.cons.splitlines %}
+                            <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="review-attribute"><strong>Features:</strong>
+                    <ul class="review-list">
+                        {% for line in review.features.splitlines %}
+                            <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="review-attribute"><strong>Review Link:</strong> <a href="{{ review.get_absolute_url }}" class="text-primary">{{ review.full_url }}</a></div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
     {% endif %}
 </div>
 
-{% endblock%}
+{% endblock %}
 
-
-{%block javascript%}
+{% block javascript %}
 <script>
     $(document).ready(function() {
         $('#review-select').select2({
@@ -284,7 +277,6 @@
             placeholder: 'Search reviews',
             minimumInputLength: 2,
         });
-        
     });
 </script>
-{% endblock%}
+{% endblock %}

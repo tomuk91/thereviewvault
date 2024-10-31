@@ -132,11 +132,7 @@ def review_list(request):
         'meta_description': meta_description,
         'meta_keywords': meta_keywords,
     })
-    
-from django.utils.html import format_html
-from django.utils import timezone
-from datetime import datetime
-import calendar
+
 
 @cache_page(60 * 10)  # Cache for 15 minutes
 def review_archive(request):

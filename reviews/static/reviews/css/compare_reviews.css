@@ -1,4 +1,4 @@
-/* Wrapper to align sidebar and table */
+/* Wrapper to align sidebar and main content */
 .compare-wrapper {
     display: flex;
     justify-content: space-evenly;
@@ -56,17 +56,22 @@ tbody tr:nth-child(even) td {
     background-color: #FFFFFF;
 }
 
-/* Bullet Point Styling in Table Cells */
 td ul {
     padding-left: 20px;
     margin: 0;
-    list-style-type: disc; /* Standard bullet points */
+    list-style-type: disc;
+    text-align: left;
 }
 
 td ul li {
-    margin-bottom: 5px;
+    list-style-type: disc;
+    margin: 0 0 5px 20px; /* Adds margin to the left for better alignment */
+    list-style-position: inside; /* Ensures bullets are inside the list */
+    font-size: 1rem;
+    color: #333;
     text-align: left !important;
 }
+
 
 /* Sidebar Styling */
 .compare-sidebar {
@@ -97,52 +102,101 @@ td ul li {
     border: 1px solid #ccc;
 }
 
-/* Responsive for Table and Sidebar */
+.desktop-view {
+    display: table;
+}
+
+.mobile-view {
+    display: none;
+}
+
+/* Mobile Card Layout */
 @media (max-width: 768px) {
     .compare-wrapper {
         flex-direction: column;
         align-items: center;
     }
 
-    .table-responsive {
-        overflow-x: auto;
-        width: 100%;
-        margin-top: 20px;
-        padding: 0 15px;
-        box-sizing: border-box;
-    }
-
     .compare-sidebar {
-        max-width: none;
+        max-width: 100%;
         margin-bottom: 20px;
     }
 
-    table {
-        width: 100%;
-        table-layout: auto; /* Allows columns to resize for mobile */
+    .table-responsive .desktop-view {
+        display: none; /* Hide desktop table on mobile */
     }
 
-    th, td {
+    .mobile-view {
+        display: block; /* Show mobile card layout */
+    }
+
+    .review-card {
         text-align: center;
-        padding: 10px;
-        white-space: nowrap; /* Prevent text wrapping */
+        background-color: #F7F9FC;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .table tbody tr {
-        border-bottom: 1px solid #ddd;
+    .review-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 15px;
+        color: #333;
     }
-}
 
-/* General Table Styling */
-.table thead th, .table tbody td {
-    padding: 10px;
-}
+    /* Image styling with shadow and center alignment */
+    .review-image {
+        text-align: center;
+        margin: 15px 0;
+    }
 
-/* Specific Column Width Control */
-.fixed-column {
-    width: 120px;
-}
+    .review-image img {
+        max-width: 80%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
 
-.equal-width {
-    width: calc(50% - 75px);
+    /* Attribute sections with improved styling */
+    .review-attribute {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.95em;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .review-attribute strong {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 4px;
+    }
+
+    .review-attribute + .review-attribute {
+        border-top: 1px solid #e1e5ea;
+        padding-top: 10px;
+    }
+
+    /* Bullet points for Pros, Cons, and Features */
+    .review-attribute ul {
+        padding-left: 20px;
+        margin: 0;
+        list-style-type: disc;
+    }
+
+    .review-attribute ul li {
+        list-style-type: disc;
+        margin-bottom: 6px;
+        color: #333;
+        text-align: left;
+    }
+
+    /* Additional adjustments for clarity */
+    .stars {
+        display: inline-block;
+        vertical-align: middle;
+    }
 }
