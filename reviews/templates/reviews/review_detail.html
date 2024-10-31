@@ -223,6 +223,11 @@
             "price": "{{ review.price }}",
             "availability": "https://schema.org/InStock",
             "priceValidUntil": "{{ review.price_valid_until|default_if_none:'2025-12-31' }}"
+            },
+            "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{ review.rating }}",
+            "reviewCount": "{{ review.review_count|default:1 }}"
             }
         },
         "author": {
@@ -241,15 +246,10 @@
             "@type": "Organization",
             "name": "The Vault Reviews"
         },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "{{ review.rating }}",
-            "reviewCount": "{{ review.review_count|default:1 }}"
-        },
         "pros": "{{ review.pros|join:',' }}",
         "cons": "{{ review.cons|join:',' }}",
         "keyFeatures": "{{ review.features|join:',' }}"
         }
-        </script>
+    </script>
     {% endblock%}
     
