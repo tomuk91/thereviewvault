@@ -4,9 +4,6 @@ from .views import compare_reviews_view, privacy_policy, review_overview
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import ReviewSitemap
 from .views import robots_txt
-from django.conf.urls.static import static
-from django.conf import settings
-from django.urls import path, include
 
 sitemaps = {
     'reviews': ReviewSitemap,
@@ -33,5 +30,4 @@ urlpatterns = [
     path('reviews/', review_overview, name='review_overview'),
     path('compare-reviews/', compare_reviews_view, name='compare_reviews'),
     path('reviews/search/', views.search_reviews_for_compare, name='search_reviews_for_compare'),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    ]

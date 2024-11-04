@@ -5,7 +5,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill, SmartResize
-from ckeditor_uploader.fields import RichTextUploadingField
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -31,7 +30,7 @@ class Review(models.Model):
         default=0.0,
         validators=[MinValueValidator(0.0), MaxValueValidator(5.0)]
     )
-    content = RichTextUploadingField() 
+    content = models.TextField()
     task_scheduled = models.BooleanField(default=False)
     publication_date = models.DateTimeField()
     image = models.ImageField(upload_to='review_images/', blank=True, null=True)
