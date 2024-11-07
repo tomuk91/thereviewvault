@@ -1,0 +1,102 @@
+{% extends 'reviews/base.html' %}
+
+{% block content %}
+{% load static %}
+{% load compress %}
+{% compress css %}
+    <link rel="stylesheet" href="{% static 'reviews/css/news_detail.css' %}">
+{% endcompress %}
+
+<!-- Meta Tags for SEO -->
+{% block head %}
+    <meta name="description" content="{{ article.content|truncatewords:30 }}">
+    <meta name="keywords" content="news, {{ article.category.name }}, {{ article.author }}, latest updates">
+    <meta property="og:title" content="{{ article.title }} - The Vault Reviews">
+    <meta property="og:description" content="{{ article.content|truncatewords:30 }}">
+    
+    {% if article.image %}
+        <meta property="og:image" content="{{ article.image.url }}">
+    {% endif %}
+    
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% endblock %}
+
+<div class="news-detail-container">
+    <article class="news-detail">
+        <header class="news-header">
+            <h1 class="news-title">{{ article.title }}</h1>
+            {% if article.image %}
+                <figure class="news-image-container">
+                    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="news-image">
+                </figure>
+            {% endif %}
+            <p class="news-meta">By {{ article.author }} | {{ article.publication_date|date:"F j, Y" }}</p>
+        </header>
+        <div class="news-content">
+            {{ article.content|safe }}
+        </div>
+        <hr>
+    </article>
+</div>
+
+<!-- Related Reviews Section -->
+<section class="related-content mt-4">
+    <h3>Check out our other news articles</h3>
+    <div class="related-reviews-container">
+        {% for related_article in related_articles %}
+            <div class="related-review-item">
+                <a href="{% url 'news_detail' related_article.slug %}" aria-label="Read related review: {{ related_review.title }}">
+                    <div class="related-review-image">
+                        <img src="{{ related_article.image.url }}" alt="{{ related_article.title }}" class="img-fluid">
+                    </div>
+                    <div class="related-review-info">
+                        <h4 class="my-3">{{ related_article.title }}</h4>
+                        <p class="my-3">{{ related_article.content|safe|slice:":150" }}...</p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
+
+{% block javascript %}
+<!-- JSON-LD Structured Data for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.build_absolute_uri }}"
+    },
+    "headline": "{{ article.title }}",
+    "image": {
+    "@type": "ImageObject",
+    {% if article.image %}
+    "url": "{{ article.image.url }}",
+    {% endif %}
+    "width": 800,
+    "height": 600
+    },
+    "datePublished": "{{ article.publication_date|date:'Y-m-d' }}",
+    "author": {
+    "@type": "Person",
+    "name": "{{ article.author }}"
+    },
+    "publisher": {
+    "@type": "Organization",
+    "name": "The Vault Reviews",
+    "logo": {
+        "@type": "ImageObject",
+        "url": "{% static 'images/logo.png' %}",
+        "width": 150,
+        "height": 60
+    }
+    }
+}
+</script>
+    
+{%endblock%}

@@ -23,6 +23,7 @@ urlpatterns = [
 path('secure-admin/', admin.site.urls),    
 path('', include('reviews.urls')),
 path('deals/', include('deals.urls')),
+path('news/', include('news.urls')),
 ]
 
 if settings.DEBUG:

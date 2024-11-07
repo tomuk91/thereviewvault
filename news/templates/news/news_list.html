@@ -1,0 +1,70 @@
+{% extends 'reviews/base.html' %}
+
+{% block content %}
+{% load static %}
+{% load compress %}
+{% compress css %}
+    <link rel="stylesheet" href="{% static 'reviews/css/news.css' %}">
+{% endcompress %}
+
+<h1 class="h1 text-center text-dark py-4" id="pageHeaderTitle">News</h1>
+<section class="light">
+    <div class="news-container py-4">
+        {% for article in page_obj %}
+        <article class="postcard light blue" role="article">
+            <a class="postcard__img_link" href="{{ article.get_absolute_url }}" aria-label="Read more about {{ article.title }}">
+                <img class="postcard__img" src="{{ article.image.url }}" alt="{{ article.title }} image" />
+            </a>
+            <div class="postcard__text t-dark">
+                <h2 class="postcard__title blue">
+                    <a href="{{ article.get_absolute_url }}" aria-label="Read more about {{ article.title }}">{{ article.title }}</a>
+                </h2>
+                <div class="postcard__subtitle small">
+                    <time datetime="{{ article.publication_date|date:'Y-m-d' }}">
+                        <i class="fas fa-calendar-alt me-2" aria-hidden="true"></i>{{ article.publication_date|date:"F j, Y" }}
+                    </time>
+                </div>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">{{ article.content|safe|truncatewords:50 }}</div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a href="{{ article.get_absolute_url }}" aria-label="Read More">
+                            <i class="fas fa-play me-2" aria-hidden="true"></i>Read More
+                        </a>
+                    </li>
+					<li class="tag__item category-tag">
+							<i class="fas fa-folder me-2" aria-hidden="true"></i>{{ article.category }}
+						</a>
+					</li>					
+                </ul>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+<!-- Pagination Controls -->
+<nav class="pagination">
+    <ul class="step-links">
+        {% if page_obj.has_previous %}
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">Previous</a>
+            </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li><span class="current">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li>
+                <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">Next</a>
+			</li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}
