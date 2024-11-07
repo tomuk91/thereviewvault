@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from .models import NewsArticle, NewsCategory
 from django.shortcuts import get_object_or_404, render
 from .models import NewsArticle
-
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from .models import NewsArticle, NewsCategory
