@@ -258,7 +258,6 @@ h5 {
     font-size: 1.1rem;
     color: #444;
     margin-top: 10px;
-    display: flex;
     align-items: center;
     /* Align stars and rating text */
 }
