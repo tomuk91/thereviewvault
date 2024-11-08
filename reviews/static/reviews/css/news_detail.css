@@ -16,6 +16,26 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.news-content ul {
+    padding-left: 1.5em;
+    list-style: none; /* Remove default bullet */
+}
+
+.news-content ul li {
+    position: relative;
+    margin-bottom: 15px;
+    padding-left: 1.5em;
+    line-height: 1.6;
+}
+
+.news-content ul li::before {
+    content: "►"; /* Unicode symbol for the bullet */
+    position: absolute;
+    left: 0;
+    color: #333; /* Adjust color */
+    font-size: 1.2em;
+}
+
 /* Header Styling */
 .news-header {
     text-align: center;
