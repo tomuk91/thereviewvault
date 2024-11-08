@@ -25,12 +25,12 @@
 <div class="news-detail-container">
     <article class="news-detail">
         <header class="news-header">
-            <h1 class="news-title">{{ article.title }}</h1>
             {% if article.image %}
-                <figure class="news-image-container">
-                    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="news-image">
-                </figure>
+            <figure class="news-image-container">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="news-image">
+            </figure>
             {% endif %}
+            <h1 class="news-title">{{ article.title }}</h1>
             <p class="news-meta">By {{ article.author }} | {{ article.publication_date|date:"F j, Y" }}</p>
         </header>
         <div class="news-content">
@@ -39,6 +39,9 @@
         <hr>
     </article>
 </div>
+
+ <!-- ShareThis BEGIN --><div class="sharethis-inline-share-buttons"></div><!-- ShareThis END -->
+
 
 <!-- Related Reviews Section -->
 <section class="related-content mt-4">
