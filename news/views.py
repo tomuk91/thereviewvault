@@ -38,7 +38,7 @@ def news_detail(request, slug):
     meta_tags = f"news, {article.category.name if article.category else ''}, {article.author}, latest updates, {', '.join(set(tag.name for tag in article.tags.all()))}"
     
     # Corrected line: Use NewsArticle.objects to access the manager
-    related_articles = NewsArticle.objects.filter(category=article.category).exclude(slug=slug)[:3]
+    related_articles = NewsArticle.objects.exclude(slug=slug)[:3]
 
     return render(request, 'news/news_detail.html', {
         'title': title,
