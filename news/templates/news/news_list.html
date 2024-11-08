@@ -13,7 +13,7 @@
         {% for article in page_obj %}
         <article class="postcard light blue" role="article">
             <a class="postcard__img_link" href="{{ article.get_absolute_url }}" aria-label="Read more about {{ article.title }}">
-                <img class="postcard__img" src="{{ article.image.url }}" alt="{{ article.title }} image" />
+                <img class="postcard__img" src="{{ article.optimized_image.url }}" alt="{{ article.title }} image" />
             </a>
             <div class="postcard__text t-dark">
                 <h2 class="postcard__title blue">
@@ -25,7 +25,7 @@
                     </time>
                 </div>
                 <div class="postcard__bar"></div>
-                <div class="postcard__preview-txt">{{ article.content|safe|truncatewords:50 }}</div>
+                <div class="postcard__preview-txt">{{ article.content|safe|truncatewords:41 }}</div>
                 <ul class="postcard__tagbox">
                     <li class="tag__item play blue">
                         <a href="{{ article.get_absolute_url }}" aria-label="Read More">

@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from taggit.managers import TaggableManager 
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill, SmartResize
 
 class NewsCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -26,6 +28,8 @@ class NewsArticle(models.Model):
     tags = TaggableManager() 
     content = models.TextField()
     image = models.ImageField(upload_to='news_images/', blank=True, null=True)
+    optimized_image = ImageSpecField(source='image', processors=[SmartResize(800, 800)], format='WEBP', options={'quality': 70})
+    thumbnail = ImageSpecField(source='image', processors=[ResizeToFill(200, 200)], format='WEBP', options={'quality': 60})
     category = models.ForeignKey(NewsCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='articles')
 
     class Meta:
