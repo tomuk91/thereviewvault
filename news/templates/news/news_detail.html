@@ -7,20 +7,7 @@
     <link rel="stylesheet" href="{% static 'reviews/css/news_detail.css' %}">
 {% endcompress %}
 
-<!-- Meta Tags for SEO -->
-{% block head %}
-    <meta name="description" content="{{ article.content|truncatewords:30 }}">
-    <meta name="keywords" content="news, {{ article.category.name }}, {{ article.author }}, latest updates">
-    <meta property="og:title" content="{{ article.title }} - The Vault Reviews">
-    <meta property="og:description" content="{{ article.content|truncatewords:30 }}">
-    
-    {% if article.image %}
-        <meta property="og:image" content="{{ article.image.url }}">
-    {% endif %}
-    
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
-{% endblock %}
+
 
 <div class="news-detail-container">
     <article class="news-detail">
@@ -102,4 +89,4 @@
 }
 </script>
     
-{%endblock%}
+{% endblock %}
