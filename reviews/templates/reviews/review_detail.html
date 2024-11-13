@@ -241,7 +241,7 @@
     "bestRating": "5",
     "worstRating": "0"
     },
-    "reviewBody": "{{ review.content|truncatewords:20 }}",
+    "reviewBody": "{{ review.content|safe|truncatewords:20 }}",
     "datePublished": "{{ review.publication_date|date:'Y-m-d' }}",
     "publisher": {
     "@type": "Organization",
