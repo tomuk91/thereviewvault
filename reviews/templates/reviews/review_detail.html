@@ -209,33 +209,32 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Review",
-    "itemReviewed": {
-        "@type": "Product",
-        "name": "{{ review.title }}",
-        "url": "{{ review.product_link }}",
-        {% if review.image %}
-        "image": "{{ review.image.url }}",
-        {% endif %}
-        "description": "{{ review.content|safe|truncatewords:30 }}"
+    "@type": "Product",
+    "name": "{{ review.title }}",
+    "url": "{{ review.product_link }}",
+    "image": "{{ review.image.url }}",
+    "description": "{{ review.content|safe|truncatewords:30 }}",
+    "review": {
+        "@type": "Review",
+        "author": {
+            "@type": "Person",
+            "name": "{{ review.author }}"
+        },
+        "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "{{ review.rating }}",
+            "bestRating": "5",
+            "worstRating": "0"
+        },
+        "reviewBody": "{{ review.content|safe|truncatewords:20 }}",
+        "datePublished": "{{ review.publication_date|date:'Y-m-d' }}"
     },
-    "author": {
-        "@type": "Person",
-        "name": "{{ review.author }}"
-    },
-    "reviewRating": {
-        "@type": "Rating",
+    "aggregateRating": {
+        "@type": "AggregateRating",
         "ratingValue": "{{ review.rating }}",
-        "bestRating": "5",
-        "worstRating": "0"
-    },
-    "reviewBody": "{{ review.content|safe|truncatewords:20 }}",
-    "datePublished": "{{ review.publication_date|date:'Y-m-d' }}",
-    "publisher": {
-        "@type": "Organization",
-        "name": "The Vault Reviews"
+        "reviewCount": "{{ review.review_count|default:1 }}"
     }
 }
-</script>
+</script>    
 {% endblock%}
     
